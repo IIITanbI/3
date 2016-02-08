@@ -10,10 +10,12 @@
     public class WebDriver
     {
         private IWebDriver _driver;
+        private JavaScriptExecutor _javaScriptExecutor;
 
         public WebDriver(WebDriverConfig webDriverConfig)
         {
-            
+            _driver = webDriverConfig.CreateDriver();
+            _javaScriptExecutor = new JavaScriptExecutor(_driver);
         }
 
         public void WindowMaximize()
@@ -99,69 +101,6 @@
                     return false;
                 }
             });
-        }
-
-        public void Click(WebElement webElement)
-        {
-            webElement.Click();
-        }
-
-        public void JSClick(WebElement webElement)
-        {
-            string jsScript = "var evObj = document.createEvent('MouseEvents'); evObj.initMouseEvent('click',true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null); arguments[0].dispatchEvent(evObj);";
-            JSExecutor(jsScript, webElement);
-        }
-
-        public void JSScrollIntoView(WebElement webElement)
-        {
-            JSExecutor($"arguments[0].scrollIntoView(true);", webElement);
-        }
-
-        public void JSScrollTo(WebElement webElement)
-        {
-            JSExecutor($"window.scrollTo({webElement.Location.X}, {webElement.Location.Y})");
-        }
-
-        public void JSExecutor(string jsScript)
-        {
-            try
-            {
-                IJavaScriptExecutor js = _driver as IJavaScriptExecutor;
-                js.ExecuteScript(jsScript);
-            }
-            catch (Exception e)
-            {
-                string.Format("Error occurred during execution javascript:\n%s\nError message: %s", jsScript, e.Message);
-                throw;
-            }
-        }
-
-        public void JSExecutor(string jsScript, WebElement webElement)
-        {
-            try
-            {
-                IJavaScriptExecutor js = _driver as IJavaScriptExecutor;
-                js.ExecuteScript(jsScript, webElement);
-            }
-            catch (Exception e)
-            {
-                string.Format("Error occurred during execution javascript:\n%s\nError message: %s", jsScript, e.Message);
-                throw;
-            }
-        }
-
-        public void JSExecutor(string jsScript, object[] args)
-        {
-            try
-            {
-                IJavaScriptExecutor js = _driver as IJavaScriptExecutor;
-                js.ExecuteScript(jsScript, args);
-            }
-            catch (Exception e)
-            {
-                string.Format("Error occurred during execution javascript:\n%s\nError message: %s", jsScript, e.Message);
-                throw;
-            }
         }
     }
 }

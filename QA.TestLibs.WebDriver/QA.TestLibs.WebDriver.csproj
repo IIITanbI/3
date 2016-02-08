@@ -49,6 +49,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JavaScriptExecutor.cs" />
     <Compile Include="WebDriverConfigs\FirefoxWebDriverConfig.cs" />
     <Compile Include="WebDriver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

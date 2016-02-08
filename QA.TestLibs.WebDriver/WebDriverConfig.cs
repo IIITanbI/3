@@ -2,7 +2,7 @@
 {
     using System;
     using QA.TestLibs.XmlType;
-
+    using OpenQA.Selenium;
     [XmlType("WebDriver configuration")]
     public class WebDriverConfig
     {
@@ -30,5 +30,10 @@
         [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "gridUri", "uriForGrid")]
         [XmlConstraint("IsGrid", true)]
         public bool GridUri { get; set; }
+
+        public virtual IWebDriver CreateDriver()
+        {
+            return null;
+        }
     }
 }
