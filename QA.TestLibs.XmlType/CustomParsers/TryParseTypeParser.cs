@@ -13,7 +13,7 @@
     {
         public bool IsMatch(Type type)
         {
-            return type.IsPrimitive || type.Name == "DateTime";
+            return type.IsPrimitive || type.Name == "DateTime" || type.Name == "TimeSpan";
         }
 
         public object Parse(Type type, XObject config, bool isAssignableTypeAllowed, XmlLocation childLocation, IContext context)
