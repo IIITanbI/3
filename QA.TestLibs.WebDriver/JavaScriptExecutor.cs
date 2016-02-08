@@ -18,8 +18,36 @@
 
         public void JSClick(WebElement webElement)
         {
-            string jsScript = "var evObj = document.createEvent('MouseEvents'); evObj.initMouseEvent('click',true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null); arguments[0].dispatchEvent(evObj);";
+            string jsScript = "var evObj = document.createEvent('MouseEvents');evObj.initMouseEvent('click',true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);arguments[0].dispatchEvent(evObj);";
             JSExecutor(jsScript, webElement);
+        }
+
+        public void JSDoubleClick(WebElement webElement)
+        {
+            string jsScript = "var evObj = document.createEvent('MouseEvents');evObj.initMouseEvent(\"dblclick\",true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);arguments[0].dispatchEvent(evObj);";
+            JSExecutor(jsScript, webElement);
+        }
+
+        public void JSContextMenu(WebElement webElement)
+        {
+            string jsScript = "var evObj = document.createEvent('MouseEvents');evObj.initMouseEvent(\"contextmenu\",true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);arguments[0].dispatchEvent(evObj);";
+            JSExecutor(jsScript, webElement);
+        }
+
+        public void JSMouseOver(WebElement webElement)
+        {
+            string jsScript = "var evObj = document.createEvent('MouseEvents');evObj.initMouseEvent(\"mouseover\",true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);arguments[0].dispatchEvent(evObj);";
+            JSExecutor(jsScript, webElement);
+        }
+
+        public void JSShow(WebElement webElement)
+        {
+            JSExecutor("arguments[0].style.display = block;",  webElement);
+        }
+
+        public void JSHide(WebElement webElement)
+        {
+            JSExecutor("arguments[0].style.display = none;", webElement);
         }
 
         public void JSScrollIntoView(WebElement webElement)
@@ -30,6 +58,11 @@
         public void JSScrollTo(WebElement webElement)
         {
             JSExecutor($"window.scrollTo({webElement.Location.X}, {webElement.Location.Y})");
+        }
+
+        public void JSScrollToBottom()
+        {
+            JSExecutor($"window.scrollTo(0, document.body.scrollHeight)");
         }
 
         public void JSExecutor(string jsScript)
