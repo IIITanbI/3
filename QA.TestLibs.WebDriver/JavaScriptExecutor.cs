@@ -16,11 +16,6 @@
             }
         }
 
-        public void Click(WebElement webElement)
-        {
-            webElement.Click();
-        }
-
         public void JSClick(WebElement webElement)
         {
             string jsScript = "var evObj = document.createEvent('MouseEvents'); evObj.initMouseEvent('click',true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null); arguments[0].dispatchEvent(evObj);";
@@ -42,6 +37,19 @@
             try
             {
                 _javaScriptExecutor.ExecuteScript(jsScript);
+            }
+            catch (Exception e)
+            {
+                string.Format("Error occurred during execution javascript:\n%s\nError message: %s", jsScript, e.Message);
+                throw;
+            }
+        }
+
+        public object ObjectJSExecutor(string jsScript)
+        {
+            try
+            {
+                return _javaScriptExecutor.ExecuteScript(jsScript);
             }
             catch (Exception e)
             {
