@@ -41,8 +41,7 @@
         {
             try
             {
-                IJavaScriptExecutor js = _driver as IJavaScriptExecutor;
-                js.ExecuteScript(jsScript);
+                _javaScriptExecutor.ExecuteScript(jsScript);
             }
             catch (Exception e)
             {
@@ -55,8 +54,7 @@
         {
             try
             {
-                IJavaScriptExecutor js = _driver as IJavaScriptExecutor;
-                js.ExecuteScript(jsScript, webElement);
+                _javaScriptExecutor.ExecuteScript(jsScript, webElement);
             }
             catch (Exception e)
             {
@@ -69,8 +67,7 @@
         {
             try
             {
-                IJavaScriptExecutor js = _driver as IJavaScriptExecutor;
-                js.ExecuteScript(jsScript, args);
+                _javaScriptExecutor.ExecuteScript(jsScript, args);
             }
             catch (Exception e)
             {
