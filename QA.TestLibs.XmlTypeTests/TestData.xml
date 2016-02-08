@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<test>
+
+  <simple>
+    <simpleClass1_1>
+      <key>Key1</key>
+      <int>100</int>
+      <double>100.100</double>
+      <enum>Value2</enum>
+      <datetime>1/18/2016 1:49:30 PM</datetime>
+      <bool>true</bool>
+    </simpleClass1_1>
+
+    <simpleClass1_2 key="Key1" int="100" double="100.100" enum="Value2">
+      <datetime><![CDATA[1/18/2016 1:49:30 PM]]></datetime>
+      <bool>true</bool>
+    </simpleClass1_2>
+
+    <simpleClass2_1>
+      <int>100</int>
+    </simpleClass2_1>
+
+    <simpleClass2_2>
+      <int>100</int>
+      <enum>Value3</enum>
+    </simpleClass2_2>
+
+    <simpleClass2_3>
+      <int>100</int>
+      <enum>Value3</enum>
+      <slave>slaveVal</slave>
+    </simpleClass2_3>
+
+    <simpleClass2_4>
+      <int>100</int>
+      <enum>Value2</enum>
+      <slave>slaveVal</slave>
+    </simpleClass2_4>
+
+    <simpleClass2_5 enumVal="Value2">
+      <int>100</int>
+      <slave>slaveVal</slave>
+    </simpleClass2_5>
+
+    <simpleClass3_1>100</simpleClass3_1>
+
+    <simpleClass3_2>
+      <int>100</int>
+    </simpleClass3_2>
+
+    <simpleClass3_3 int="100"></simpleClass3_3>
+
+    <simpleClass3_4 int="100">
+      <string>stringVal</string>
+    </simpleClass3_4>
+
+    <simpleClass3_5 string="stringVal">100</simpleClass3_5>
+  </simple>
+
+
+  <complex>
+
+    <complexClass1_1>
+
+      <someSimpleClass1>
+        <key>Key1</key>
+        <int>100</int>
+        <double>100.100</double>
+        <enum>Value2</enum>
+        <datetime>1/18/2016 1:49:30 PM</datetime>
+        <bool>true</bool>
+      </someSimpleClass1>
+
+      <simpleClass2>
+        <int>100</int>
+        <enum>Value2</enum>
+        <slave>slaveVal</slave>
+      </simpleClass2>
+
+    </complexClass1_1>
+
+    <complexClass2_1>
+
+      <intList1>
+        <int32>1</int32>
+        <int32>2</int32>
+        <int32>3</int32>
+      </intList1>
+
+      <intList2>
+        <number>1</number>
+        <number>2</number>
+        <number>3</number>
+      </intList2>
+
+      <listOfSimpleClass1es1>
+
+        <sClass1>
+          <key>Key1</key>
+          <int>100</int>
+          <double>100.100</double>
+          <enum>Value2</enum>
+          <datetime>1/18/2016 1:49:30 PM</datetime>
+          <bool>true</bool>
+        </sClass1>
+
+        <sClass1 key="Key1" int="100" double="100.100" enum="Value2">
+          <datetime><![CDATA[1/18/2016 1:49:30 PM]]></datetime>
+          <bool>true</bool>
+        </sClass1>
+
+      </listOfSimpleClass1es1>
+
+      <listOfSimpleClass1es2>
+
+        <namedSimpleClass1>
+          <key>Key1</key>
+          <int>100</int>
+          <double>100.100</double>
+          <enum>Value2</enum>
+          <datetime>1/18/2016 1:49:30 PM</datetime>
+          <bool>true</bool>
+        </namedSimpleClass1>
+
+        <namedSimpleClass1 key="Key1" int="100" double="100.100" enum="Value2">
+          <datetime><![CDATA[1/18/2016 1:49:30 PM]]></datetime>
+          <bool>true</bool>
+        </namedSimpleClass1>
+
+      </listOfSimpleClass1es2>
+
+    </complexClass2_1>
+
+    <complexClass3_1>
+
+      <someSimpleClass>
+        <sClass2>
+          <int>100</int>
+        </sClass2>
+      </someSimpleClass>
+
+      <listOfsomeSimples>
+        <sClass2>
+          <int>100</int>
+        </sClass2>
+      </listOfsomeSimples>
+
+    </complexClass3_1>
+
+  </complex>
+
+
+</test>

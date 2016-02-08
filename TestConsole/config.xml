@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<config>
+
+  <testSuite>
+    <steps>
+      <step></step>
+    </steps>
+  </testSuite>
+  
+  <static>
+    <zkConTimeout>5000</zkConTimeout>
+    <zkTaskTimeout>5000</zkTaskTimeout>
+    <zkSessionTimeout>5000</zkSessionTimeout>
+  </static>
+
+  <sshCmd>
+    <name>1</name>
+    <conName>1</conName>
+    <type>Shell</type>
+    <cmdText>service restart memcached</cmdText>
+    <arguments></arguments>
+  </sshCmd>
+
+  <test>
+
+    <connections>
+      <zkConnection name="ZooKeeperServer1">
+        <conStr>http://epam-linux-01.epamdev.com:8081</conStr>
+      </zkConnection>
+      <zkConnection name="2">
+        <conStr>con2</conStr>
+      </zkConnection>
+      <sshConnection name="ssh1">
+        <user>name1</user>
+        <password>pas1</password>
+        <host>host1</host>
+      </sshConnection>
+      <sshConnection name="ssh2">
+        <user>asname2</user>
+        <password>{{binding:fasdfa}}</password>
+        <host>host2</host>
+      </sshConnection>
+    </connections>
+    
+    <NamedZooCmd name="NamedZooCmd">
+      <conName>ZooKeeperServer1</conName>
+      <cmdType>Create</cmdType>
+      <path>/olol/val1</path>
+      <value>10</value>
+    </NamedZooCmd>
+
+    <ZooCommand name="NoNamedZooCmd">
+      <connectionName>Con1</connectionName>
+      <cmdType>Create</cmdType>
+      <path>/olol/val1</path>
+      <value>10</value>
+    </ZooCommand>
+
+    <ZooCommands>
+      <ZooCommand name="NoNamedZooCmd a0">
+        <conName>Con1</conName>
+        <cmdType>Create</cmdType>
+        <path>/olol/val1</path>
+        <value></value>
+      </ZooCommand>
+      <ZooCommand name="NoNamedZooCmd a1">
+        <conName>Con1</conName>
+        <cmdType>Modify</cmdType>
+        <path>/olol/val1</path>
+        <value>10</value>
+      </ZooCommand>
+      <ZooCommand name="NoNamedZooCmd a2">
+        <conName>Con1</conName>
+        <cmdType>Get</cmdType>
+        <path>/olol/val1</path>
+      </ZooCommand>
+      <ZooCommand name="NoNamedZooCmd a3">
+        <conName>Con1</conName>
+        <cmdType>Delete</cmdType>
+        <path>/olol/val1</path>
+      </ZooCommand>
+      <ZooCommand name="NoNamedZooCmd a47">
+        <conName>Con1</conName>
+        <cmdType>Modify</cmdType>
+        <path>/olol/val1</path>
+      </ZooCommand>
+      <ZooCommand name="NoNamedZooCmd a56">
+        <conName>Con1</conName>
+        <path>/olol/val1</path>
+        <value>10</value>
+      </ZooCommand>
+    </ZooCommands>
+
+    <ZooNamedCommands>
+      <zc name="NamedZooCmd a0">
+        <conName>Con1</conName>
+        <cmdType>Create</cmdType>
+        <path>/olol/val1</path>
+        <value>10</value>
+      </zc>
+      <Zc name="NamedZooCmd a1">
+        <conName>Con1</conName>
+        <cmdType>Modify</cmdType>
+        <path>/olol/val1</path>
+        <value>10</value>
+      </Zc>
+    </ZooNamedCommands>
+    
+  </test>
+</config>
