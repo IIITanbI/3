@@ -50,7 +50,6 @@
 
             if (isAssignableTypeAllowed)
             {
-                configElement = configElement.Elements().First();
                 var possibleTypeName = configElement.Name.ToString();
                 var assignableXmlTypes = ReflectionManager.GetAssignableTypes(type);
 

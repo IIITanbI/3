@@ -45,7 +45,7 @@
 
             foreach (var el in els)
             {
-                var obj = Parse(type, el, true, null, context);
+                var obj = Parse(type, el, isAssignableTypesAllowed, null, context);
                 list.Add(obj);
             }
 

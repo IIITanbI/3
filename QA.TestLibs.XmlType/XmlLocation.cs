@@ -99,9 +99,9 @@
 
         public void AddLocation(List<string> allowedElementNames)
         {
-            AttributeAllowedNames.AddRange(allowedElementNames);
-            AttributeAllowedNames.AddCaseVariantsForFirstChar();
-            AttributeAllowedNames.Sort();
+            ElementAllowedNames.AddRange(allowedElementNames);
+            ElementAllowedNames.AddCaseVariantsForFirstChar();
+            ElementAllowedNames.Sort();
         }
 
         public bool Check(XmlLocationType locationType, string name)
