@@ -56,6 +56,8 @@
     <Compile Include="WebDriverConfig.cs" />
     <Compile Include="WebDriverType.cs" />
     <Compile Include="WebElement.cs" />
+    <Compile Include="WebLocator.cs" />
+    <Compile Include="WebLocatorType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
