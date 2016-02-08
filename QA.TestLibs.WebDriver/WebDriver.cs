@@ -17,7 +17,7 @@
         {
             _driver = webDriverConfig.CreateDriver();
             _javaScriptExecutor = new JavaScriptExecutor(_driver);
-            //_wait = new WebDriverWait(_driver, );
+            _wait = new WebDriverWait(_driver, webDriverConfig.WaitTimeout);
         }
 
         public void WindowMaximize()
@@ -96,13 +96,8 @@
 
         public void WaitForPageToLoad()
         {
-            wait.Until(d => Equals(_javaScriptExecutor.ObjectJSExecutor("return document.readyState").ToString().ToLower(), "complete"));
+            _wait.Until(d => Equals(_javaScriptExecutor.ObjectJSExecutor("return document.readyState").ToString().ToLower(), "complete"));
         }
 
-        public void WaitForElementVisible(WebElement webElement, int waitTimeInSeconds, By selectorType, )
-        {
-            var wait = new WebDriverWait(_driver, new TimeSpan(0, 0, waitTimeInSeconds));
-            wait.Until(d => d.FindElement(.));
-        }
     }
 }
