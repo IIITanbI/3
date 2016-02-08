@@ -10,10 +10,14 @@
     {
         public List<object> RequiredValues { get; set; }
         public XmlProperty Property { get; set; }
+        public bool IsPosisitive { get; set; } = true;
 
         public bool Verify(object obj)
         {
-            return RequiredValues.Contains(Property.GetValue(obj));
+            if(IsPosisitive)
+                return RequiredValues.Contains(Property.GetValue(obj));
+
+            return !RequiredValues.Contains(Property.GetValue(obj));
         }
     }
 }

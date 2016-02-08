@@ -12,6 +12,7 @@
     {
         public string PropertyName { get; private set; }
         public List<object> RequiredValues { get; private set; }
+        public bool IsPositive { get; set; } = true;
 
         public XmlConstraintAttribute(string propertyName, params object[] allowedValues)
         {

@@ -1,106 +1,28 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Drawing;
-using OpenQA.Selenium;
-
-namespace QA.TestLibs.WebDriver
+﻿namespace QA.TestLibs.WebDriver
 {
-    public class WebElement : IWebElement
+    using System;
+    using System.Collections.ObjectModel;
+    using System.Collections.Generic;
+    using System.Linq;
+    using OpenQA.Selenium;
+    using XmlType;
+
+    [XmlType("WebElement config")]
+    [XmlLocation("webElement")]
+    public class WebElement : XmlBaseType
     {
-        public bool Displayed
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        [XmlProperty("List of child WebElements", IsAssignableTypesAllowed = true, IsRequired = false)]
+        public List<WebElement> ChildWebElements { get; set; } = new List<WebElement>();
 
-        public bool Enabled
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        [XmlProperty("Locator for web element")]
+        public WebLocator Locator { get; set; }
 
-        public Point Location
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        [XmlProperty("Name of WebElement")]
+        [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "elementName", "webElementName")]
+        public string Name { get; set; }
 
-        public bool Selected
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public Size Size
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public string TagName
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public string Text
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public void Clear()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Click()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IWebElement FindElement(By by)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ReadOnlyCollection<IWebElement> FindElements(By by)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetAttribute(string attributeName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetCssValue(string propertyName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SendKeys(string text)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Submit()
-        {
-            throw new NotImplementedException();
-        }
+        [XmlProperty("Description of WebElement")]
+        [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "elementDescription", "webElementDescription")]
+        public string Description { get; set; }
     }
 }

@@ -58,7 +58,7 @@
                         if (constraintProperty == null)
                             throw new TestLibsException($"Couldn't make constraint. Type {ParentType} doesn't contains property: {constraintAtt.PropertyName}");
 
-                        var constraint = new XmlConstraint { Property = constraintProperty, RequiredValues = constraintAtt.RequiredValues };
+                        var constraint = new XmlConstraint { Property = constraintProperty, RequiredValues = constraintAtt.RequiredValues, IsPosisitive = constraintAtt.IsPositive };
                         constraintList.Add(constraint);
                     }
 

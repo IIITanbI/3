@@ -5,7 +5,7 @@
     using OpenQA.Selenium;
     
     [XmlType("WebDriver configuration")]
-    public abstract class WebDriverConfig
+    public abstract class WebDriverConfig : XmlBaseType
     {
         [XmlProperty("WebDriver type: Firefox, Chrome or IE")]
         [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "driverType", "webDriverType", "browser", "browserType")]
