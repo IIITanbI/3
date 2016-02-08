@@ -27,7 +27,7 @@
                 throw new TestLibsException($"Unsupported type: {type.ToString()}. Couldn't parse following config to that type:\n{configEl}");
 
             var childObjType = genArgs.Last();
-            var childObjs = XmlParser.Parse(childObjType, configEl, childLocation, false, context);
+            var childObjs = XmlParser.Parse(childObjType, configEl, childLocation, isAssignableTypeAllowed, context);
 
             var propertyObj = Activator.CreateInstance(type);
 

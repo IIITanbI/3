@@ -121,7 +121,6 @@
         public class ComplexClass3 : XmlBaseType
         {
             [XmlProperty("Some class implemented ISimple", IsAssignableTypesAllowed = true)]
-            [XmlLocation("someSimpleClass")]
             public SimpleClass SomeSimple { get; set; }
 
             [XmlProperty("List of some class implemented ISimple", IsAssignableTypesAllowed = true)]

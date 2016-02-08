@@ -133,11 +133,9 @@
 
     <complexClass3_1>
 
-      <someSimpleClass>
-        <sClass2>
-          <int>100</int>
-        </sClass2>
-      </someSimpleClass>
+      <sClass2>
+        <int>100</int>
+      </sClass2>
 
       <listOfsomeSimples>
         <sClass2>
