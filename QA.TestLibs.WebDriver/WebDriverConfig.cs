@@ -1,10 +1,6 @@
 ﻿namespace QA.TestLibs.WebDriver
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using QA.TestLibs.XmlType;
 
     [XmlType("WebDriver configuration")]
@@ -20,7 +16,7 @@
 
         [XmlProperty("Timeout for element searching. Format: hh:mm:ss.ms")]
         [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "searchTimeout", "elementSearchTimeout", "implicitlyWait")]
-        public TimeSpan SearhTimeout { get; set; }
+        public TimeSpan SearchTimeout { get; set; }
 
         [XmlProperty("Timeout for page loading. Format: hh:mm:ss.ms")]
         [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "pageLoadTimeout", "pageTimeout")]

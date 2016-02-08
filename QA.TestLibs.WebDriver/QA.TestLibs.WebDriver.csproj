@@ -50,6 +50,16 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\QA.TestLibs.XmlType\QA.TestLibs.XmlType.csproj">
+      <Project>{ae707f59-c292-4bd2-8267-703e2391f905}</Project>
+      <Name>QA.TestLibs.XmlType</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\QA.TestLibs\QA.TestLibs.csproj">
+      <Project>{59268cc8-5d39-4331-909d-cfc1bbc67f0c}</Project>
+      <Name>QA.TestLibs</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
