@@ -9,12 +9,14 @@
 
     public class WebDriver
     {
+        public WebDriverConfig Config { get; protected set; }
         private IWebDriver _driver;
         private JavaScriptExecutor _javaScriptExecutor;
-        private WebDriverWait _wait; 
+        private WebDriverWait _wait;
 
         public WebDriver(WebDriverConfig webDriverConfig)
         {
+            Config = webDriverConfig;
             _driver = webDriverConfig.CreateDriver();
             _javaScriptExecutor = new JavaScriptExecutor(_driver);
             _wait = new WebDriverWait(_driver, webDriverConfig.WaitTimeout);
@@ -41,6 +43,24 @@
             Screenshot screenshot = ((ITakesScreenshot)_driver).GetScreenshot();
             return screenshot;
         }
+
+        public void WaitUntilElementIsVisible(By by)
+        {
+            _wait.Until(driver => driver.FindElement(by)?.Displayed);
+        }
+        public void WaitUntilElementIsVisible(IWebElement element)
+        {
+            _wait.Until(driver => element.Displayed);
+        }
+        public void WaitUntilElementIsEnabled(By by)
+        {
+            _wait.Until(driver => driver.FindElement(by)?.Enabled);
+        }
+        public void WaitUntilElementIsEnabled(IWebElement element)
+        {
+            _wait.Until(driver => element.Enabled);
+        }
+
 
         public void SaveScreenshot(Screenshot screenshot, string path)
         {
@@ -99,5 +119,9 @@
             _wait.Until(d => Equals(_javaScriptExecutor.ObjectJSExecutor("return document.readyState").ToString().ToLower(), "complete"));
         }
 
+        public IWebElement FindElement(By by)
+        {
+            return _driver.FindElement(by);
+        }
     }
 }

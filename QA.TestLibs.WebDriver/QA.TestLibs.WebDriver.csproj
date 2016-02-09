@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JavaScriptExecutor.cs" />
+    <Compile Include="WebCommandManager.cs" />
     <Compile Include="WebDriverConfigs\FirefoxWebDriverConfig.cs" />
     <Compile Include="WebDriver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -63,6 +64,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\QA.TestLibs.Commands\QA.TestLibs.Commands.csproj">
+      <Project>{f3484732-9951-4b1a-8d71-02074e1c6e29}</Project>
+      <Name>QA.TestLibs.Commands</Name>
+    </ProjectReference>
     <ProjectReference Include="..\QA.TestLibs.XmlType\QA.TestLibs.XmlType.csproj">
       <Project>{ae707f59-c292-4bd2-8267-703e2391f905}</Project>
       <Name>QA.TestLibs.XmlType</Name>

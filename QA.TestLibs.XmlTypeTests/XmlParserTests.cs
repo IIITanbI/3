@@ -250,6 +250,17 @@
         {
             var config = ComplexConfig.Element("complexClass3_1");
             var obj = XmlParser.Parse<DataSamples.ComplexClass3>(config);
+
+            Assert.IsNotNull(obj.SomeSimple);
+            Assert.IsInstanceOfType(obj.SomeSimple, typeof(DataSamples.SimpleClass2));
+            Assert.AreEqual(100, ((DataSamples.SimpleClass2)obj.SomeSimple).IntValue);
+
+            Assert.IsNotNull(obj.ListOfSomeSimples);
+            Assert.AreEqual(2, obj.ListOfSomeSimples.Count);
+            Assert.IsInstanceOfType(obj.ListOfSomeSimples[1], typeof(DataSamples.SimpleClass2));
+            Assert.AreEqual(100, ((DataSamples.SimpleClass2)obj.ListOfSomeSimples[1]).IntValue);
+            Assert.IsInstanceOfType(obj.ListOfSomeSimples[0], typeof(DataSamples.SimpleClass1));
+            Assert.AreEqual(100.100, ((DataSamples.SimpleClass1)obj.ListOfSomeSimples[0]).DoubleValue);
         }
     }
 }

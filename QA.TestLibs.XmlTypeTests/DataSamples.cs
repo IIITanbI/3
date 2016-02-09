@@ -86,7 +86,7 @@
         public class ComplexClass1 : XmlBaseType
         {
             [XmlProperty("Some SimpleClass1")]
-            [XmlLocation("someSimpleClass1")]
+            [XmlLocation("someNamedSimpleClass1")]
             public SimpleClass1 SomeSimpleClass1 { get; set; }
 
             [XmlProperty("Some SimpleClass1")]
@@ -107,11 +107,9 @@
             public List<int> IntList2 { get; set; }
 
             [XmlProperty("List of SimpleClass1es")]
-            [XmlLocation("listOfSimpleClass1es1")]
             public List<SimpleClass1> ListOfSimpleClass1es1 { get; set; }
 
             [XmlProperty("List of SimpleClasse1s")]
-            [XmlLocation("listOfSimpleClass1es2")]
             [XmlChildLocation("namedSimpleClass1")]
             public List<SimpleClass1> ListOfSimpleClass1es2 { get; set; }
         }
@@ -124,7 +122,6 @@
             public SimpleClass SomeSimple { get; set; }
 
             [XmlProperty("List of some class implemented ISimple", IsAssignableTypesAllowed = true)]
-            [XmlLocation("listOfsomeSimples")]
             public List<SimpleClass> ListOfSomeSimples { get; set; }
         }
     }
