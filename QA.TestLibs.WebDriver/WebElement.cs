@@ -10,8 +10,10 @@
 
     [XmlType("WebElement config")]
     [XmlLocation("webElement")]
-    public class WebElement : XmlBaseType, IWebElement
+    public class WebElement : XmlBaseType
     {
+        protected WebElement _parent { get; set; }
+
         [XmlProperty("List of child WebElements", IsAssignableTypesAllowed = true, IsRequired = false)]
         public List<WebElement> ChildWebElements { get; set; } = new List<WebElement>();
 
@@ -26,100 +28,15 @@
         [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "elementDescription", "webElementDescription")]
         public string Description { get; set; }
 
-        public string TagName
+        private string _info = null;
+        public override string ToString()
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+            if (_info != null)
+                return _info;
 
-        public string Text
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+            _info = $"Element info:\n\tName: {Name}\n\tDescription:{Description}\n{Locator}";
 
-        public bool Enabled
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public bool Selected
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public Point Location
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public Size Size
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public bool Displayed
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public void Clear()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SendKeys(string text)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Submit()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Click()
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetAttribute(string attributeName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetCssValue(string propertyName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IWebElement FindElement(By by)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ReadOnlyCollection<IWebElement> FindElements(By by)
-        {
-            throw new NotImplementedException();
+            return _info;
         }
     }
 }

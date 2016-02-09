@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QA.TestLibs.XmlTypeTests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QA.TestLibs.WebDriver", "QA.TestLibs.WebDriver\QA.TestLibs.WebDriver.csproj", "{AC86DB53-5495-45B0-BEFD-70C77CC54136}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QA.TestLibs.Commands", "QA.TestLibs.Commands\QA.TestLibs.Commands.csproj", "{F3484732-9951-4B1A-8D71-02074E1C6E29}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{AC86DB53-5495-45B0-BEFD-70C77CC54136}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC86DB53-5495-45B0-BEFD-70C77CC54136}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC86DB53-5495-45B0-BEFD-70C77CC54136}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3484732-9951-4B1A-8D71-02074E1C6E29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3484732-9951-4B1A-8D71-02074E1C6E29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3484732-9951-4B1A-8D71-02074E1C6E29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3484732-9951-4B1A-8D71-02074E1C6E29}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

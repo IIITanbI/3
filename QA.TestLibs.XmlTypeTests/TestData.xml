@@ -62,14 +62,14 @@
 
     <complexClass1_1>
 
-      <someSimpleClass1>
+      <someNamedSimpleClass1>
         <key>Key1</key>
         <int>100</int>
         <double>100.100</double>
         <enum>Value2</enum>
         <datetime>1/18/2016 1:49:30 PM</datetime>
         <bool>true</bool>
-      </someSimpleClass1>
+      </someNamedSimpleClass1>
 
       <simpleClass2>
         <int>100</int>
@@ -137,11 +137,18 @@
         <int>100</int>
       </sClass2>
 
-      <listOfsomeSimples>
+      <listOfSomeSimples>
+        
         <sClass2>
           <int>100</int>
         </sClass2>
-      </listOfsomeSimples>
+
+        <sClass1 key="Key1" int="100" double="100.100" enum="Value2">
+          <datetime><![CDATA[1/18/2016 1:49:30 PM]]></datetime>
+          <bool>true</bool>
+        </sClass1>
+        
+      </listOfSomeSimples>
 
     </complexClass3_1>
 
