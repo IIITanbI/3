@@ -10,6 +10,7 @@
     using System.Linq;
     using OpenQA.Selenium.Interactions;
     using Exceptions;
+
     [CommandManager("WebCommand", Description = "Manager for WebCommands")]
 
     public partial class WebDriverManager
@@ -177,7 +178,7 @@
             try
             {
                 _sw.Value.Reset();
-                WaitUntilElementIsVisible(element);
+                WaitUntilElementIsEnabled(element);
                 _sw.Value.Stop();
                 log?.DEBUG($"Waiting for enabling has been completed. Time: {_sw.Value.ElapsedMilliseconds} ms");
             }
@@ -272,11 +273,6 @@
             }
         }
 
-        public void WaitForPageToLoad()
-        {
-            _container.Value.Wait.Until(d => Equals(_container.Value.JavaScriptExecutor.ObjectJSExecutor("return document.readyState").ToString().ToLower(), "complete"));
-        }
-
         public Screenshot TakeScreenshot(ILogger log)
         {
             _container.Value.Driver.SwitchTo().Window(_container.Value.Driver.CurrentWindowHandle);
@@ -287,18 +283,6 @@
         public void SaveScreenshot(Screenshot screenshot, string path)
         {
             screenshot.SaveAsFile(path, System.Drawing.Imaging.ImageFormat.Png);
-        }
-
-        public void HightLightElement(IWebElement element)
-        {
-            string highlightJavascript = @"arguments[0].style.cssText = ""border-width: 2px; border-style: solid; border-color: red"";";
-            _container.Value.JavaScriptExecutor.JSExecutor(highlightJavascript, new object[] { element });
-        }
-
-        public void UnHightLightElement(IWebElement element)
-        {
-            string highlightJavascript = @"arguments[0].style.cssText = ""border-width: 0px; border-style: solid; border-color: red"";";
-            _container.Value.JavaScriptExecutor.JSExecutor(highlightJavascript, new object[] { element });
         }
 
         public void WaitUntilElementIsVisible(By by)
