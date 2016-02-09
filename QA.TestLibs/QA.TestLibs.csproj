@@ -40,6 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\CommandAbortException.cs" />
+    <Compile Include="Commands\CommandAttribute.cs" />
+    <Compile Include="Commands\CommandManagerAttribute.cs" />
+    <Compile Include="Commands\CommandParameterAttribute.cs" />
     <Compile Include="Exceptions\TypeCastException.cs" />
     <Compile Include="Exceptions\ConnectionTimeoutException.cs" />
     <Compile Include="Exceptions\MissedConfigElementException.cs" />
@@ -52,6 +56,27 @@
     <Compile Include="IContext.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XmlDesiarilization\CustomParsers\ArrayTypeParser.cs" />
+    <Compile Include="XmlDesiarilization\CustomParsers\DefaultQaTypeParser.cs" />
+    <Compile Include="XmlDesiarilization\CustomParsers\EnumTypeParser.cs" />
+    <Compile Include="XmlDesiarilization\CustomParsers\GenericTypeParser.cs" />
+    <Compile Include="XmlDesiarilization\CustomParsers\StringTypeParser.cs" />
+    <Compile Include="XmlDesiarilization\CustomParsers\TryParseTypeParser.cs" />
+    <Compile Include="XmlDesiarilization\ICustomTypeParser.cs" />
+    <Compile Include="ReflectionManager.cs" />
+    <Compile Include="XmlDesiarilization\XmlBaseType.cs" />
+    <Compile Include="XmlDesiarilization\XmlChildLocationAttribute.cs" />
+    <Compile Include="XmlDesiarilization\XmlConstraint.cs" />
+    <Compile Include="XmlDesiarilization\XmlConstraintAttribute.cs" />
+    <Compile Include="XmlDesiarilization\XmlDescriptionAttribute.cs" />
+    <Compile Include="XmlDesiarilization\XmlLocation.cs" />
+    <Compile Include="XmlDesiarilization\XmlLocationAttribute.cs" />
+    <Compile Include="XmlDesiarilization\XmlLocationType.cs" />
+    <Compile Include="XmlDesiarilization\XmlParser.cs" />
+    <Compile Include="XmlDesiarilization\XmlProperty.cs" />
+    <Compile Include="XmlDesiarilization\XmlPropertyAttribute.cs" />
+    <Compile Include="XmlDesiarilization\XmlType.cs" />
+    <Compile Include="XmlDesiarilization\XmlTypeAttribute.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

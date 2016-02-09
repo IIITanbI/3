@@ -3,7 +3,7 @@
     using OpenQA.Selenium;
     using OpenQA.Selenium.Firefox;
     using OpenQA.Selenium.Remote;
-    using XmlType;
+    using XmlDesiarilization;
 
     [XmlType("Firefox WebDriver config")]
     [XmlLocation("firefoxWebDriverConfig", "firefoxWebDriver")]

@@ -5,15 +5,9 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QA.TestLibs", "QA.TestLibs\QA.TestLibs.csproj", "{59268CC8-5D39-4331-909D-CFC1BBC67F0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole", "TestConsole\TestConsole.csproj", "{986F334E-A88C-4E13-9A6C-3A10B066DA62}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QA.TestLibs.XmlType", "QA.TestLibs.XmlType\QA.TestLibs.XmlType.csproj", "{AE707F59-C292-4BD2-8267-703E2391F905}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QA.TestLibs.XmlTypeTests", "QA.TestLibs.XmlTypeTests\QA.TestLibs.XmlTypeTests.csproj", "{3F8EE158-4411-42D0-9954-B3FC24C5B6B6}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QA.TestLibs.WebDriver", "QA.TestLibs.WebDriver\QA.TestLibs.WebDriver.csproj", "{AC86DB53-5495-45B0-BEFD-70C77CC54136}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QA.TestLibs.Commands", "QA.TestLibs.Commands\QA.TestLibs.Commands.csproj", "{F3484732-9951-4B1A-8D71-02074E1C6E29}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QA.TestLibsTests", "QA.TestLibsTests\QA.TestLibsTests.csproj", "{456F6BCB-3FB9-4674-BD48-86E2254A8B85}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,26 +19,14 @@ Global
 		{59268CC8-5D39-4331-909D-CFC1BBC67F0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59268CC8-5D39-4331-909D-CFC1BBC67F0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59268CC8-5D39-4331-909D-CFC1BBC67F0C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{986F334E-A88C-4E13-9A6C-3A10B066DA62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{986F334E-A88C-4E13-9A6C-3A10B066DA62}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{986F334E-A88C-4E13-9A6C-3A10B066DA62}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{986F334E-A88C-4E13-9A6C-3A10B066DA62}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AE707F59-C292-4BD2-8267-703E2391F905}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AE707F59-C292-4BD2-8267-703E2391F905}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AE707F59-C292-4BD2-8267-703E2391F905}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AE707F59-C292-4BD2-8267-703E2391F905}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3F8EE158-4411-42D0-9954-B3FC24C5B6B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3F8EE158-4411-42D0-9954-B3FC24C5B6B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3F8EE158-4411-42D0-9954-B3FC24C5B6B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3F8EE158-4411-42D0-9954-B3FC24C5B6B6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AC86DB53-5495-45B0-BEFD-70C77CC54136}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AC86DB53-5495-45B0-BEFD-70C77CC54136}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC86DB53-5495-45B0-BEFD-70C77CC54136}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC86DB53-5495-45B0-BEFD-70C77CC54136}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F3484732-9951-4B1A-8D71-02074E1C6E29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F3484732-9951-4B1A-8D71-02074E1C6E29}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F3484732-9951-4B1A-8D71-02074E1C6E29}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F3484732-9951-4B1A-8D71-02074E1C6E29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{456F6BCB-3FB9-4674-BD48-86E2254A8B85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{456F6BCB-3FB9-4674-BD48-86E2254A8B85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{456F6BCB-3FB9-4674-BD48-86E2254A8B85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{456F6BCB-3FB9-4674-BD48-86E2254A8B85}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

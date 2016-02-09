@@ -64,14 +64,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\QA.TestLibs.Commands\QA.TestLibs.Commands.csproj">
-      <Project>{f3484732-9951-4b1a-8d71-02074e1c6e29}</Project>
-      <Name>QA.TestLibs.Commands</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\QA.TestLibs.XmlType\QA.TestLibs.XmlType.csproj">
-      <Project>{ae707f59-c292-4bd2-8267-703e2391f905}</Project>
-      <Name>QA.TestLibs.XmlType</Name>
-    </ProjectReference>
     <ProjectReference Include="..\QA.TestLibs\QA.TestLibs.csproj">
       <Project>{59268cc8-5d39-4331-909d-cfc1bbc67f0c}</Project>
       <Name>QA.TestLibs</Name>

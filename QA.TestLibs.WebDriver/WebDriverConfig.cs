@@ -1,7 +1,7 @@
 ﻿namespace QA.TestLibs.WebDriver
 {
     using System;
-    using QA.TestLibs.XmlType;
+    using QA.TestLibs.XmlDesiarilization;
     using OpenQA.Selenium;
     
     [XmlType("WebDriver configuration")]
