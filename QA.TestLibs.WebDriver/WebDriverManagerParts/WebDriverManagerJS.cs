@@ -4,19 +4,8 @@
     using QA.TestLibs.Exceptions;
     using System;
 
-    public class JavaScriptExecutor
+    public partial class WebDriverManager
     {
-        private IJavaScriptExecutor _javaScriptExecutor;
-
-        public JavaScriptExecutor(IWebDriver webDriver)
-        {
-            _javaScriptExecutor = webDriver as IJavaScriptExecutor;
-            if (_javaScriptExecutor == null)
-            {
-                throw new TestLibsException($"Can't init javascript executor for webdriver: {webDriver}");
-            }
-        }
-
         public void JSClick(WebElement webElement)
         {
             string jsScript = "var evObj = document.createEvent('MouseEvents');evObj.initMouseEvent('click',true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);arguments[0].dispatchEvent(evObj);";
@@ -83,7 +72,7 @@
         {
             try
             {
-                return _javaScriptExecutor.ExecuteScript(jsScript);
+                return _container._javaScriptExecutor.ExecuteScript(jsScript);
             }
             catch (Exception e)
             {

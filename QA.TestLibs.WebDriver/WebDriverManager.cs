@@ -9,9 +9,10 @@
     using System.Drawing;
     using System.Linq;
     using OpenQA.Selenium.Interactions;
-    [CommandManager("WebCommand",
-        Description = "Manager for WebCommands")]
-    public class WebDriverManager
+    using Exceptions;
+    [CommandManager("WebCommand", Description = "Manager for WebCommands")]
+
+    public partial class WebDriverManager
     {
         public WebDriverConfig Config { get; protected set; }
         private ThreadLocal<Stopwatch> _sw = new ThreadLocal<Stopwatch>(() => new Stopwatch());
@@ -23,9 +24,13 @@
             _container = new ThreadLocal<LocalContainer>(() =>
             {
                 var cont = new LocalContainer();
-                cont._driver = Config.CreateDriver();
-                cont._javaScriptExecutor = new JavaScriptExecutor(cont._driver);
-                cont._wait = new WebDriverWait(cont._driver, Config.WaitTimeout);
+                cont.Driver = Config.CreateDriver();
+                cont.Wait = new WebDriverWait(cont.Driver, Config.WaitTimeout);
+                cont.JavaScriptExecutor = cont.Driver as IJavaScriptExecutor;
+                if (cont.JavaScriptExecutor == null && Config.IsJavaScriptEnabled)
+                {
+                    throw new TestLibsException($"Can't initialize JavaScript executor for WebDriver: {cont.Driver}");
+                }
                 return cont;
             });
         }
@@ -37,7 +42,7 @@
             try
             {
                 _sw.Value.Reset();
-                var el = _container.Value._driver.FindElement(element.Locator.Get());
+                var el = _container.Value.Driver.FindElement(element.Locator.Get());
                 _sw.Value.Stop();
                 log?.DEBUG($"Element: {element.Name} has been found. Time: {_sw.Value.ElapsedMilliseconds} ms");
                 return el;
@@ -50,41 +55,101 @@
         }
 
         [Command("Set window size by size", Description = "Set window size using parameter {size}")]
-        public void SetWindowSize(Size size)
+        public void SetWindowSize(Size size, ILogger log)
         {
-            _container.Value._driver.Manage().Window.Size = size;
+            try
+            {
+                log?.INFO($"Resize window using size: {size.ToString()}");
+                _container.Value.Driver.Manage().Window.Size = size;
+                log?.INFO("Window resizing completed");
+            }
+            catch (Exception ex)
+            {
+                log?.ERROR($"Error occurred during window resizing");
+                throw new CommandAbortException($"Error occurred during window resizing", ex);
+            }
         }
 
         [Command("Set window size by width and height", Description = "Set window size using parameter {width} {height}")]
-        public void SetWindowSize(int width, int height)
+        public void SetWindowSize(int width, int height, ILogger log)
         {
-            _container.Value._driver.Manage().Window.Size = new Size(width, height);
+            try
+            {
+                log?.INFO($"Resize window using width: {width} and height: {height}");
+                _container.Value.Driver.Manage().Window.Size = new Size(width, height);
+                log?.INFO("Window resizing completed");
+            }
+            catch (Exception ex)
+            {
+                log?.ERROR($"Error occurred during window resizing");
+                throw new CommandAbortException($"Error occurred during window resizing", ex);
+            }
         }
 
         [Command("Maximize window")]
-        public void WindowMaximize()
+        public void WindowMaximize(ILogger log)
         {
-            _container.Value._driver.Manage().Window.Maximize();
+            try
+            {
+                log?.INFO($"Maximize window");
+                _container.Value.Driver.Manage().Window.Maximize();
+                log?.INFO("Window maximizing completed");
+            }
+            catch (Exception ex)
+            {
+                log?.ERROR($"Error occurred during window maximizing");
+                throw new CommandAbortException($"Error occurred during window maximizing", ex);
+            }
         }
 
         [Command("Accept alert")]
-        public void AcceptAlert()
+        public void AcceptAlert(ILogger log)
         {
-            IAlert alert = _container.Value._driver.SwitchTo().Alert();
-            alert.Accept();
+            try
+            {
+                log?.INFO($"Accept alert");
+                IAlert alert = _container.Value.Driver.SwitchTo().Alert();
+                alert.Accept();
+                log?.INFO("Alert accepting completed");
+            }
+            catch (Exception ex)
+            {
+                log?.ERROR($"Error occurred during alert accepting");
+                throw new CommandAbortException($"Error occurred during alert accepting", ex);
+            }
         }
 
         [Command("Dismiss alert")]
-        public void DismissAlert()
+        public void DismissAlert(ILogger log)
         {
-            IAlert alert = _container.Value._driver.SwitchTo().Alert();
-            alert.Dismiss();
+            try
+            {
+                log?.INFO($"Dismiss alert");
+                IAlert alert = _container.Value.Driver.SwitchTo().Alert();
+                alert.Dismiss();
+                log?.INFO("Alert dismissing completed");
+            }
+            catch (Exception ex)
+            {
+                log?.ERROR($"Error occurred during alert dismissing");
+                throw new CommandAbortException($"Error occurred during alert dismissing", ex);
+            }
         }
 
         [Command("Switch to new tab")]
-        public void SwitchToNewTab()
+        public void SwitchToNewTab(ILogger log)
         {
-            _container.Value._driver.SwitchTo().Window(_container.Value._driver.WindowHandles.Last());
+            try
+            {
+                log?.INFO($"Switch to new tab");
+                _container.Value.Driver.SwitchTo().Window(_container.Value.Driver.WindowHandles.Last());
+                log?.INFO("Switching to new tab completed");
+            }
+            catch (Exception ex)
+            {
+                log?.ERROR($"Error occurred during tab switching");
+                throw new CommandAbortException($"Error occurred during tab switching", ex);
+            }
         }
 
         [Command("Wait until element is visible")]
@@ -134,7 +199,7 @@
             try
             {
                 log?.INFO($"Move to element: {element.Name}");
-                new Actions(_container.Value._driver).MoveToElement(el).Build().Perform();
+                new Actions(_container.Value.Driver).MoveToElement(el).Build().Perform();
                 log?.INFO("Move to completed");
             }
             catch (Exception ex)
@@ -176,7 +241,7 @@
             try
             {
                 log?.INFO($"Right click on element: {element.Name}");
-                new Actions(_container.Value._driver).MoveToElement(el).ContextClick().Build().Perform();
+                new Actions(_container.Value.Driver).MoveToElement(el).ContextClick().Build().Perform();
                 log?.INFO("Right click completed");
             }
             catch (Exception ex)
@@ -197,7 +262,7 @@
             try
             {
                 log?.INFO($"Double click on element: {element.Name}");
-                new Actions(_container.Value._driver).MoveToElement(el).DoubleClick().Build().Perform();
+                new Actions(_container.Value.Driver).MoveToElement(el).DoubleClick().Build().Perform();
                 log?.INFO("Double click completed");
             }
             catch (Exception ex)
@@ -209,13 +274,13 @@
 
         public void WaitForPageToLoad()
         {
-            _container.Value._wait.Until(d => Equals(_container.Value._javaScriptExecutor.ObjectJSExecutor("return document.readyState").ToString().ToLower(), "complete"));
+            _container.Value.Wait.Until(d => Equals(_container.Value.JavaScriptExecutor.ObjectJSExecutor("return document.readyState").ToString().ToLower(), "complete"));
         }
 
         public Screenshot TakeScreenshot(ILogger log)
         {
-            _container.Value._driver.SwitchTo().Window(_container.Value._driver.CurrentWindowHandle);
-            Screenshot screenshot = ((ITakesScreenshot)_container.Value._driver).GetScreenshot();
+            _container.Value.Driver.SwitchTo().Window(_container.Value.Driver.CurrentWindowHandle);
+            Screenshot screenshot = ((ITakesScreenshot)_container.Value.Driver).GetScreenshot();
             return screenshot;
         }
 
@@ -227,40 +292,40 @@
         public void HightLightElement(IWebElement element)
         {
             string highlightJavascript = @"arguments[0].style.cssText = ""border-width: 2px; border-style: solid; border-color: red"";";
-            _container.Value._javaScriptExecutor.JSExecutor(highlightJavascript, new object[] { element });
+            _container.Value.JavaScriptExecutor.JSExecutor(highlightJavascript, new object[] { element });
         }
 
         public void UnHightLightElement(IWebElement element)
         {
             string highlightJavascript = @"arguments[0].style.cssText = ""border-width: 0px; border-style: solid; border-color: red"";";
-            _container.Value._javaScriptExecutor.JSExecutor(highlightJavascript, new object[] { element });
+            _container.Value.JavaScriptExecutor.JSExecutor(highlightJavascript, new object[] { element });
         }
 
         public void WaitUntilElementIsVisible(By by)
         {
-            _container.Value._wait.Until(driver => driver.FindElement(by)?.Displayed);
+            _container.Value.Wait.Until(driver => driver.FindElement(by)?.Displayed);
         }
 
         public void WaitUntilElementIsVisible(IWebElement element)
         {
-            _container.Value._wait.Until(driver => element.Displayed);
+            _container.Value.Wait.Until(driver => element.Displayed);
         }
 
         public void WaitUntilElementIsEnabled(By by)
         {
-            _container.Value._wait.Until(driver => driver.FindElement(by)?.Enabled);
+            _container.Value.Wait.Until(driver => driver.FindElement(by)?.Enabled);
         }
 
         public void WaitUntilElementIsEnabled(IWebElement element)
         {
-            _container.Value._wait.Until(driver => element.Enabled);
+            _container.Value.Wait.Until(driver => element.Enabled);
         }
 
         private class LocalContainer
         {
-            public IWebDriver _driver;
-            public JavaScriptExecutor _javaScriptExecutor;
-            public WebDriverWait _wait;
+            public IWebDriver Driver;
+            public IJavaScriptExecutor JavaScriptExecutor;
+            public WebDriverWait Wait;
         }
     }
 }
