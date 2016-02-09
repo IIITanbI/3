@@ -1,23 +1,39 @@
 ﻿namespace QA.TestLibs.WebDriver
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using Commands;
     using OpenQA.Selenium;
     using System.Diagnostics;
     using System.Threading;
+    using OpenQA.Selenium.Support.UI;
 
     [CommandManager("WebCommand",
         Description = "Manager for WebCommands")]
-    public class WebCommandManager
+    public class WebDriverManager
     {
+        public WebDriverConfig Config { get; protected set; }
         private ThreadLocal<Stopwatch> _sw = new ThreadLocal<Stopwatch>(() => new Stopwatch());
+        ThreadLocal<LocalContainer> _container;
+
+        public WebDriverManager(WebDriverConfig config)
+        {
+            Config = config;
+            _container = new ThreadLocal<LocalContainer>(() =>
+            {
+                var cont = new LocalContainer();
+                cont._driver = Config.CreateDriver();
+                cont._javaScriptExecutor = new JavaScriptExecutor(cont._driver);
+                cont._wait = new WebDriverWait(cont._driver, Config.WaitTimeout);
+                return cont;
+            });
+        }
 
         public void HightLightElement(WebDriver driver, string xPath, ILogger log)
         {
+            var jsDriver = (IJavaScriptExecutor)driver;
+            var element = // some element you find;
+            string highlightJavascript = @"arguments[0].style.cssText = ""border-width: 2px; border-style: solid; border-color: red"";";
+            jsDriver.ExecuteScript(highlightJavascript, new object[] { element });
 
         }
 
@@ -77,7 +93,7 @@
         }
 
         [Command("Click", Description = "Click to element")]
-        public void Click(WebDriver driver, WebElement element, ILogger log)
+        public void Click(WebDriver driver, WebElement element, IContext contex, ILogger log)
         {
             var el = Find(driver, element, log);
 
@@ -95,6 +111,13 @@
                 log?.ERROR($"Error occured during clicking on element: {element.Name}");
                 throw new CommandAbortException($"Error occured during clicking on element: {element.Name}", ex);
             }
+        }
+
+        private class LocalContainer
+        {
+            public IWebDriver _driver;
+            public JavaScriptExecutor _javaScriptExecutor;
+            public WebDriverWait _wait;
         }
     }
 }
