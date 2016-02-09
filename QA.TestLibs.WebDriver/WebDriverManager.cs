@@ -28,13 +28,16 @@
             });
         }
 
-        public void HightLightElement(WebDriver driver, string xPath, ILogger log)
+        public void HightLightElement(WebDriver driver, WebElement element, ILogger log)
         {
-            var jsDriver = (IJavaScriptExecutor)driver;
-            var element = // some element you find;
             string highlightJavascript = @"arguments[0].style.cssText = ""border-width: 2px; border-style: solid; border-color: red"";";
-            jsDriver.ExecuteScript(highlightJavascript, new object[] { element });
+            _container.Value._javaScriptExecutor.JSExecutor(highlightJavascript, new object[] { element });
+        }
 
+        public void UnHightLightElement(WebDriver driver, WebElement element, ILogger log)
+        {
+            string highlightJavascript = @"arguments[0].style.cssText = ""border-width: 0px; border-style: solid; border-color: red"";";
+            _container.Value._javaScriptExecutor.JSExecutor(highlightJavascript, new object[] { element });
         }
 
         public IWebElement Find(WebDriver driver, WebElement element, ILogger log)
