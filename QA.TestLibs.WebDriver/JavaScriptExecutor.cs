@@ -3,6 +3,7 @@
     using OpenQA.Selenium;
     using QA.TestLibs.Exceptions;
     using System;
+
     public class JavaScriptExecutor
     {
         private IJavaScriptExecutor _javaScriptExecutor;
