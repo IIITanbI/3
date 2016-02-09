@@ -107,7 +107,7 @@
                 log?.INFO($"Execute javascript");
                 return _container.Value.JavaScriptExecutor.ExecuteScript(jsScript);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 log?.ERROR($"Error occurred during javascript execution");
                 throw new CommandAbortException($"Error occurred during javascript execution:\n{jsScript}", ex);
