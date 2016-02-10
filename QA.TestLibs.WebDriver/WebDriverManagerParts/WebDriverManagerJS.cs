@@ -5,6 +5,7 @@
     using System;
     using ExtensionMethods;
     using System.Linq;
+
     public partial class WebDriverManager
     {
         public void WaitForPageToLoad(ILogger log)

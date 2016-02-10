@@ -12,7 +12,6 @@
     using Exceptions;
 
     [CommandManager("WebCommand", Description = "Manager for WebCommands")]
-
     public partial class WebDriverManager
     {
         public WebDriverConfig Config { get; protected set; }
@@ -36,36 +35,6 @@
             });
         }
 
-        public void Navigate(string url, ILogger log)
-        {
-            try
-            {
-                log?.INFO($"Start URL navigating: {url}");
-                _container.Value.Driver.Navigate().GoToUrl(url);
-                log?.INFO("URL navigating completed");
-            }
-            catch (Exception ex)
-            {
-                log?.ERROR($"Error occurred during URL {url} navigating");
-                throw new CommandAbortException($"Error occurred during URL {url} navigating", ex);
-            }
-        }
-
-        public void Quit(ILogger log)
-        {
-            try
-            {
-                log?.INFO($"Start driver quitting");
-                _container.Value.Driver.Quit();
-                log?.INFO("Driver quitting completed");
-            }
-            catch (Exception ex)
-            {
-                log?.ERROR($"Error occurred during driver quitting");
-                throw new CommandAbortException($"Error occurred during driver quitting", ex);
-            }
-        }
-
         public IWebElement Find(WebElement element, ILogger log)
         {
             log?.DEBUG($"Start searching element: {element.Name}");
@@ -85,101 +54,45 @@
             }
         }
 
-        [Command("Set window size by size", Description = "Set window size using parameter {size}")]
-        public void SetWindowSize(Size size, ILogger log)
+        [Command("Click", Description = "Click on element")]
+        public void Click(WebElement element, ILogger log)
         {
+            var el = Find(element, log);
+
+            WaitUntilElementIsVisible(el, log);
+            WaitUntilElementIsEnabled(el, log);
+
             try
             {
-                log?.INFO($"Resize window using size: {size.ToString()}");
-                _container.Value.Driver.Manage().Window.Size = size;
-                log?.INFO("Window resizing completed");
+                log?.INFO($"Click on element: {element.Name}");
+                el.Click();
+                log?.INFO("Click completed");
             }
             catch (Exception ex)
             {
-                log?.ERROR($"Error occurred during window resizing");
-                throw new CommandAbortException($"Error occurred during window resizing", ex);
+                log?.ERROR($"Error occurred during clicking on element: {element.Name}");
+                throw new CommandAbortException($"Error occurred during clicking on element: {element.Name}", ex);
             }
         }
 
-        [Command("Set window size by width and height", Description = "Set window size using parameter {width} {height}")]
-        public void SetWindowSize(int width, int height, ILogger log)
+        [Command("Send keys", Description = "Send keys to element")]
+        public void SendKeys(WebElement element, string value, ILogger log)
         {
-            try
-            {
-                log?.INFO($"Resize window using width: {width} and height: {height}");
-                _container.Value.Driver.Manage().Window.Size = new Size(width, height);
-                log?.INFO("Window resizing completed");
-            }
-            catch (Exception ex)
-            {
-                log?.ERROR($"Error occurred during window resizing");
-                throw new CommandAbortException($"Error occurred during window resizing", ex);
-            }
-        }
+            var el = Find(element, log);
 
-        [Command("Maximize window")]
-        public void WindowMaximize(ILogger log)
-        {
-            try
-            {
-                log?.INFO($"Maximize window");
-                _container.Value.Driver.Manage().Window.Maximize();
-                log?.INFO("Window maximizing completed");
-            }
-            catch (Exception ex)
-            {
-                log?.ERROR($"Error occurred during window maximizing");
-                throw new CommandAbortException($"Error occurred during window maximizing", ex);
-            }
-        }
+            WaitUntilElementIsVisible(el, log);
+            WaitUntilElementIsEnabled(el, log);
 
-        [Command("Accept alert")]
-        public void AcceptAlert(ILogger log)
-        {
             try
             {
-                log?.INFO($"Accept alert");
-                IAlert alert = _container.Value.Driver.SwitchTo().Alert();
-                alert.Accept();
-                log?.INFO("Alert accepting completed");
+                log?.INFO($"Send keys to element: {element.Name}");
+                el.SendKeys(value);
+                log?.INFO("Send keys completed");
             }
             catch (Exception ex)
             {
-                log?.ERROR($"Error occurred during alert accepting");
-                throw new CommandAbortException($"Error occurred during alert accepting", ex);
-            }
-        }
-
-        [Command("Dismiss alert")]
-        public void DismissAlert(ILogger log)
-        {
-            try
-            {
-                log?.INFO($"Dismiss alert");
-                IAlert alert = _container.Value.Driver.SwitchTo().Alert();
-                alert.Dismiss();
-                log?.INFO("Alert dismissing completed");
-            }
-            catch (Exception ex)
-            {
-                log?.ERROR($"Error occurred during alert dismissing");
-                throw new CommandAbortException($"Error occurred during alert dismissing", ex);
-            }
-        }
-
-        [Command("Switch to new tab")]
-        public void SwitchToNewTab(ILogger log)
-        {
-            try
-            {
-                log?.INFO($"Switch to new tab");
-                _container.Value.Driver.SwitchTo().Window(_container.Value.Driver.WindowHandles.Last());
-                log?.INFO("Switching to new tab completed");
-            }
-            catch (Exception ex)
-            {
-                log?.ERROR($"Error occurred during tab switching");
-                throw new CommandAbortException($"Error occurred during tab switching", ex);
+                log?.ERROR($"Error occurred during keys sending to element: {element.Name}");
+                throw new CommandAbortException($"Error occurred keys sending to element: {element.Name}", ex);
             }
         }
 
@@ -216,90 +129,6 @@
             {
                 log?.ERROR("Waiting for enabling has been completed with exception");
                 throw new CommandAbortException("Waiting for enabling has been completed with exception", ex);
-            }
-        }
-
-        [Command("Move to", Description = "Move to element")]
-        public void MoveTo(WebElement element, ILogger log)
-        {
-            var el = Find(element, log);
-
-            WaitUntilElementIsVisible(el, log);
-            WaitUntilElementIsEnabled(el, log);
-
-            try
-            {
-                log?.INFO($"Move to element: {element.Name}");
-                new Actions(_container.Value.Driver).MoveToElement(el).Build().Perform();
-                log?.INFO("Move to completed");
-            }
-            catch (Exception ex)
-            {
-                log?.ERROR($"Error occurred moving to element: {element.Name}");
-                throw new CommandAbortException($"Error occurred moving to element: {element.Name}", ex);
-            }
-        }
-
-        [Command("Click", Description = "Click to element")]
-        public void Click(WebElement element, ILogger log)
-        {
-            var el = Find(element, log);
-
-            WaitUntilElementIsVisible(el, log);
-            WaitUntilElementIsEnabled(el, log);
-
-            try
-            {
-                log?.INFO($"Click on element: {element.Name}");
-                el.Click();
-                log?.INFO("Click completed");
-            }
-            catch (Exception ex)
-            {
-                log?.ERROR($"Error occurred during clicking on element: {element.Name}");
-                throw new CommandAbortException($"Error occurred during clicking on element: {element.Name}", ex);
-            }
-        }
-
-        [Command("Right click", Description = "Right click to element")]
-        public void RightClick(WebElement element, ILogger log)
-        {
-            var el = Find(element, log);
-
-            WaitUntilElementIsVisible(el, log);
-            WaitUntilElementIsEnabled(el, log);
-
-            try
-            {
-                log?.INFO($"Right click on element: {element.Name}");
-                new Actions(_container.Value.Driver).MoveToElement(el).ContextClick().Build().Perform();
-                log?.INFO("Right click completed");
-            }
-            catch (Exception ex)
-            {
-                log?.ERROR($"Error occurred during right-clicking on element: {element.Name}");
-                throw new CommandAbortException($"Error occurred during right-clicking on element: {element.Name}", ex);
-            }
-        }
-
-        [Command("Double click", Description = "Double click to element")]
-        public void DoubleClick(WebElement element, ILogger log)
-        {
-            var el = Find(element, log);
-
-            WaitUntilElementIsVisible(el, log);
-            WaitUntilElementIsEnabled(el, log);
-
-            try
-            {
-                log?.INFO($"Double click on element: {element.Name}");
-                new Actions(_container.Value.Driver).MoveToElement(el).DoubleClick().Build().Perform();
-                log?.INFO("Double click completed");
-            }
-            catch (Exception ex)
-            {
-                log?.ERROR($"Error occurred during double-clicking on element: {element.Name}");
-                throw new CommandAbortException($"Error occurred during-clicking on element: {element.Name}", ex);
             }
         }
 

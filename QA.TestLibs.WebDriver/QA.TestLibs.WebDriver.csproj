@@ -51,6 +51,8 @@
   <ItemGroup>
     <Compile Include="WebDriverConfigs\IEWebDriverConfig.cs" />
     <Compile Include="WebDriverConfigs\ChromeWebDriverConfig.cs" />
+    <Compile Include="WebDriverManagerParts\WebDriverManagerBrowser.cs" />
+    <Compile Include="WebDriverManagerParts\WebDriverManagerActions.cs" />
     <Compile Include="WebDriverManagerParts\WebDriverManagerJS.cs" />
     <Compile Include="WebDriverManager.cs" />
     <Compile Include="WebDriverConfigs\FirefoxWebDriverConfig.cs" />
