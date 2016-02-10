@@ -47,7 +47,7 @@
             catch (Exception ex)
             {
                 log?.ERROR("Couldn't find element");
-                throw new CommandAbortException("Couldn't find element", ex);
+                throw new CommandAbortException($"Couldn't find element: {element.Name}", ex);
             }
         }
 
@@ -93,6 +93,12 @@
                 log?.ERROR($"Error occurred during keys '{value}' sending to element: {element.Name}");
                 throw new CommandAbortException($"Error occurred keys '{value}' sending to element: {element.Name}", ex);
             }
+        }
+
+        [Command("Switch default content")]
+        public void SwitchToDefaultContent(ILogger log)
+        {
+            _container.Value.Driver.SwitchTo().DefaultContent();
         }
 
         [Command("Switch to frame")]
