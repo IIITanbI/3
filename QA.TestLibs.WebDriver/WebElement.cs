@@ -1,12 +1,7 @@
 ﻿namespace QA.TestLibs.WebDriver
 {
-    using System;
-    using System.Collections.ObjectModel;
     using System.Collections.Generic;
-    using System.Linq;
-    using OpenQA.Selenium;
     using XmlDesiarilization;
-    using System.Drawing;
 
     [XmlType("WebElement config")]
     [XmlLocation("webElement")]

@@ -6,9 +6,6 @@
     using System.Diagnostics;
     using System.Threading;
     using OpenQA.Selenium.Support.UI;
-    using System.Drawing;
-    using System.Linq;
-    using OpenQA.Selenium.Interactions;
     using Exceptions;
 
     [CommandManager("WebCommand", Description = "Manager for WebCommands")]
@@ -95,6 +92,22 @@
             {
                 log?.ERROR($"Error occurred during keys '{value}' sending to element: {element.Name}");
                 throw new CommandAbortException($"Error occurred keys '{value}' sending to element: {element.Name}", ex);
+            }
+        }
+
+        [Command("Switch to frame")]
+        public void SwitchToFrame(string frame, ILogger log)
+        {
+            try
+            {
+                log?.DEBUG($"Switch to frame with name/ID: {frame}");
+                _container.Value.Driver.SwitchTo().Frame(frame);
+                log?.DEBUG($"Switching to frame completed");
+            }
+            catch (Exception ex)
+            {
+                log?.ERROR($"Error occurred during switching to frame: {frame}");
+                throw new CommandAbortException($"Error occurred during switching to frame: {frame}", ex);
             }
         }
 
