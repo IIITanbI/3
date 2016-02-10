@@ -85,14 +85,16 @@
 
             try
             {
-                log?.INFO($"Send keys to element: {element.Name}");
+                log?.INFO($"Send keys '{value}' to element: {element.Name}");
+                el.Click();
+                el.Clear();
                 el.SendKeys(value);
-                log?.INFO("Send keys completed");
+                log?.INFO($"Send keys '{value}' completed");
             }
             catch (Exception ex)
             {
-                log?.ERROR($"Error occurred during keys sending to element: {element.Name}");
-                throw new CommandAbortException($"Error occurred keys sending to element: {element.Name}", ex);
+                log?.ERROR($"Error occurred during keys '{value}' sending to element: {element.Name}");
+                throw new CommandAbortException($"Error occurred keys '{value}' sending to element: {element.Name}", ex);
             }
         }
 

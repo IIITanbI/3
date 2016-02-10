@@ -10,7 +10,7 @@
     {
         public void WaitForPageToLoad(ILogger log)
         {
-            _container.Value.Wait.Until(d => Equals(ObjectJSExecutor("return document.readyState", log).ToString().ToLower(), "complete"));
+            _container.Value.Wait.Until(d => Equals(ObjectJSExecutor("return document.readyState;", log).ToString().ToLower(), "complete"));
         }
 
         [Command("JS Click", Description = "JS Click to element")]
@@ -105,28 +105,33 @@
         {
             try
             {
-                log?.INFO($"Execute javascript");
+                log?.INFO($"Execute javascript: {jsScript}");
                 return _container.Value.JavaScriptExecutor.ExecuteScript(jsScript);
             }
             catch (Exception ex)
             {
-                log?.ERROR($"Error occurred during javascript execution");
+                log?.ERROR($"Error occurred during execution: {jsScript}");
                 throw new CommandAbortException($"Error occurred during javascript execution:\n{jsScript}", ex);
             }
         }
 
-        public void JSExecutor(string jsScript, WebElement webElement, ILogger log)
+        public void JSExecutor(string jsScript, WebElement element, ILogger log)
         {
+            var el = Find(element, log);
+
+            WaitUntilElementIsVisible(el, log);
+            WaitUntilElementIsEnabled(el, log);
+
             try
             {
-                log?.INFO($"Execute javascript");
-                _container.Value.JavaScriptExecutor.ExecuteScript(jsScript, webElement);
+                log?.INFO($"Execute javascript: {jsScript}");
+                _container.Value.JavaScriptExecutor.ExecuteScript(jsScript, el);
                 log?.INFO("Javascript executing completed");
             }
             catch (Exception ex)
             {
-                log?.ERROR($"Error occurred during javascript execution");
-                throw new CommandAbortException($"Error occurred during javascript execution:\n{jsScript}\nFor element: {webElement}", ex);
+                log?.ERROR($"Error occurred during execution: {jsScript}");
+                throw new CommandAbortException($"Error occurred during javascript execution:\n{jsScript}\nFor element: {element}", ex);
             }
         }
 
@@ -134,13 +139,13 @@
         {
             try
             {
-                log?.INFO($"Execute javascript");
+                log?.INFO($"Execute javascript: {jsScript}");
                 _container.Value.JavaScriptExecutor.ExecuteScript(jsScript, args);
                 log?.INFO("Javascript executing completed");
             }
             catch (Exception ex)
             {
-                log?.ERROR($"Error occurred during javascript execution");
+                log?.ERROR($"Error occurred during execution: {jsScript}");
                 throw new CommandAbortException($"Error occurred during javascript execution:\n{jsScript}\nWith arguments: {args.ToList().ToStringWithList()}", ex);
             }
         }
