@@ -7,34 +7,32 @@
     [XmlType("WebDriver configuration")]
     public abstract class WebDriverConfig : XmlBaseType
     {
-        [XmlProperty("WebDriver type: Firefox, Chrome or IE")]
-        [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "driverType", "webDriverType", "browser", "browserType")]
         public WebDriverType DriverType { get; set; }
 
-        [XmlProperty("Is JavaScript enabled?")]
+        [XmlProperty("Is JavaScript enabled? Default: false", IsRequired = false)]
         [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "isJavaScriptEnabled", "isJavaScript", "javaScript")]
-        public bool IsJavaScriptEnabled { get; set; }
+        public bool IsJavaScriptEnabled { get; set; } = true;
 
-        [XmlProperty("Timeout for element searching. Format: hh:mm:ss.ms")]
+        [XmlProperty("Timeout for element searching. Format: hh:mm:ss.ms. Default: 10s", IsRequired = false)]
         [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "searchTimeout", "elementSearchTimeout", "implicitlyWait")]
-        public TimeSpan SearchTimeout { get; set; }
+        public TimeSpan SearchTimeout { get; set; } = TimeSpan.FromSeconds(10);
 
-        [XmlProperty("Timeout for page loading. Format: hh:mm:ss.ms")]
+        [XmlProperty("Timeout for page loading. Format: hh:mm:ss.ms. Default: 20s", IsRequired = false)]
         [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "pageLoadTimeout", "pageTimeout")]
-        public TimeSpan PageLoadTimeout { get; set; }
+        public TimeSpan PageLoadTimeout { get; set; } = TimeSpan.FromSeconds(20);
 
-        [XmlProperty("Timeout for executing javascript. Format: hh:mm:ss.ms")]
+        [XmlProperty("Timeout for executing javascript. Format: hh:mm:ss.ms. Default: 10s", IsRequired = false)]
         [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "javaScriptTimeout", "javascriptTimeout")]
         [XmlConstraint("IsJavaScriptEnabled", true)]
-        public TimeSpan JavaScriptTimeout { get; set; }
+        public TimeSpan JavaScriptTimeout { get; set; } = TimeSpan.FromSeconds(10);
 
-        [XmlProperty("Timeout for wait operations. Format: hh:mm:ss.ms")]
+        [XmlProperty("Timeout for wait operations. Format: hh:mm:ss.ms. Default: 20s", IsRequired = false)]
         [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "waitTimeout")]
-        public TimeSpan WaitTimeout { get; set; }
+        public TimeSpan WaitTimeout { get; set; } = TimeSpan.FromSeconds(20);
 
-        [XmlProperty("Is grid used?")]
+        [XmlProperty("Is grid used?. Default: false", IsRequired = false)]
         [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "isGrid", "isGridUsed")]
-        public bool IsGrid { get; set; }
+        public bool IsGrid { get; set; } = false;
 
         [XmlProperty("Uri to Grid")]
         [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "gridUri", "uriForGrid")]

@@ -36,6 +36,36 @@
             });
         }
 
+        public void Navigate(string url, ILogger log)
+        {
+            try
+            {
+                log?.INFO($"Start URL navigating: {url}");
+                _container.Value.Driver.Navigate().GoToUrl(url);
+                log?.INFO("URL navigating completed");
+            }
+            catch (Exception ex)
+            {
+                log?.ERROR($"Error occurred during URL {url} navigating");
+                throw new CommandAbortException($"Error occurred during URL {url} navigating", ex);
+            }
+        }
+
+        public void Quit(ILogger log)
+        {
+            try
+            {
+                log?.INFO($"Start driver quitting");
+                _container.Value.Driver.Quit();
+                log?.INFO("Driver quitting completed");
+            }
+            catch (Exception ex)
+            {
+                log?.ERROR($"Error occurred during driver quitting");
+                throw new CommandAbortException($"Error occurred during driver quitting", ex);
+            }
+        }
+
         public IWebElement Find(WebElement element, ILogger log)
         {
             log?.DEBUG($"Start searching element: {element.Name}");

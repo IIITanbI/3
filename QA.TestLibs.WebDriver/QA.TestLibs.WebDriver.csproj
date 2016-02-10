@@ -49,6 +49,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="WebDriverConfigs\IEWebDriverConfig.cs" />
+    <Compile Include="WebDriverConfigs\ChromeWebDriverConfig.cs" />
     <Compile Include="WebDriverManagerParts\WebDriverManagerJS.cs" />
     <Compile Include="WebDriverManager.cs" />
     <Compile Include="WebDriverConfigs\FirefoxWebDriverConfig.cs" />
@@ -68,7 +70,6 @@
       <Name>QA.TestLibs</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
