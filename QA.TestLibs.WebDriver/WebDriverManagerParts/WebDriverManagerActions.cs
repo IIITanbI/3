@@ -116,15 +116,10 @@
             var eSource = Find(source, log);
             var eTarget = Find(target, log);
 
-            WaitUntilElementIsVisible(eSource, log);
-            WaitUntilElementIsEnabled(eSource, log);
-            WaitUntilElementIsVisible(eTarget, log);
-            WaitUntilElementIsEnabled(eTarget, log);
-
             try
             {
                 log?.INFO($"Actions drag from {source.Name} to {target.Name}");
-                new Actions(_container.Value.Driver).ClickAndHold(eSource).MoveToElement(eTarget).Release(eTarget).Build().Perform();
+                new Actions(_container.Value.Driver).MoveToElement(eSource).ClickAndHold(eSource).MoveToElement(eTarget).Release(eTarget).Build().Perform();
                 log?.INFO("Actions drag and drop completed");
             }
             catch (Exception ex)

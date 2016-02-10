@@ -98,7 +98,17 @@
         [Command("Switch default content")]
         public void SwitchToDefaultContent(ILogger log)
         {
-            _container.Value.Driver.SwitchTo().DefaultContent();
+            try
+            {
+                log?.DEBUG($"Switch to default content");
+                _container.Value.Driver.SwitchTo().DefaultContent();
+                log?.DEBUG($"Switching to default content completed");
+            }
+            catch (Exception ex)
+            {
+                log?.ERROR($"Error occurred during switching to default content");
+                throw new CommandAbortException($"Error occurred during switching to default content", ex);
+            }
         }
 
         [Command("Switch to frame")]
