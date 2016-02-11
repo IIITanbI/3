@@ -23,7 +23,7 @@
 
         [XmlProperty("TestingContext config", IsRequired = false)]
         [XmlConstraint("ItemSourceType", SourceType.Xml)]
-        public TestingContext Context { get; set; }
+        public TestContext Context { get; set; }
 
         [XmlProperty("List of TestSteps", IsRequired = false)]
         [XmlLocation("testSteps", "testingSteps")]

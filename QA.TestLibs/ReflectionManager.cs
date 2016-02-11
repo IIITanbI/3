@@ -74,6 +74,12 @@
 
             _loadedAssemblies.Add(assemblyName);
         }
+
+        public static XmlType GetXmlTypeByName(string typeName)
+        {
+            throw new NotImplementedException();
+        }
+
         public static void LoadType(Type type)
         {
             if (typeof(XmlBaseType).IsAssignableFrom(type))

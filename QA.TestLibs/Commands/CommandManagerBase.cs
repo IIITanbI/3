@@ -10,6 +10,9 @@
     [CommandManager("BaseCommandManager", Description = "Base class for all command managers")]
     public abstract class CommandManagerBase
     {
-        public abstract void Init(XmlBaseType configurationObject);
+        public CommandManagerBase(XmlBaseType configurationObject)
+        {
+            
+        }
     }
 }

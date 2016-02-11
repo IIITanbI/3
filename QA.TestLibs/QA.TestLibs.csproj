@@ -45,6 +45,7 @@
     <Compile Include="Commands\CommandAttribute.cs" />
     <Compile Include="Commands\CommandManager.cs" />
     <Compile Include="Commands\CommandManagerAttribute.cs" />
+    <Compile Include="Commands\CommandManagerBase.cs" />
     <Compile Include="Commands\CommandParameterAttribute.cs" />
     <Compile Include="Exceptions\TypeCastException.cs" />
     <Compile Include="Exceptions\MissedConfigElementException.cs" />
