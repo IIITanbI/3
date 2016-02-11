@@ -21,7 +21,7 @@
             if (!isChildLocation)
             {
                 var locationAtts = propertyInfo.Info.GetCustomAttributes<XmlLocationAttribute>(true).ToList();
-                locationAtts.Add(new XmlLocationAttribute(propertyInfo.Info.Name));
+                locationAtts.Add(new XmlLocationAttribute(XmlLocationType.Element | XmlLocationType.Attribute, propertyInfo.Info.Name));
                 locationAtts.ForEach(AddLocation);
 
                 if (propertyInfo.IsAssignableTypesAllowed)
@@ -48,7 +48,6 @@
 
                 if (propertyInfo.IsAssignableTypesAllowed)
                 {
-
                     var assignableTypes = ReflectionManager.GetAssignableTypes(childType);
                     assignableTypes.ForEach(AddLocation);
                 }

@@ -22,7 +22,7 @@
         }
 
         public TypeCastException(string value, Type destType, XObject config, Exception innerException = null)
-            : base($"Couldnt convert value: {value} from config:\n\t{config}\n\tto {ExtractAllowedValues(destType)}", innerException)
+            : base($"Couldn't convert value: {value} from config:\n\t{config}\n\tto {ExtractAllowedValues(destType)}", innerException)
         {
 
         }

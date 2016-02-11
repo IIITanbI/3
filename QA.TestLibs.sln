@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QA.TestLibsTests", "QA.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TConsole", "TConsole\TConsole.csproj", "{9DC87798-912F-4C7F-994C-2FD71AB3BC8F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QA.TestLibs.Framework", "QA.TestLibs.Framework\QA.TestLibs.Framework.csproj", "{5F6E4EE4-3166-4F25-AB38-68DA974F6D4F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{9DC87798-912F-4C7F-994C-2FD71AB3BC8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DC87798-912F-4C7F-994C-2FD71AB3BC8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DC87798-912F-4C7F-994C-2FD71AB3BC8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F6E4EE4-3166-4F25-AB38-68DA974F6D4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F6E4EE4-3166-4F25-AB38-68DA974F6D4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F6E4EE4-3166-4F25-AB38-68DA974F6D4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F6E4EE4-3166-4F25-AB38-68DA974F6D4F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

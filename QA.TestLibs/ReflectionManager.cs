@@ -9,6 +9,7 @@
     using System.Text;
     using System.Threading.Tasks;
     using XmlDesiarilization;
+    using Commands;
 
     public static class ReflectionManager
     {
@@ -23,12 +24,10 @@
 
             return _xmlType_assignableXmlTypes[xmlType];
         }
-
         public static bool IsTypeXml(Type type)
         {
             return _type_xmlType.ContainsKey(type);
         }
-
         public static XmlType GetXmlType(Type type)
         {
             if (_type_xmlType.ContainsKey(type))
@@ -36,13 +35,18 @@
             return null;
         }
 
+        public static List<CommandManager> _managers { get; set; }
+
         public static void LoadAssemblies(string pathToLibFolder = null)
         {
             var assemblies = new List<Assembly>();
 
             assemblies.AddRange(AppDomain.CurrentDomain.GetAssemblies().ToList());
 
-            if (pathToLibFolder != null && Directory.Exists(pathToLibFolder))
+            if (pathToLibFolder == null)
+                pathToLibFolder = Directory.GetCurrentDirectory();
+
+            if (Directory.Exists(pathToLibFolder))
             {
                 var assemblyFiles = Directory.GetFiles(pathToLibFolder, "*.dll").ToList();
                 assemblyFiles.ForEach(af => assemblies.Add(Assembly.LoadFrom(af)));
@@ -55,7 +59,6 @@
                 LoadAssembly(assembly);
             }
         }
-
         public static void LoadAssembly(Assembly assembly)
         {
             var assemblyName = assembly.GetName().Name;
@@ -71,7 +74,6 @@
 
             _loadedAssemblies.Add(assemblyName);
         }
-
         public static void LoadType(Type type)
         {
             if (typeof(XmlBaseType).IsAssignableFrom(type))
@@ -86,11 +88,24 @@
 
                 foreach (var key in _xmlType_assignableXmlTypes.Keys)
                 {
-                    if (key.XType.IsAssignableFrom(type))
+                    if (key.XType.IsAssignableFrom(type) && !type.IsAbstract)
                     {
                         _xmlType_assignableXmlTypes[key].Add(xmlType);
                     }
                 }
+
+                foreach (var key in _xmlType_assignableXmlTypes.Keys)
+                {
+                    if (type.IsAssignableFrom(key.XType) && !key.XType.IsAbstract)
+                    {
+                        _xmlType_assignableXmlTypes[xmlType].Add(key);
+                    }
+                }
+            }
+            if (typeof(CommandManagerBase).IsAssignableFrom(type))
+            {
+                var commandManager = new CommandManager(type);
+                _managers.Add(commandManager);
             }
         }
     }

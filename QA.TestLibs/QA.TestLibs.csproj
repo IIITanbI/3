@@ -40,15 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\CommandAbortException.cs" />
     <Compile Include="Commands\CommandAttribute.cs" />
+    <Compile Include="Commands\CommandManager.cs" />
     <Compile Include="Commands\CommandManagerAttribute.cs" />
     <Compile Include="Commands\CommandParameterAttribute.cs" />
     <Compile Include="Exceptions\TypeCastException.cs" />
-    <Compile Include="Exceptions\ConnectionTimeoutException.cs" />
     <Compile Include="Exceptions\MissedConfigElementException.cs" />
-    <Compile Include="Exceptions\TaskExecutingException.cs" />
-    <Compile Include="Exceptions\TaskTimoutException.cs" />
     <Compile Include="Exceptions\TestLibsException.cs" />
     <Compile Include="ExtensionMethods\StringExtenshionMethods.cs" />
     <Compile Include="ExtensionMethods\ListExtenshionMethods.cs" />
@@ -62,6 +61,7 @@
     <Compile Include="XmlDesiarilization\CustomParsers\GenericTypeParser.cs" />
     <Compile Include="XmlDesiarilization\CustomParsers\StringTypeParser.cs" />
     <Compile Include="XmlDesiarilization\CustomParsers\TryParseTypeParser.cs" />
+    <Compile Include="XmlDesiarilization\CustomParsers\XElementParser.cs" />
     <Compile Include="XmlDesiarilization\ICustomTypeParser.cs" />
     <Compile Include="ReflectionManager.cs" />
     <Compile Include="XmlDesiarilization\XmlBaseType.cs" />

@@ -18,6 +18,7 @@
                 new TryParseTypeParser(),
                 new GenericTypeParser(),
                 new ArrayTypeParser(),
+                new XElementParser(),
                 new DefaultQaTypeParser()
             };
 
