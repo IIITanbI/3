@@ -28,10 +28,16 @@
         [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "frame")]
         public bool IsFrame { get; set; } = false;
 
-        [XmlProperty("Is element frame?")]
-        [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "frame")]
+        [XmlProperty("Value for frame locator")]
+        [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "frameLocatorValue")]
         [XmlConstraint("IsFrame", true)]
-        public string FrameId { get; set; } = null;
+        [XmlConstraint("FrameType", FrameLocatorType.Locator, IsPositive = false)]
+        public string FrameValue { get; set; } = null;
+
+        [XmlProperty("Frame locator type. Id, Index or Locator", IsRequired = false)]
+        [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "frameLocatorType")]
+        [XmlConstraint("IsFrame", true)]
+        public FrameLocatorType FrameType { get; set; } = FrameLocatorType.Id;
 
         private string _info = null;
         public override string ToString()
@@ -42,6 +48,13 @@
             _info = $"Element info:\n\tName: {Name}\n\tDescription:{Description}\n{Locator}";
 
             return _info;
+        }
+
+        public enum FrameLocatorType
+        {
+            Id,
+            Index,
+            Locator
         }
     }
 }
