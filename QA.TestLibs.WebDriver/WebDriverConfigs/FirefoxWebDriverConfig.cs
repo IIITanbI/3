@@ -15,6 +15,7 @@
 
         public override IWebDriver CreateLocalDriver()
         {
+            DriverType = WebDriverType.Firefox;
             var profile = CreateProfile();
             return new FirefoxDriver(profile);
         }

@@ -1,18 +1,14 @@
 ﻿namespace QA.TestLibs.WebDriver
 {
-    using System;
-    using System.Collections.ObjectModel;
-    using System.Collections.Generic;
-    using System.Linq;
     using OpenQA.Selenium;
+    using System.Collections.Generic;
     using XmlDesiarilization;
-    using System.Drawing;
 
     [XmlType("WebElement config")]
     [XmlLocation("webElement")]
     public class WebElement : XmlBaseType
     {
-        protected WebElement _parent { get; set; }
+        public WebElement ParentElement { get; set; }
 
         [XmlProperty("List of child WebElements", IsAssignableTypesAllowed = true, IsRequired = false)]
         public List<WebElement> ChildWebElements { get; set; } = new List<WebElement>();
@@ -28,6 +24,21 @@
         [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "elementDescription", "webElementDescription")]
         public string Description { get; set; }
 
+        [XmlProperty("Is element frame?", IsRequired = false)]
+        [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "frame")]
+        public bool IsFrame { get; set; } = false;
+
+        [XmlProperty("Value for frame locator")]
+        [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "frameLocatorValue")]
+        [XmlConstraint("IsFrame", true)]
+        [XmlConstraint("FrameType", FrameLocatorType.Locator, IsPositive = false)]
+        public string FrameValue { get; set; } = null;
+
+        [XmlProperty("Frame locator type. Id, Index or Locator", IsRequired = false)]
+        [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "frameLocatorType")]
+        [XmlConstraint("IsFrame", true)]
+        public FrameLocatorType FrameType { get; set; } = FrameLocatorType.Id;
+
         private string _info = null;
         public override string ToString()
         {
@@ -37,6 +48,13 @@
             _info = $"Element info:\n\tName: {Name}\n\tDescription:{Description}\n{Locator}";
 
             return _info;
+        }
+
+        public enum FrameLocatorType
+        {
+            Id,
+            Index,
+            Locator
         }
     }
 }
