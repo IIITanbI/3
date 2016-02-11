@@ -25,6 +25,10 @@
         [XmlLocation("value")]
         public string LocatorValue { get; set; } = null;
 
+        [XmlProperty("Is path relative?", IsRequired = false)]
+        [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "relative")]
+        public bool IsRelative { get; set; } = true;
+
         private By _locator = null;
         public By Get()
         {

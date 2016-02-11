@@ -1,5 +1,6 @@
 ﻿namespace QA.TestLibs.WebDriver
 {
+    using OpenQA.Selenium;
     using System.Collections.Generic;
     using XmlDesiarilization;
 
@@ -7,7 +8,7 @@
     [XmlLocation("webElement")]
     public class WebElement : XmlBaseType
     {
-        protected WebElement _parent { get; set; }
+        public WebElement ParentElement { get; set; }
 
         [XmlProperty("List of child WebElements", IsAssignableTypesAllowed = true, IsRequired = false)]
         public List<WebElement> ChildWebElements { get; set; } = new List<WebElement>();
@@ -22,6 +23,15 @@
         [XmlProperty("Description of WebElement")]
         [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "elementDescription", "webElementDescription")]
         public string Description { get; set; }
+
+        [XmlProperty("Is element frame?", IsRequired = false)]
+        [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "frame")]
+        public bool IsFrame { get; set; } = false;
+
+        [XmlProperty("Is element frame?")]
+        [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "frame")]
+        [XmlConstraint("IsFrame", true)]
+        public string FrameId { get; set; } = null;
 
         private string _info = null;
         public override string ToString()
