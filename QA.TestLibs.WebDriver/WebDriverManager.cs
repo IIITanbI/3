@@ -7,7 +7,7 @@
     using System.Threading;
     using OpenQA.Selenium.Support.UI;
     using Exceptions;
-
+    using System.Collections.Generic;
     [CommandManager("WebCommand", Description = "Manager for WebCommands")]
     public partial class WebDriverManager
     {
@@ -39,10 +39,77 @@
             try
             {
                 _sw.Value.Reset();
-                var el = _container.Value.Driver.FindElement(element.Locator.Get());
+
+                var isDefaultContent = true;
+                IWebElement targetElement = null;
+                var parentStack = new Stack<WebElement>();
+
+                for (var currentElement = element.ParentElement; currentElement != null; currentElement = currentElement.ParentElement)
+                {
+                    parentStack.Push(currentElement);
+                }
+
+                while (parentStack.Count != 0)
+                {
+                    var workElement = parentStack.Pop();
+                    if (workElement.IsFrame)
+                    {
+                        SwitchToFrame(workElement.FrameValue, log);
+                        isDefaultContent = false;
+                    }
+                }
+
+                if (element.Locator.IsRelative)
+                {
+                    for (var currentElement = element.ParentElement; currentElement != null && !currentElement.Locator.IsRelative; currentElement = currentElement.ParentElement)
+                    {
+                        parentStack.Push(currentElement);
+                    }
+                    if (parentStack.Count != 0)
+                    {
+                        var currentParent = parentStack.Pop();
+
+                        log?.TRACE($"Start searching parent element: {currentParent.Name}");
+                        log?.TRACE($"{currentParent}");
+                        targetElement = _container.Value.Driver.FindElement(currentParent.Locator.Get());
+                        log?.TRACE($"Parent element: {currentParent.Name} has been found");
+
+                        while (parentStack.Count != 0)
+                        {
+                            currentParent = parentStack.Pop();
+                            log?.TRACE($"Start searching target parent element: {currentParent.Name}");
+                            log?.TRACE($"{currentParent}");
+                            targetElement = targetElement.FindElement(currentParent.Locator.Get());
+                            log?.TRACE($"Target parent element: {currentParent.Name} has been found");
+                        }
+
+                        log?.TRACE($"Start searching target element: {currentParent.Name}");
+                        log?.TRACE($"{element}");
+                        targetElement = targetElement.FindElement(element.Locator.Get());
+                        log?.TRACE($"Target element: {element.Name} has been found");
+                    }
+                    else
+                    {
+                        log?.TRACE($"Start searching target parent element: {element.Name}");
+                        log?.TRACE($"{element}");
+                        targetElement = _container.Value.Driver.FindElement(element.Locator.Get());
+                        log?.TRACE($"Target parent element: {element.Name} has been found");
+                    }
+                }
+                else
+                {
+                    log?.TRACE($"Start searching target element: {element.Name}");
+                    log?.TRACE($"{element}");
+                    targetElement = _container.Value.Driver.FindElement(element.Locator.Get());
+                    log?.TRACE($"Target element: {element.Name} has been found");
+                }
+                if(!isDefaultContent) SwitchToDefaultContent(log);
+
                 _sw.Value.Stop();
-                log?.DEBUG($"Element: {element.Name} has been found. Time: {_sw.Value.ElapsedMilliseconds} ms");
-                return el;
+                log?.INFO("Click completed");
+                log?.TRACE($"Element: {element.Name} has been found. Time: {_sw.Value.ElapsedMilliseconds} ms");
+
+                return targetElement;
             }
             catch (Exception ex)
             {
