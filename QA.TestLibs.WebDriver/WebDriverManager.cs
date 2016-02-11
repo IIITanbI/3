@@ -69,49 +69,39 @@
                     {
                         var currentParent = parentStack.Pop();
 
-                        _sw.Value.Reset();
                         log?.TRACE($"Start searching parent element: {currentParent.Name}");
                         log?.TRACE($"{currentParent}");
                         targetElement = _container.Value.Driver.FindElement(currentParent.Locator.Get());
-                        _sw.Value.Stop();
-                        log?.TRACE($"Parent element: {currentParent.Name} has been found. Time: {_sw.Value.ElapsedMilliseconds} ms");
+                        log?.TRACE($"Parent element: {currentParent.Name} has been found");
 
                         while (parentStack.Count != 0)
                         {
                             currentParent = parentStack.Pop();
-                            _sw.Value.Reset();
                             log?.TRACE($"Start searching target parent element: {currentParent.Name}");
                             log?.TRACE($"{currentParent}");
                             targetElement = targetElement.FindElement(currentParent.Locator.Get());
-                            _sw.Value.Stop();
-                            log?.TRACE($"Target parent element: {currentParent.Name} has been found. Time: {_sw.Value.ElapsedMilliseconds} ms");
+                            log?.TRACE($"Target parent element: {currentParent.Name} has been found");
                         }
 
-                        _sw.Value.Reset();
                         log?.TRACE($"Start searching target element: {currentParent.Name}");
                         log?.TRACE($"{element}");
                         targetElement = targetElement.FindElement(element.Locator.Get());
-                        _sw.Value.Stop();
-                        log?.TRACE($"Target element: {element.Name} has been found. Time: {_sw.Value.ElapsedMilliseconds} ms");
+                        log?.TRACE($"Target element: {element.Name} has been found");
                     }
                     else
                     {
-                        _sw.Value.Reset();
                         log?.TRACE($"Start searching target parent element: {element.Name}");
                         log?.TRACE($"{element}");
                         targetElement = _container.Value.Driver.FindElement(element.Locator.Get());
-                        _sw.Value.Stop();
-                        log?.TRACE($"Target parent element: {element.Name} has been found. Time: {_sw.Value.ElapsedMilliseconds} ms");
+                        log?.TRACE($"Target parent element: {element.Name} has been found");
                     }
                 }
                 else
                 {
-                    _sw.Value.Reset();
                     log?.TRACE($"Start searching target element: {element.Name}");
                     log?.TRACE($"{element}");
                     targetElement = _container.Value.Driver.FindElement(element.Locator.Get());
-                    _sw.Value.Stop();
-                    log?.TRACE($"Target element: {element.Name} has been found. Time: {_sw.Value.ElapsedMilliseconds} ms");
+                    log?.TRACE($"Target element: {element.Name} has been found");
                 }
                 if(!isDefaultContent) SwitchToDefaultContent(log);
 
