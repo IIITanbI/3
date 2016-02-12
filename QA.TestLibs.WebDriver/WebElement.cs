@@ -17,7 +17,6 @@
         public List<WebElement> ChildWebElements { get; set; } = new List<WebElement>();
 
         [XmlProperty("Locator for web element")]
-        [XmlConstraint("IsFrame", false)]
         [XmlConstraint("FrameType", FrameLocatorType.Locator)]
         public WebLocator Locator { get; set; }
 

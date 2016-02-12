@@ -39,7 +39,7 @@
             log?.TRACE($"{element}");
             try
             {
-                _sw.Value.Reset();
+                _sw.Value.Start();
 
                 var isDefaultContent = true;
                 IWebElement targetElement = null;
@@ -76,9 +76,10 @@
 
                 if (element.Locator.IsRelative)
                 {
-                    for (var currentElement = element.ParentElement; currentElement != null && !currentElement.Locator.IsRelative; currentElement = currentElement.ParentElement)
+                    for (var currentElement = element.ParentElement; currentElement != null && !(currentElement.Locator?.IsRelative??false); currentElement = currentElement.ParentElement)
                     {
-                        parentStack.Push(currentElement);
+                        if (!currentElement.IsFrame)
+                            parentStack.Push(currentElement);
                     }
                     if (parentStack.Count != 0)
                     {
