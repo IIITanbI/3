@@ -11,6 +11,7 @@
         public WebElement ParentElement { get; set; }
 
         [XmlProperty("List of child WebElements", IsAssignableTypesAllowed = true, IsRequired = false)]
+        [XmlLocation("childs")]
         public List<WebElement> ChildWebElements { get; set; } = new List<WebElement>();
 
         [XmlProperty("Locator for web element")]
@@ -48,6 +49,15 @@
             _info = $"Element info:\n\tName: {Name}\n\tDescription:{Description}\n{Locator}";
 
             return _info;
+        }
+
+        public void Init()
+        {
+            foreach (var child in ChildWebElements)
+            {
+                child.ParentElement = this;
+                child.Init();
+            }
         }
 
         public enum FrameLocatorType

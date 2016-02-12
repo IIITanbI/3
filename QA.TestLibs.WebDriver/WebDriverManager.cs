@@ -178,6 +178,22 @@
             }
         }
 
+        [Command("Switch to frame by index")]
+        public void SwitchToFrameByIndex(int index, ILogger log)
+        {
+            try
+            {
+                log?.DEBUG($"Switch to frame by index: {index}");
+                _container.Value.Driver.SwitchTo().Frame(index);
+                log?.DEBUG($"Switching to frame completed");
+            }
+            catch (Exception ex)
+            {
+                log?.ERROR($"Error occurred during switching to frame by index: {index}");
+                throw new CommandAbortException($"Error occurred during switching to frame by index: {index}", ex);
+            }
+        }
+
         [Command("Switch to frame")]
         public void SwitchToFrame(string frame, ILogger log)
         {
