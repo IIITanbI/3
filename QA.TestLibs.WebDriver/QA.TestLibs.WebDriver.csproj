@@ -49,6 +49,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FrameWebElement.cs" />
     <Compile Include="WebDriverConfigs\IEWebDriverConfig.cs" />
     <Compile Include="WebDriverConfigs\ChromeWebDriverConfig.cs" />
     <Compile Include="WebDriverManagerParts\WebDriverManagerBrowser.cs" />
