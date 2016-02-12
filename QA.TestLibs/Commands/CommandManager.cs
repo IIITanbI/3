@@ -14,12 +14,15 @@
         public string Description { get; private set; }
         public Type CommandManagerType { get; private set; }
 
+        public Type ConfigType { get; set; }
+
         public CommandManager(Type type)
         {
             var attribute = type.GetCustomAttribute<CommandManagerAttribute>();
             PossibleNames = attribute.Names;
             Description = attribute.Description;
             CommandManagerType = type;
+            ConfigType = attribute.ConfigType;
             Init();
         }
 
@@ -34,6 +37,11 @@
                 var cmd = new Command(this, method, commandAtt);
                 Commands.Add(cmd);
             }
+        }
+
+        public object CreateObject(object managerConfig)
+        {
+            return Activator.CreateInstance(CommandManagerType, new[] { managerConfig });
         }
     }
 }

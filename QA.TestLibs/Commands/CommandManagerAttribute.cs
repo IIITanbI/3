@@ -11,10 +11,12 @@
     {
         public List<string> Names { get; private set; }
         public string Description { get; set; }
+        public Type ConfigType { get; private set; }
 
-        public CommandManagerAttribute(params string[] names)
+        public CommandManagerAttribute(Type configType, params string[] names)
         {
             Names = names.ToList();
+            ConfigType = configType;
         }
     }
 }

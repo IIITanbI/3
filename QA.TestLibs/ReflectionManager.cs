@@ -114,5 +114,10 @@
                 _managers.Add(commandManager);
             }
         }
+
+        public static CommandManager GetCommandManagerByTypeName(string managerType)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿namespace QA.TestLibs.Framework
 {
+    using Exceptions;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -8,20 +9,26 @@
     using System.Threading.Tasks;
     using System.Xml.Linq;
     using XmlDesiarilization;
+    using Commands;
+
 
     [XmlType("TestingContext config")]
     [XmlLocation("context", "testingContext")]
     public class TestContext : XmlBaseType, IContext
     {
         [XmlProperty("List of TestContextItems", IsAssignableTypesAllowed = true, IsRequired = false)]
-        [XmlLocation("contextItems", "items")]
+        [XmlLocation("contextItems")]
         public List<TestContextItem> TestContextItems { get; set; } = new List<TestContextItem>();
+
+        [XmlProperty("List of Managers", IsRequired = false)]
+        [XmlLocation("managerItems", "managers")]
+        public List<CommandManagerItem> CommandManagersItems { get; set; } = new List<CommandManagerItem>();
 
         public TestContext ParentContext { get; set; }
         public static Regex BindRegex = new Regex(@"\$\{([\w\s.]+)\}", RegexOptions.Compiled);
 
         public Dictionary<string, Dictionary<string, object>> ContextValues { get; private set; } = new Dictionary<string, Dictionary<string, object>>();
-        public Dictionary<List<string>, object> Managers = new Dictionary<List<string>, object>();
+        public Dictionary<string, Dictionary<string, object>> Managers = new Dictionary<string, Dictionary<string, object>>();
 
         public void Build()
         {
@@ -62,41 +69,36 @@
 
                 var configXml = XElement.Parse(ResolveBind(contextItem.ItemConfig.ToString()));
 
-                var obj = XmlParser.Parse(type.XType, configXml, true, null, ContextValues);
-
-                if (objs.Count == 0)
-                    throw new TestLibsException($"Empty context item with type: {contextItem.ItemType} or inccorrect inner config:\n{configXml}");
+                var obj = XmlParser.Parse(type.XType, configXml, true, null, this);
 
                 if (!ContextValues.ContainsKey(typeName))
                     ContextValues.Add(typeName, new Dictionary<string, object>());
 
-                foreach (var obj in objs)
-                {
-                    var contextObject = obj as ConfigElementBase;
-                    if (contextObject == null)
-                        throw new TestLibsException($"Error occurs during creating context object: {obj.ToString()}. Couldn't be cast to ConfigElementBase");
+                var contextObject = obj as XmlBaseType;
+                if (contextObject == null)
+                    throw new TestLibsException($"Error occurs during creating context object: {obj.ToString()}. Couldn't be cast to ConfigElementBase");
 
-                    if (ContextValues[typeName].ContainsKey(contextObject.UniqueKey))
-                        throw new TestLibsException($"Error occurs during creating context object: {obj.ToString()}. Object with the same name: {contextObject.UniqueKey} already present");
+                if (ContextValues[typeName].ContainsKey(contextObject.UniqueName))
+                    throw new TestLibsException($"Error occurs during creating context object: {obj.ToString()}. Object with the same name: {contextObject.UniqueKey} already present");
 
-                    ContextValues[typeName].Add(contextObject.UniqueKey, obj);
-                }
+                ContextValues[typeName].Add(contextObject.UniqueName, obj);
             }
 
-            if (ManagerConfigItems != null)
+            foreach (var managerItem in CommandManagersItems)
             {
-                foreach (var managerItem in ManagerConfigItems)
-                {
-                    var managerType = ReflectionManager.GetManagerTypeByName(managerItem.Name);
-                    var names = ReflectionManager.GetManagerNames(managerType);
+                var manager = ReflectionManager.GetCommandManagerByTypeName(managerItem.ManagerType);
+                var managerConfig = XmlParser.Parse(manager.ConfigType, managerItem.Config, true, null, this);
 
-                    var managerObj = ConfigManager.ParseStaticFieldsOrCreateWithFields(managerType, managerItem.Content);
+                var managerObj = manager.CreateObject(managerConfig);
 
-                    if (Managers.ContainsKey(names))
-                        Managers[names] = managerObj;
-                    else
-                        Managers.Add(names, managerObj);
-                }
+
+                if (!Managers.ContainsKey(managerItem.ManagerType))
+                    Managers.Add(managerItem.ManagerType, new Dictionary<string, object>());
+
+                if (Managers[managerItem.ManagerType].ContainsKey(managerItem.Name))
+                    Managers[managerItem.ManagerType][managerItem.Name] = managerObj;
+                else
+                    Managers[managerItem.ManagerType].Add(managerItem.Name, managerObj);
             }
         }
 

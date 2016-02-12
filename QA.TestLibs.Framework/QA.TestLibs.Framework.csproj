@@ -40,10 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandManagerItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source.cs" />
     <Compile Include="TestCase.cs" />
-    <Compile Include="TestingContext.cs" />
+    <Compile Include="TestContextItem.cs" />
+    <Compile Include="TestContext.cs" />
     <Compile Include="TestItem.cs" />
     <Compile Include="TestLogger.cs" />
     <Compile Include="TestProject.cs" />
