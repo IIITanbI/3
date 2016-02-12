@@ -9,7 +9,7 @@
     using Exceptions;
     using System.Collections.Generic;
 
-    [CommandManager(typeof(WebDriverConfig), "WebCommand", Description = "Manager for WebCommands")]
+    [CommandManager(typeof(WebDriverConfig), "WebDriver", Description = "Manager for WebDriver")]
     public partial class WebDriverManager
     {
         public WebDriverConfig Config { get; protected set; }
