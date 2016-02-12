@@ -79,7 +79,7 @@
                     throw new TestLibsException($"Error occurs during creating context object: {obj.ToString()}. Couldn't be cast to ConfigElementBase");
 
                 if (ContextValues[typeName].ContainsKey(contextObject.UniqueName))
-                    throw new TestLibsException($"Error occurs during creating context object: {obj.ToString()}. Object with the same name: {contextObject.UniqueKey} already present");
+                    throw new TestLibsException($"Error occurs during creating context object: {obj.ToString()}. Object with the same name: {contextObject.UniqueName} already present");
 
                 ContextValues[typeName].Add(contextObject.UniqueName, obj);
             }

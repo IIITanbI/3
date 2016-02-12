@@ -35,7 +35,7 @@
             return null;
         }
 
-        public static List<CommandManager> _managers { get; set; }
+        public static List<CommandManager> _managers { get; set; } = new List<CommandManager>();
 
         public static void LoadAssemblies(string pathToLibFolder = null)
         {

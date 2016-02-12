@@ -6,7 +6,7 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
     public class CommandManagerAttribute : Attribute
     {
         public List<string> Names { get; private set; }
