@@ -39,7 +39,7 @@
             log?.TRACE($"{element}");
             try
             {
-                _sw.Value.Reset();
+                _sw.Value.Start();
 
                 var isDefaultContent = true;
                 IWebElement targetElement = null;
@@ -53,32 +53,23 @@
                 while (parentStack.Count != 0)
                 {
                     var workElement = parentStack.Pop();
-                    if (workElement.IsFrame)
+
+                    var frameElement = workElement as FrameWebElement;
+
+                    if (frameElement != null)
                     {
-                        switch (workElement.FrameType)
-                        {
-                            case WebElement.FrameLocatorType.Id:
-                                SwitchToFrameByName(workElement.FrameValue, log);
-                                break;
-                            case WebElement.FrameLocatorType.Index:
-                                SwitchToFrameByIndex(int.Parse(workElement.FrameValue), log);
-                                break;
-                            case WebElement.FrameLocatorType.Locator:
-                                var tmp = _container.Value.Driver.FindElement(workElement.Locator.Get());
-                                SwitchToFrameByLocator(tmp, log);
-                                break;
-                            default:
-                                break;
-                        }
+                        SwitchToFrame(frameElement, log);
                         isDefaultContent = false;
                     }
                 }
 
                 if (element.Locator.IsRelative)
                 {
-                    for (var currentElement = element.ParentElement; currentElement != null && !currentElement.Locator.IsRelative; currentElement = currentElement.ParentElement)
+                    for (var currentElement = element.ParentElement; currentElement != null && !(currentElement.Locator?.IsRelative??false); currentElement = currentElement.ParentElement)
                     {
-                        parentStack.Push(currentElement);
+                        var frameElement = currentElement as FrameWebElement;
+                        if (frameElement == null)
+                            parentStack.Push(currentElement);
                     }
                     if (parentStack.Count != 0)
                     {
@@ -193,51 +184,39 @@
             }
         }
 
-        [Command("Switch to frame by locator")]
-        public void SwitchToFrameByLocator(IWebElement elem, ILogger log)
+        [Command("Switch to frame by id")]
+        public void SwitchToFrameById(string id, ILogger log)
+        {
+            try
+            {
+                log?.DEBUG($"Switch to frame");
+                _container.Value.Driver.SwitchTo().Frame(id);
+                log?.DEBUG($"Switching to frame completed");
+            }
+            catch (Exception ex)
+            {
+                log?.ERROR($"Error occurred during switching to frame");
+                throw new CommandAbortException($"Error occurred during switching to frame", ex);
+            }
+        }
+
+        [Command("Switch to frame")]
+        public void SwitchToFrame(FrameWebElement elem, ILogger log)
         {
             try
             {
                 log?.DEBUG($"Switch to frame by locator: {elem}");
-                _container.Value.Driver.SwitchTo().Frame(elem);
+
+                var wElem = Find(elem, log);
+                var frameId = wElem.GetAttribute("id");
+
+                _container.Value.Driver.SwitchTo().Frame(frameId);
                 log?.DEBUG($"Switching to frame completed");
             }
             catch (Exception ex)
             {
                 log?.ERROR($"Error occurred during switching to frame by locator: {elem}");
                 throw new CommandAbortException($"Error occurred during switching to frame by locator: {elem}", ex);
-            }
-        }
-
-        [Command("Switch to frame by index")]
-        public void SwitchToFrameByIndex(int index, ILogger log)
-        {
-            try
-            {
-                log?.DEBUG($"Switch to frame by index: {index}");
-                _container.Value.Driver.SwitchTo().Frame(index);
-                log?.DEBUG($"Switching to frame completed");
-            }
-            catch (Exception ex)
-            {
-                log?.ERROR($"Error occurred during switching to frame by index: {index}");
-                throw new CommandAbortException($"Error occurred during switching to frame by index: {index}", ex);
-            }
-        }
-
-        [Command("Switch to frame by name")]
-        public void SwitchToFrameByName(string frame, ILogger log)
-        {
-            try
-            {
-                log?.DEBUG($"Switch to frame by name: {frame}");
-                _container.Value.Driver.SwitchTo().Frame(frame);
-                log?.DEBUG($"Switching to frame completed");
-            }
-            catch (Exception ex)
-            {
-                log?.ERROR($"Error occurred during switching to frame by name: {frame}");
-                throw new CommandAbortException($"Error occurred during switching to frame by name: {frame}", ex);
             }
         }
 

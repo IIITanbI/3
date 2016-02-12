@@ -17,7 +17,6 @@
         public List<WebElement> ChildWebElements { get; set; } = new List<WebElement>();
 
         [XmlProperty("Locator for web element")]
-        [XmlConstraint("IsFrame", false)]
         [XmlConstraint("FrameType", FrameLocatorType.Locator)]
         public WebLocator Locator { get; set; }
 
@@ -28,21 +27,6 @@
         [XmlProperty("Description of WebElement")]
         [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "elementDescription", "webElementDescription")]
         public string Description { get; set; }
-
-        [XmlProperty("Is element frame?", IsRequired = false)]
-        [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "frame")]
-        public bool IsFrame { get; set; } = false;
-
-        [XmlProperty("Value for frame locator")]
-        [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "frameLocatorValue")]
-        [XmlConstraint("IsFrame", true)]
-        [XmlConstraint("FrameType", FrameLocatorType.Locator, IsPositive = false)]
-        public string FrameValue { get; set; } = null;
-
-        [XmlProperty("Frame locator type. Id, Index or Locator. Default: Locator", IsRequired = false)]
-        [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "frameLocatorType")]
-        [XmlConstraint("IsFrame", true)]
-        public FrameLocatorType FrameType { get; set; } = FrameLocatorType.Locator;
 
         private string _info = null;
         public override string ToString()
