@@ -2,7 +2,9 @@
 {
     using OpenQA.Selenium;
     using System.Collections.Generic;
+    using System.Linq;
     using XmlDesiarilization;
+    using Exceptions;
 
     [XmlType("WebElement config")]
     [XmlLocation("webElement")]
@@ -15,6 +17,8 @@
         public List<WebElement> ChildWebElements { get; set; } = new List<WebElement>();
 
         [XmlProperty("Locator for web element")]
+        [XmlConstraint("IsFrame", false)]
+        [XmlConstraint("FrameType", FrameLocatorType.Locator)]
         public WebLocator Locator { get; set; }
 
         [XmlProperty("Name of WebElement")]
@@ -35,10 +39,10 @@
         [XmlConstraint("FrameType", FrameLocatorType.Locator, IsPositive = false)]
         public string FrameValue { get; set; } = null;
 
-        [XmlProperty("Frame locator type. Id, Index or Locator", IsRequired = false)]
+        [XmlProperty("Frame locator type. Id, Index or Locator. Default: Locator", IsRequired = false)]
         [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "frameLocatorType")]
         [XmlConstraint("IsFrame", true)]
-        public FrameLocatorType FrameType { get; set; } = FrameLocatorType.Id;
+        public FrameLocatorType FrameType { get; set; } = FrameLocatorType.Locator;
 
         private string _info = null;
         public override string ToString()
@@ -57,6 +61,32 @@
             {
                 child.ParentElement = this;
                 child.Init();
+            }
+        }
+
+        public WebElement this[string name]
+        {
+            get
+            {
+                var nameParts = name.Split('.');
+                return this[nameParts];
+            }
+        }
+
+        public WebElement this[string[] nameParts]
+        {
+            get
+            {
+                if (nameParts.Length == 1)
+                {
+                    return this;
+                }
+                var cwe = ChildWebElements.FirstOrDefault(c => c.Name == nameParts[1]);
+                if (cwe == null)
+                {
+                    throw new TestLibsException($"Couldn't find child element with name: {nameParts[1]} in parent element with name: {Name}");
+                }
+                return cwe[nameParts.Skip(1).ToArray()];
             }
         }
 

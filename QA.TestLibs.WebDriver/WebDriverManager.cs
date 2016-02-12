@@ -8,7 +8,8 @@
     using OpenQA.Selenium.Support.UI;
     using Exceptions;
     using System.Collections.Generic;
-    [CommandManager("WebCommand", Description = "Manager for WebCommands")]
+
+    [CommandManager(typeof(WebDriverConfig), "WebCommand", Description = "Manager for WebCommands")]
     public partial class WebDriverManager
     {
         public WebDriverConfig Config { get; protected set; }
@@ -54,7 +55,21 @@
                     var workElement = parentStack.Pop();
                     if (workElement.IsFrame)
                     {
-                        SwitchToFrame(workElement.FrameValue, log);
+                        switch (workElement.FrameType)
+                        {
+                            case WebElement.FrameLocatorType.Id:
+                                SwitchToFrameByName(workElement.FrameValue, log);
+                                break;
+                            case WebElement.FrameLocatorType.Index:
+                                SwitchToFrameByIndex(int.Parse(workElement.FrameValue), log);
+                                break;
+                            case WebElement.FrameLocatorType.Locator:
+                                var tmp = _container.Value.Driver.FindElement(workElement.Locator.Get());
+                                SwitchToFrameByLocator(tmp, log);
+                                break;
+                            default:
+                                break;
+                        }
                         isDefaultContent = false;
                     }
                 }
@@ -178,6 +193,22 @@
             }
         }
 
+        [Command("Switch to frame by locator")]
+        public void SwitchToFrameByLocator(IWebElement elem, ILogger log)
+        {
+            try
+            {
+                log?.DEBUG($"Switch to frame by locator: {elem}");
+                _container.Value.Driver.SwitchTo().Frame(elem);
+                log?.DEBUG($"Switching to frame completed");
+            }
+            catch (Exception ex)
+            {
+                log?.ERROR($"Error occurred during switching to frame by locator: {elem}");
+                throw new CommandAbortException($"Error occurred during switching to frame by locator: {elem}", ex);
+            }
+        }
+
         [Command("Switch to frame by index")]
         public void SwitchToFrameByIndex(int index, ILogger log)
         {
@@ -194,19 +225,19 @@
             }
         }
 
-        [Command("Switch to frame")]
-        public void SwitchToFrame(string frame, ILogger log)
+        [Command("Switch to frame by name")]
+        public void SwitchToFrameByName(string frame, ILogger log)
         {
             try
             {
-                log?.DEBUG($"Switch to frame with name/ID: {frame}");
+                log?.DEBUG($"Switch to frame by name: {frame}");
                 _container.Value.Driver.SwitchTo().Frame(frame);
                 log?.DEBUG($"Switching to frame completed");
             }
             catch (Exception ex)
             {
-                log?.ERROR($"Error occurred during switching to frame: {frame}");
-                throw new CommandAbortException($"Error occurred during switching to frame: {frame}", ex);
+                log?.ERROR($"Error occurred during switching to frame by name: {frame}");
+                throw new CommandAbortException($"Error occurred during switching to frame by name: {frame}", ex);
             }
         }
 
