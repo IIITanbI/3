@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TConsole", "TConsole\TConso
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QA.TestLibs.Framework", "QA.TestLibs.Framework\QA.TestLibs.Framework.csproj", "{5F6E4EE4-3166-4F25-AB38-68DA974F6D4F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QA.TestLibs.Wpf.XmlTypeControl", "QA.TestLibs.Wpf.XmlTypeControl\QA.TestLibs.Wpf.XmlTypeControl.csproj", "{620C1FD8-49E5-48B2-9586-C392EE9EC207}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWpfApp", "TestWpfApp\TestWpfApp.csproj", "{CA27015C-45F6-4E9A-B224-9472E41FD550}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{5F6E4EE4-3166-4F25-AB38-68DA974F6D4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F6E4EE4-3166-4F25-AB38-68DA974F6D4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F6E4EE4-3166-4F25-AB38-68DA974F6D4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{620C1FD8-49E5-48B2-9586-C392EE9EC207}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{620C1FD8-49E5-48B2-9586-C392EE9EC207}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{620C1FD8-49E5-48B2-9586-C392EE9EC207}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{620C1FD8-49E5-48B2-9586-C392EE9EC207}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA27015C-45F6-4E9A-B224-9472E41FD550}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA27015C-45F6-4E9A-B224-9472E41FD550}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA27015C-45F6-4E9A-B224-9472E41FD550}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA27015C-45F6-4E9A-B224-9472E41FD550}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

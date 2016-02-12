@@ -80,6 +80,11 @@
             throw new NotImplementedException();
         }
 
+        public static List<XmlType> GetXmlTypes()
+        {
+            return _xmlType_assignableXmlTypes.Keys.ToList();
+        }
+
         public static void LoadType(Type type)
         {
             if (typeof(XmlBaseType).IsAssignableFrom(type))

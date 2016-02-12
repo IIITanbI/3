@@ -50,7 +50,7 @@
 
         public override string ToString()
         {
-            return $"XmlType for type: {XType.Name}";
+            return $"XmlType for type: {XType.Name}\nDescription: {Description}";
         }
     }
 }

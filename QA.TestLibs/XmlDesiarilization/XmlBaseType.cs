@@ -13,5 +13,10 @@
         [XmlProperty("Unique name for object", IsRequired = false)]
         [XmlLocation(XmlLocationType.Attribute | XmlLocationType.Element, "unique")]
         public string UniqueName { get; set; } = null;
+
+        public virtual void Init()
+        {
+
+        }
     }
 }

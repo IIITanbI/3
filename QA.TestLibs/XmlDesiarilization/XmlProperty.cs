@@ -69,7 +69,7 @@
 
         public override string ToString()
         {
-            return $"{ParentType.XType.FullName} .{Info.Name}";
+            return $"Name: {Info.Name} Description: {Description}";
         }
 
         public object GetValue(object obj)
