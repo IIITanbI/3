@@ -76,6 +76,7 @@
     <Compile Include="XmlDesiarilization\XmlParser.cs" />
     <Compile Include="XmlDesiarilization\XmlProperty.cs" />
     <Compile Include="XmlDesiarilization\XmlPropertyAttribute.cs" />
+    <Compile Include="XmlDesiarilization\XmlSerializer.cs" />
     <Compile Include="XmlDesiarilization\XmlType.cs" />
     <Compile Include="XmlDesiarilization\XmlTypeAttribute.cs" />
   </ItemGroup>
