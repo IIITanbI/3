@@ -51,29 +51,10 @@
                 }
                 else
                 {
-                    bool tempIsRequired = false;
-                    int constCount = xmlProperty.Constraints.Value.Count;
-
-                    if (constCount != 0)
-                    {
-                        tempIsRequired = (bool) xmlProperty.Constraints.Value[0].Property.GetValue(tmpObj);
-                    }
-
                     if (xmlProperty.IsRequired && (propVal != xmlProperty.GetValue(tmpObj)))
                     {
-                        if (constCount != 0)
-                        {
-                            if (tempIsRequired)
-                            {
-                                var tmp = propVal ?? "null";
-                                xElement.Add(new XElement(xmlProperty.Info.Name, System.Security.SecurityElement.Escape(tmp.ToString())));
-                            }
-                        }
-                        else
-                        {
-                            var tmp = propVal ?? "null";
-                            xElement.Add(new XElement(xmlProperty.Info.Name, System.Security.SecurityElement.Escape(tmp.ToString())));
-                        }
+                        var tmp = propVal ?? "null";
+                        xElement.Add(new XElement(xmlProperty.Info.Name, new XCData(tmp.ToString())));
                     }
                 }
             }
