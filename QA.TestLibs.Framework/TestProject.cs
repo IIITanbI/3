@@ -26,7 +26,6 @@
 
         public override void SetParent(TestSuite parent)
         {
-            
         }
     }
 }

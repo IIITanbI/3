@@ -56,6 +56,11 @@
     <Compile Include="IContext.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestMetadata\AttachedData.cs" />
+    <Compile Include="TestMetadata\LogMessage.cs" />
+    <Compile Include="TestMetadata\Step.cs" />
+    <Compile Include="TestMetadata\TestItem.cs" />
+    <Compile Include="TestMetadata\TestTry.cs" />
     <Compile Include="XmlDesiarilization\CustomParsers\ArrayTypeParser.cs" />
     <Compile Include="XmlDesiarilization\CustomParsers\DefaultQaTypeParser.cs" />
     <Compile Include="XmlDesiarilization\CustomParsers\EnumTypeParser.cs" />
