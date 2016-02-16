@@ -9,6 +9,7 @@
     using System.Xml.Linq;
     using Exceptions;
     using CustomParsers;
+
     public class XmlType
     {
         public Type XType { get; private set; }
