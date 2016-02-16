@@ -9,25 +9,31 @@
 
     public class TestItem
     {
+        [XmlProperty("List of test item childes")]
+        public string Name { get; set; }
+
+        [XmlProperty("List of test description")]
+        public string Description { get; set; };
+
         [XmlProperty("List of test item childes", IsRequired = false)]
-        public List<TestItem> TestItemChilds { get; set; } = new List<TestItem>();
+        public List<TestItem> Childs { get; set; } = new List<TestItem>();
 
         [XmlProperty("Test item type")]
-        public string TestItemType { get; set; }
+        public string Type { get; set; }
 
         [XmlProperty("Test item steps", IsRequired = false)]
-        public List<Step> TestItemSteps { get; set; } = new List<Step>();
+        public List<Step> Steps { get; set; } = new List<Step>();
 
         [XmlProperty("Test item log")]
-        public List<LogMessage> TestItemLogMessages { get; set; }
+        public List<LogMessage> LogMessages { get; set; }
 
         [XmlProperty("Test item tries", IsRequired = false)]
-        public List<TestTry> TestItemTries { get; set; } = new List<TestTry>();
+        public List<TestTry> Tries { get; set; } = new List<TestTry>();
 
         [XmlProperty("Test item status")]
-        public string TestItemStatus { get; set; }
+        public string Status { get; set; }
 
         [XmlProperty("Test item duration")]
-        public TimeSpan TestItemDuration { get; set; }
+        public TimeSpan Duration { get; set; }
     }
 }

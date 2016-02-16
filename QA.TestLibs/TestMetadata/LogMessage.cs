@@ -10,15 +10,15 @@
     public class LogMessage
     {
         [XmlProperty("Log level")]
-        public string LogLevel { get; set; }
+        public string Level { get; set; }
 
         [XmlProperty("Log message")]
-        public string LogMsg { get; set; }
+        public string Message { get; set; }
 
         [XmlProperty("Log exception")]
-        public Exception LogException { get; set; }
+        public Exception Exception { get; set; }
 
         [XmlProperty("Log exception")]
-        public DateTime LogDataStemp { get; set; }
+        public DateTime DataStemp { get; set; }
     }
 }

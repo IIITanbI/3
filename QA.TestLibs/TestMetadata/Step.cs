@@ -10,12 +10,12 @@
     public class Step
     {
         [XmlProperty("Step log")]
-        public List<LogMessage> StepLogMessages { get; set; }
+        public List<LogMessage> Messages { get; set; }
 
         [XmlProperty("Step status")]
-        public string StepStatus { get; set; }
+        public string Status { get; set; }
 
         [XmlProperty("Step duration")]
-        public TimeSpan StepDuration { get; set; }
+        public TimeSpan Duration { get; set; }
     }
 }

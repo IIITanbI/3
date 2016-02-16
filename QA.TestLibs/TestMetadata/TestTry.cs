@@ -10,6 +10,6 @@
     public class TestTry
     {
         [XmlProperty("Test item log")]
-        public List<LogMessage> TryLogMessages { get; set; }
+        public List<LogMessage> LogMessages { get; set; }
     }
 }
