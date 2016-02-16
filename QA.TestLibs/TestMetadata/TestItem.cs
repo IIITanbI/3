@@ -17,13 +17,13 @@
         public string Description { get; set; }
 
         [XmlProperty("Test item type")]
-        public string Type { get; set; }
+        public ItemType Type { get; set; }
 
         [XmlProperty("Test item log")]
         public List<LogMessage> LogMessages { get; set; }
 
         [XmlProperty("Test item status")]
-        public string Status { get; set; }
+        public Status Status { get; set; }
 
         [XmlProperty("Test item duration")]
         public TimeSpan Duration { get; set; }
@@ -36,5 +36,15 @@
 
         [XmlProperty("Test item tries", IsRequired = false)]
         public List<TestTry> Tries { get; set; } = new List<TestTry>();
+    }
+
+    public enum Status
+    {
+        NotExecuted, Unknown, Passed, Failed, Skipped
+    }
+
+    public enum ItemType
+    {
+        Project, Suite, Test
     }
 }

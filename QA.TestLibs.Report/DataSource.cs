@@ -14,33 +14,39 @@
         {
             var item = new TestItem()
             {
-                Type = "Project",
+                Type = ItemType.Project,
                 Name = "Mock project",
                 Description = "Temp mock project for reports",
                 LogMessages = new List<LogMessage>() { },
-                Status = "Fail",
+                Status = Status.Failed,
                 Duration = new TimeSpan(00, 00, 60),
 
                 Childs = new List<TestItem>()
                 {
                     new TestItem()
                     {
-                        Type = "Suite",
+                        Type = ItemType.Suite,
                         Name = "Mock suite 1",
                         Description = "Temp mock suite 1 for project",
                         LogMessages = new List<LogMessage>() { },
-                        Status = "Pass",
+                        Status = Status.Passed,
                         Duration = new TimeSpan(00, 00, 30),
 
                         Childs = new List<TestItem>()
                         {
                             new TestItem()
                             {
-                                Type = "Test",
+                                Type = ItemType.Test,
                                 Name = "Mock test 1",
                                 Description = "Temp mock test 1 for suite 1",
-                                LogMessages = new List<LogMessage>() { },
-                                Status = "Pass",
+                                LogMessages = new List<LogMessage>() { new LogMessage
+                                {
+                                    DataStemp = DateTime.Now,
+                                    Level = "1",
+                                    Message = "No message",
+                                    Exception = new Exception("Error!")
+                                } },
+                                Status = Status.Passed,
                                 Duration = new TimeSpan(00, 00, 30),
                                 Steps = new List<Step>()
                                 {
@@ -64,11 +70,11 @@
                             },
                             new TestItem()
                             {
-                                Type = "Test",
+                                Type = ItemType.Test,
                                 Name = "Mock test 2",
                                 Description = "Temp mock test 2 for suite 1",
                                 LogMessages = new List<LogMessage>() { },
-                                Status = "Pass",
+                                Status = Status.Passed,
                                 Duration = new TimeSpan(00, 00, 30),
                                 Steps = new List<Step>()
                                 {
@@ -94,22 +100,22 @@
                     },
                     new TestItem()
                     {
-                        Type = "Suite",
+                        Type = ItemType.Suite,
                         Name = "Mock suite 2",
                         Description = "Temp mock suite 2 for project",
                         LogMessages = new List<LogMessage>() { },
-                        Status = "Fail",
+                        Status = Status.Failed,
                         Duration = new TimeSpan(00, 00, 30),
 
                         Childs = new List<TestItem>()
                         {
                             new TestItem()
                             {
-                                Type = "Test",
+                                Type = ItemType.Test,
                                 Name = "Mock test 1",
                                 Description = "Temp mock test 1 for suite 2",
                                 LogMessages = new List<LogMessage>() { },
-                                Status = "Pass",
+                                Status = Status.Passed,
                                 Duration = new TimeSpan(00, 00, 30),
                                 Steps = new List<Step>()
                                 {
@@ -133,11 +139,11 @@
                             },
                             new TestItem()
                             {
-                                Type = "Test",
+                                Type = ItemType.Test,
                                 Name = "Mock test 2",
                                 Description = "Temp mock test 2 for suite 2",
                                 LogMessages = new List<LogMessage>() { },
-                                Status = "Fail",
+                                Status = Status.Failed,
                                 Duration = new TimeSpan(00, 00, 30),
                                 Steps = new List<Step>()
                                 {
@@ -164,6 +170,6 @@
                 }
             };
             return item;
-        }
+        } 
     }
 }
