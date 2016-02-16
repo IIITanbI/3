@@ -13,7 +13,6 @@
         void WARN(string message, Exception exception = null);
         void INFO(string message, Exception exception = null);
         void ERROR(string message, Exception exception = null);
-        void FATAL(string message, Exception exception = null);
         void LOG(string level, string message, Exception exception = null);
     }
 }

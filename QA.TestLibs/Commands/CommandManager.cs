@@ -9,7 +9,7 @@
 
     public class CommandManager
     {
-        public List<Command> Commands { get; private set; }
+        public List<Command> Commands { get; private set; } = new List<Command>();
         public List<string> PossibleNames { get; private set; }
         public string Description { get; private set; }
         public Type CommandManagerType { get; private set; }

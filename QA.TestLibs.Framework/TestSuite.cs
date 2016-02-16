@@ -30,7 +30,7 @@
 
         public TestSuite()
         {
-
+            TestItemType = ItemType.Suite;
         }
 
         public override List<TestItem> Build()
@@ -53,6 +53,22 @@
             }
 
             return builtSuites;
+        }
+
+        public override void SetParent(TestSuite parent)
+        {
+            base.SetParent(parent);
+
+            foreach (var testItem in TestItems)
+            {
+                testItem.SetParent(this);
+            }
+        }
+
+        public override void Init()
+        {
+            base.Init();
+            TestItems.ForEach(t => t.Init());
         }
 
         public override void Execute()

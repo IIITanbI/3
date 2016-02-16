@@ -16,6 +16,7 @@
         private static Dictionary<Type, XmlType> _type_xmlType = new Dictionary<Type, XmlType>();
         private static Dictionary<XmlType, List<XmlType>> _xmlType_assignableXmlTypes = new Dictionary<XmlType, List<XmlType>>();
         private static List<string> _loadedAssemblies = new List<string>();
+        public static List<CommandManager> _managers = new List<CommandManager>();
 
         public static List<XmlType> GetAssignableTypes(Type type)
         {
@@ -35,7 +36,6 @@
             return null;
         }
 
-        public static List<CommandManager> _managers { get; set; } = new List<CommandManager>();
 
         public static void LoadAssemblies(string pathToLibFolder = null)
         {
@@ -77,7 +77,10 @@
 
         public static XmlType GetXmlTypeByName(string typeName)
         {
-            throw new NotImplementedException();
+            var type = _type_xmlType.Keys.FirstOrDefault(k => k.Name == typeName);
+            if (type == null)
+                throw new TestLibsException($"Couldn't find XmlType with name: {typeName}");
+            return _type_xmlType[type];
         }
 
         public static List<XmlType> GetXmlTypes()
@@ -122,7 +125,10 @@
 
         public static CommandManager GetCommandManagerByTypeName(string managerType)
         {
-            throw new NotImplementedException();
+            var manager = _managers.FirstOrDefault(m => m.CommandManagerType.Name == managerType);
+            if (manager == null)
+                throw new TestLibsException($"Couldn't find CommandManager with type name: {managerType}");
+            return manager;
         }
     }
 }

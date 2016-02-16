@@ -9,6 +9,7 @@
     using XmlDesiarilization;
 
     [XmlType("TestContext item config")]
+    [XmlLocation("contextItem")]
     public class TestContextItem : Source
     {
         [XmlProperty("TypeName for test item")]
@@ -24,7 +25,7 @@
             switch (ItemSourceType)
             {
                 case SourceType.Xml:
-
+                    
                     return new List<TestContextItem> { this };
 
                 case SourceType.External:

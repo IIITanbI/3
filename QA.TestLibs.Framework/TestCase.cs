@@ -11,5 +11,9 @@
     [XmlLocation("test")]
     public class TestCase : TestItem
     {
+        public TestCase()
+        {
+            TestItemType = ItemType.Test;
+        }
     }
 }

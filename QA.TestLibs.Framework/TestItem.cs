@@ -8,6 +8,7 @@
     using System.Threading.Tasks;
     using System.Xml.Linq;
     using XmlDesiarilization;
+    using TestLogger;
 
     [XmlType("TestItem config")]
     public abstract class TestItem : Source
@@ -23,13 +24,17 @@
 
         [XmlProperty("TestingContext config", IsRequired = false)]
         [XmlConstraint("ItemSourceType", SourceType.Xml)]
-        public TestContext Context { get; set; }
+        public TestContext Context { get; set; } = new TestContext();
 
         [XmlProperty("List of TestSteps", IsRequired = false)]
         [XmlLocation("testSteps", "testingSteps")]
         [XmlChildLocation("step", "testingStep", "testStep")]
         [XmlConstraint("ItemSourceType", SourceType.Xml)]
         public LinkedList<TestStep> Steps { get; set; } = new LinkedList<TestStep>();
+
+        [XmlProperty("Number of tries for executing testItem", IsRequired = false)]
+        [XmlLocation(XmlLocationType.Attribute | XmlLocationType.Element, "retries")]
+        public int TryCount { get; set; } = 1;
 
         public TestItem ParentItem { get; protected set; }
         public TestLogger Log { get; set; }
@@ -42,6 +47,8 @@
             {
                 case SourceType.Xml:
 
+                    Context.Build();
+                    Log = new TestLogger(Name, TestItemType.ToString());
                     return new List<TestItem> { this };
 
                 case SourceType.External:
@@ -67,9 +74,11 @@
 
         }
 
-        public void SetParent(TestSuite parent)
+        public virtual void SetParent(TestSuite parent)
         {
             ParentItem = parent;
+            Context.ParentContext = parent.Context;
+            Log.SetParent(parent.Log);
             MergeSteps(parent.Steps);
         }
 
@@ -108,6 +117,16 @@
                         throw new TestLibsException($"Unknown TestStepOrder: {step.StepOrder}");
                 }
             }
+        }
+
+        public override void Init()
+        {
+            Context.Initialize();
+        }
+
+        public virtual void ExecuteStep(TestStep testStep)
+        {
+
         }
 
         public enum Status

@@ -37,9 +37,10 @@
             if (context != null)
             {
                 createdObject = new XmlBaseType();
-
+                
                 var xmlNode = _uniqProperty.Value.Location.Value.GetElement(configElement);
-                uniqueName = XmlParser.Parse(_uniqProperty.Value.PropertyType, xmlNode) as string;
+                if(xmlNode != null)
+                    uniqueName = XmlParser.Parse(_uniqProperty.Value.PropertyType, xmlNode) as string;
 
                 if (uniqueName != null)
                 {

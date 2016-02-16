@@ -10,13 +10,14 @@
     using System.Collections.Generic;
 
     [CommandManager(typeof(WebDriverConfig), "WebDriver", Description = "Manager for WebDriver")]
-    public partial class WebDriverManager
+    public partial class WebDriverManager : CommandManagerBase
     {
         public WebDriverConfig Config { get; protected set; }
         private ThreadLocal<Stopwatch> _sw = new ThreadLocal<Stopwatch>(() => new Stopwatch());
         ThreadLocal<LocalContainer> _container;
 
         public WebDriverManager(WebDriverConfig config)
+            : base(config)
         {
             Config = config;
             _container = new ThreadLocal<LocalContainer>(() =>
@@ -65,7 +66,7 @@
 
                 if (element.Locator.IsRelative)
                 {
-                    for (var currentElement = element.ParentElement; currentElement != null && !(currentElement.Locator?.IsRelative??false); currentElement = currentElement.ParentElement)
+                    for (var currentElement = element.ParentElement; currentElement != null && !(currentElement.Locator?.IsRelative ?? false); currentElement = currentElement.ParentElement)
                     {
                         var frameElement = currentElement as FrameWebElement;
                         if (frameElement == null)
@@ -109,7 +110,7 @@
                     targetElement = _container.Value.Driver.FindElement(element.Locator.Get());
                     log?.TRACE($"Target element: {element.Name} has been found");
                 }
-                if(!isDefaultContent) SwitchToDefaultContent(log);
+                if (!isDefaultContent) SwitchToDefaultContent(log);
 
                 _sw.Value.Stop();
                 log?.INFO("Click completed");

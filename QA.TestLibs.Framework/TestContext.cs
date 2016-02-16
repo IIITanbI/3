@@ -71,7 +71,7 @@
 
                 var configXml = XElement.Parse(ResolveBind(contextItem.ItemConfig.ToString()));
 
-                var obj = XmlParser.Parse(type.XType, configXml, true, null, this);
+                var obj = XmlParser.Parse(type.XType, configXml, false, null, this);
                 _initMethod.Value.Invoke(obj, null);
 
                 if (!ContextValues.ContainsKey(typeName))
@@ -90,7 +90,7 @@
             foreach (var managerItem in CommandManagersItems)
             {
                 var manager = ReflectionManager.GetCommandManagerByTypeName(managerItem.ManagerType);
-                var managerConfig = XmlParser.Parse(manager.ConfigType, managerItem.Config, true, null, this);
+                var managerConfig = XmlParser.Parse(manager.ConfigType, managerItem.Config.Elements().First(), true, null, this);
                 _initMethod.Value.Invoke(managerConfig, null);
 
                 var managerObj = manager.CreateObject(managerConfig);
@@ -118,7 +118,11 @@
 
         public bool Contains(Type type, string name)
         {
-            throw new NotImplementedException();
+            if (!ContextValues.ContainsKey(type.Name))
+                return false;
+            if (!ContextValues[type.Name].ContainsKey(name))
+                return false;
+            return true;
         }
 
         public string ResolveBind(string stringWithBind)
@@ -142,7 +146,7 @@
 
         public object ResolveValue(Type type, string name)
         {
-            throw new NotImplementedException();
+            return ContextValues[type.Name][name];
         }
     }
 }
