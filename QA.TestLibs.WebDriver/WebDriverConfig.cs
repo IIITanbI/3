@@ -3,7 +3,7 @@
     using System;
     using QA.TestLibs.XmlDesiarilization;
     using OpenQA.Selenium;
-    
+
     [XmlType("WebDriver configuration")]
     public abstract class WebDriverConfig : XmlBaseType
     {

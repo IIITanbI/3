@@ -15,6 +15,12 @@
         [XmlProperty("Step status")]
         public string Status { get; set; }
 
+        [XmlProperty("Step name")]
+        public string Name { get; set; }
+
+        [XmlProperty("Step description")]
+        public string Description { get; set; }
+
         [XmlProperty("Step duration")]
         public TimeSpan Duration { get; set; }
     }
