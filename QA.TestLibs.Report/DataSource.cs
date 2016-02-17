@@ -39,13 +39,15 @@
                                 Type = ItemType.Test,
                                 Name = "Mock test 1",
                                 Description = "Temp mock test 1 for suite 1",
-                                LogMessages = new List<LogMessage>() { new LogMessage
-                                {
-                                    DataStemp = DateTime.Now,
-                                    Level = "1",
-                                    Message = "No message",
-                                    Exception = new Exception("Error!")
-                                } },
+                                LogMessages = new List<LogMessage>() {
+                                    new LogMessage
+                                    {
+                                        DataStemp = DateTime.Now,
+                                        Level = "1",
+                                        Message = "No message",
+                                        Exception = new Exception("Error!")
+                                    }
+                                },
                                 Status = Status.Passed,
                                 Duration = new TimeSpan(00, 00, 30),
                                 Steps = new List<Step>()
@@ -55,7 +57,12 @@
                                         Name = "Mock step 1",
                                         Description = "Temp mock step 1 for test 1",
                                         Duration = new TimeSpan(00, 00, 30),
-                                        Messages = new List<LogMessage>() { },
+                                        Messages = new List<LogMessage>() {
+                                            new LogMessage()
+                                            {
+                                                Message = "message1"
+                                            }
+                                        },
                                         Status = "Pass"
                                     },
                                     new Step()
