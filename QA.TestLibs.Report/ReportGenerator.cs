@@ -129,14 +129,15 @@
 
             var panelHeadLink = new XElement("h4",
                 new XAttribute("class", "panel-title"),
-                new XElement("a",
+                new XElement("div",
                     new XAttribute("class", "collapsed"),
                     new XAttribute("role", "button"),
                     new XAttribute("data-toggle", "collapse"),
                     new XAttribute("href", "#collapseListGroup1"),
                     new XAttribute("aria-expanded", "false"),
                     new XAttribute("aria-controls", "collapseListGroup1"),
-                    $"Name: {testItem.Name}, Description: {testItem.Description}"
+                    new XElement("div", $"Name: {testItem.Name}"),
+                    new XElement("div", $"Description: {testItem.Description}")
             ));
 
             panelHead.Add(panelHeadLink);
@@ -155,12 +156,14 @@
                 var ul = new XElement("ul",
                     new XAttribute("class", "list-group")
                 );
+                ul.Attribute("class").Value += " myclass";
 
                 foreach (var item in testItem.Childs)
                 {
                     ul.Add(new XElement("li",
                         new XAttribute("class", "list-group-item"),
-                        $"Name: {item.Name}, Description: {item.Description}"
+                        new XElement("div", $"Name: {item.Name}"),
+                        new XElement("div", $"Description: {item.Description}")
                     ));
                 }
 
