@@ -14,14 +14,13 @@ namespace QA.TestLibs.Report
     {
         public XElement CreateReport(TestItem testItem)
         {
-            var report = new XElement("html");
-
-            var head = CreateReportHead("3.3.6");
-            var body = new XElement("body");
-
-            report.Add(head);
-            report.Add(body);
-            return report;
+            var head = ReportGenerator.CreateReportHead("3.3.6");
+            //var body = ReportGenerator.GenerateHtmlTestCaseTwo(DataSource.GetSample().Childs[0].Childs[0]);
+            var body = ReportGenerator.Go(DataSource.GetSample());
+            XElement main = new XElement("div");
+            main.Add(head);
+            main.Add(body);
+            return main;
         }
 
         public static XElement CreateReportHead(string bootstrapVersion)
@@ -147,8 +146,21 @@ namespace QA.TestLibs.Report
             CreateAccordion(panelBody, "parent-accordion"+id, link, parentAccordionBody, "parent-accordion-body"+id);
 
             if (project.Childs.Count > 0)
-                project.Childs.ForEach((x) => parentAccordionBody.Add(Go(x)));
-            else 
+            {
+                
+                id++;
+                var stepsPanelBody = CreateElement("div", "class", "panel-body");
+
+                XElement steps = new XElement("div", "Childs");
+                XElement stepsLink = new XElement("a");
+                stepsLink.Add(steps);
+                var stepsParentAccordionBody = new XElement("div");
+                CreateAccordion(stepsPanelBody, "parent-accordion" + id, stepsLink, stepsParentAccordionBody, "parent-accordion-body" + id);
+                parentAccordionBody.Add(stepsPanelBody);
+
+                project.Childs.ForEach((x) => stepsParentAccordionBody.Add(Go(x)));
+            }
+            else
                 project.Steps.ForEach((x) => parentAccordionBody.Add(Go(x)));
             
             main.Add(panelBody);
