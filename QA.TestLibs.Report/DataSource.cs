@@ -29,7 +29,7 @@
                         Name = "Mock suite 1",
                         Description = "Temp mock suite 1 for project",
                         LogMessages = new List<LogMessage>() { },
-                        Status = "Pass",
+                        Status = "Passed",
                         Duration = new TimeSpan(00, 00, 30),
 
                         Childs = new List<TestItem>()
@@ -40,7 +40,7 @@
                                 Name = "Mock test 1",
                                 Description = "Temp mock test 1 for suite 1",
                                 LogMessages = new List<LogMessage>() { },
-                                Status = "Pass",
+                                Status = "Passed",
                                 Duration = new TimeSpan(00, 00, 30),
                                 Steps = new List<Step>()
                                 {
@@ -50,7 +50,7 @@
                                         Description = "Temp mock step 1 for test 1",
                                         Duration = new TimeSpan(00, 00, 30),
                                         Messages = new List<LogMessage>() { },
-                                        Status = "Pass"
+                                        Status = "Passed"
                                     },
                                     new Step()
                                     {
@@ -58,7 +58,7 @@
                                         Description = "Temp mock step 2 for test 1",
                                         Duration = new TimeSpan(00, 00, 30),
                                         Messages = new List<LogMessage>() { },
-                                        Status = "Pass"
+                                        Status = "Passed"
                                     }
                                 }
                             },
@@ -68,7 +68,7 @@
                                 Name = "Mock test 2",
                                 Description = "Temp mock test 2 for suite 1",
                                 LogMessages = new List<LogMessage>() { },
-                                Status = "Pass",
+                                Status = "Passed",
                                 Duration = new TimeSpan(00, 00, 30),
                                 Steps = new List<Step>()
                                 {
@@ -78,7 +78,7 @@
                                         Description = "Temp mock step 1 for test 2",
                                         Duration = new TimeSpan(00, 00, 30),
                                         Messages = new List<LogMessage>() { },
-                                        Status = "Pass"
+                                        Status = "Passed"
                                     },
                                     new Step()
                                     {
@@ -86,7 +86,7 @@
                                         Description = "Temp mock step 2 for test 2",
                                         Duration = new TimeSpan(00, 00, 30),
                                         Messages = new List<LogMessage>() { },
-                                        Status = "Pass"
+                                        Status = "Passed"
                                     }
                                 }
                             },
@@ -109,7 +109,7 @@
                                 Name = "Mock test 1",
                                 Description = "Temp mock test 1 for suite 2",
                                 LogMessages = new List<LogMessage>() { },
-                                Status = "Pass",
+                                Status = "Passed",
                                 Duration = new TimeSpan(00, 00, 30),
                                 Steps = new List<Step>()
                                 {
@@ -119,7 +119,7 @@
                                         Description = "Temp mock step 1 for test 1",
                                         Duration = new TimeSpan(00, 00, 30),
                                         Messages = new List<LogMessage>() { },
-                                        Status = "Pass"
+                                        Status = "Passed"
                                     },
                                     new Step()
                                     {
@@ -127,7 +127,7 @@
                                         Description = "Temp mock step 2 for test 1",
                                         Duration = new TimeSpan(00, 00, 30),
                                         Messages = new List<LogMessage>() { },
-                                        Status = "Fail"
+                                        Status = "Failed"
                                     }
                                 }
                             },
@@ -147,7 +147,7 @@
                                         Description = "Temp mock step 1 for test 1",
                                         Duration = new TimeSpan(00, 00, 30),
                                         Messages = new List<LogMessage>() { },
-                                        Status = "Fail"
+                                        Status = "Failed"
                                     },
                                     new Step()
                                     {
@@ -155,7 +155,7 @@
                                         Description = "Temp mock step 2 for test 1",
                                         Duration = new TimeSpan(00, 00, 30),
                                         Messages = new List<LogMessage>() { },
-                                        Status = "Pass"
+                                        Status = "Passed"
                                     }
                                 }
                             },
