@@ -38,7 +38,7 @@
             return _info;
         }
 
-        public void Init()
+        public override void Init()
         {
             foreach (var child in ChildWebElements)
             {

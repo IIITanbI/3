@@ -62,6 +62,8 @@
     <Compile Include="TestMetadata\LogMessage.cs" />
     <Compile Include="TestMetadata\Step.cs" />
     <Compile Include="TestMetadata\TestItem.cs" />
+    <Compile Include="Utils\Snapshoot.cs" />
+    <Compile Include="Utils\Snapshooter.cs" />
     <Compile Include="XmlDesiarilization\CustomParsers\ArrayTypeParser.cs" />
     <Compile Include="XmlDesiarilization\CustomParsers\DefaultQaTypeParser.cs" />
     <Compile Include="XmlDesiarilization\CustomParsers\EnumTypeParser.cs" />
