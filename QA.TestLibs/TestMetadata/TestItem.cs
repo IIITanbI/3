@@ -8,7 +8,8 @@
     using System.Xml.Linq;
     using XmlDesiarilization;
 
-    public class TestItem
+    [XmlType("TestItem config")]
+    public class TestItem : XmlBaseType
     {
         [XmlProperty("Test item name")]
         public string Name { get; set; }
@@ -17,10 +18,10 @@
         public string Description { get; set; }
 
         [XmlProperty("Test item type")]
-        public string Type { get; set; }
+        public TestItemType Type { get; set; }
 
         [XmlProperty("Test item log")]
-        public List<LogMessage> LogMessages { get; set; }
+        public List<LogMessage> LogMessages { get; set; } = new List<LogMessage>();
 
         [XmlProperty("Test item status")]
         public TestItemStatus Status { get; set; }

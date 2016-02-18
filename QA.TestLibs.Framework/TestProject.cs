@@ -13,7 +13,7 @@
     {
         public TestProject()
         {
-            TestItemType = ItemType.Project;
+            ItemType = TestItemType.Project;
         }
 
         public override List<TestItem> Build()

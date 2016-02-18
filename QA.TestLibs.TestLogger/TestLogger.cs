@@ -76,7 +76,7 @@
 
         protected void LOG(LogLevel level, string message, Exception exception = null)
         {
-            Messages.Add(new LogMessage { Level = level, Message = message, Ex = exception });
+            Messages.Add(new LogMessage { Time = DateTime.UtcNow, Level = level, Message = message, Ex = exception });
             foreach (var log in _parentLoggers)
             {
                 if (log.Value >= level)

@@ -7,10 +7,11 @@
     using System.Threading.Tasks;
     using XmlDesiarilization;
 
-    public class Step
+    [XmlType("Step config")]
+    public class Step : XmlBaseType
     {
         [XmlProperty("Step log")]
-        public List<LogMessage> Messages { get; set; }
+        public List<LogMessage> Messages { get; set; } = new List<LogMessage>();
 
         [XmlProperty("Step status")]
         public TestItemStatus Status { get; set; }

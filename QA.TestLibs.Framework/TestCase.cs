@@ -13,7 +13,7 @@
     {
         public TestCase()
         {
-            TestItemType = ItemType.Test;
+            ItemType = TestItemType.Test;
         }
     }
 }

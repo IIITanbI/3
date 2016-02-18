@@ -7,7 +7,8 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    public class LogMessage
+    [XmlType("LogMessage config")]
+    public class LogMessage : XmlBaseType
     {
         [XmlProperty("Log level")]
         public LogLevel Level { get; set; }

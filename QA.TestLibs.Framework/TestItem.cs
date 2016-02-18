@@ -38,8 +38,8 @@
 
         public TestItem ParentItem { get; protected set; }
         public TestLogger Log { get; set; }
-        public ItemStatus Status { get; set; } = ItemStatus.NotExecuted;
-        public ItemType TestItemType { get; set; } = ItemType.Test;
+        public TestItemStatus Status { get; set; } = TestItemStatus.NotExecuted;
+        public TestItemType ItemType { get; set; } = TestItemType.Test;
 
         protected int _tryNumber = 1;
 
@@ -52,7 +52,7 @@
             {
                 case SourceType.Xml:
 
-                    Log = new TestLogger(Name, TestItemType.ToString());
+                    Log = new TestLogger(Name, ItemType.ToString());
                     foreach (var step in Steps)
                     {
                         step.Build();
@@ -80,12 +80,12 @@
 
         public void Execute()
         {
-            Status = ItemStatus.Unknown;
+            Status = TestItemStatus.Unknown;
             StepsMeta.Clear();
             var realLog = Log;
-            Log = new TestLogger(Name, TestItemType.ToString());
+            Log = new TestLogger(Name, ItemType.ToString());
 
-            Log.INFO($"Start executing {TestItemType}: {Name}");
+            Log.INFO($"Start executing {ItemType}: {Name}");
             Log.INFO($"Description: {Description}");
             Log.DEBUG("Start of initialization");
             try
@@ -132,7 +132,7 @@
                 {
                     ExecuteStagePost();
 
-                    if (Status != ItemStatus.Failed)
+                    if (Status != TestItemStatus.Failed)
                     {
                         Log.SpamToLog(realLog);
                         Log = realLog;
@@ -142,7 +142,7 @@
                 {
                     if (RetryCount == 1)
                     {
-                        if (Status != ItemStatus.Failed)
+                        if (Status != TestItemStatus.Failed)
                         {
                             Log.ERROR("Error occurred during step execution", ex);
                             Log.SpamToLog(realLog);
@@ -157,7 +157,7 @@
                 }
                 finally
                 {
-                    if (Status == ItemStatus.Failed)
+                    if (Status == TestItemStatus.Failed)
                     {
                         if (_tryNumber < RetryCount)
                         {
@@ -182,7 +182,7 @@
             testItem.Description = Description;
             testItem.Context.ContextValues = Context.ContextValues;
             testItem.Context.CommandManagersItems = Context.CommandManagersItems;
-            testItem.TestItemType = TestItemType;
+            testItem.ItemType = ItemType;
             testItem.Log = Log;
             testItem.StepsMeta = StepsMeta;
 
@@ -251,7 +251,7 @@
 
             var stepMeta = new StepMeta();
             stepMeta.Step = testStep;
-            stepMeta.ItemStatus = ItemStatus.Unknown;
+            stepMeta.TestItemStatus = TestItemStatus.Unknown;
             stepMeta.Log = new TestLogger(testStep.Name, "Step");
             stepMeta.Log.AddParent(Log);
             StepsMeta.Add(stepMeta);
@@ -261,7 +261,7 @@
                 try
                 {
                     testStep.Execute(Context, stepMeta.Log);
-                    stepMeta.ItemStatus = ItemStatus.Passed;
+                    stepMeta.TestItemStatus = TestItemStatus.Passed;
                 }
                 catch (Exception ex)
                 {
@@ -273,11 +273,11 @@
                         if (testStep.IsSkippedOnFail)
                         {
                             stepMeta.Log.WARN($"Step completed with error but skipped", ex);
-                            stepMeta.ItemStatus = ItemStatus.Skipped;
+                            stepMeta.TestItemStatus = TestItemStatus.Skipped;
                         }
                         else
                         {
-                            stepMeta.ItemStatus = ItemStatus.Failed;
+                            stepMeta.TestItemStatus = TestItemStatus.Failed;
                             throw ex;
                         }
                     }
@@ -290,12 +290,12 @@
             }
         }
 
-        public virtual void MarkAsFailedOrSkipped(ItemStatus status = ItemStatus.Failed)
+        public virtual void MarkAsFailedOrSkipped(TestItemStatus status = TestItemStatus.Failed)
         {
-            if (Status == ItemStatus.NotExecuted)
+            if (Status == TestItemStatus.NotExecuted)
                 Status = status;
-            if (Status == ItemStatus.Unknown)
-                Status = ItemStatus.Failed;
+            if (Status == TestItemStatus.Unknown)
+                Status = TestItemStatus.Failed;
         }
 
 
@@ -347,30 +347,46 @@
             }
         }
 
-        public TestMetadata.TestItem GetReportItem()
+        public virtual TestMetadata.TestItem GetReportItem()
         {
             var reportItem = new TestMetadata.TestItem();
             reportItem.Name = Name;
             reportItem.Description = Description;
-            reportItem.Status = Status.ToString();
+            reportItem.Status = Status;
+            reportItem.Type = ItemType;
+
+            foreach (var logMessage in Log.Messages)
+            {
+                reportItem.LogMessages.Add(new TestMetadata.LogMessage { Level = logMessage.Level, DataStemp = logMessage.Time, Message = logMessage.Message, Exception = logMessage.Ex });
+            }
+
+            foreach (var stepMeta in StepsMeta)
+            {
+                var reportStep = new TestMetadata.Step();
+                reportStep.Name = stepMeta.Step.Name;
+                reportStep.Description = stepMeta.Step.Description;
+                reportStep.Status = stepMeta.TestItemStatus;
+
+                foreach (var stepMessage in stepMeta.Log.Messages)
+                {
+                    reportStep.Messages.Add(new TestMetadata.LogMessage { Level = stepMessage.Level, DataStemp = stepMessage.Time, Message = stepMessage.Message, Exception = stepMessage.Ex });
+                }
+
+                reportItem.Steps.Add(reportStep);
+            }
+
+            foreach (var failedTry in FailedTries)
+            {
+                reportItem.FailedTries.Add(failedTry.GetReportItem());
+            }
 
             return reportItem;
-        }
-
-        public enum ItemStatus
-        {
-            NotExecuted, Unknown, Passed, Failed, Skipped
-        }
-
-        public enum ItemType
-        {
-            Project, Suite, Test
         }
 
         protected class StepMeta
         {
             public TestStep Step { get; set; }
-            public ItemStatus ItemStatus { get; set; }
+            public TestItemStatus TestItemStatus { get; set; }
             public TestLogger Log { get; set; }
         }
     }
