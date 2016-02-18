@@ -10,7 +10,7 @@
 
     public class ReportGenerator : IReportGenerator
     {
-        private static int _id = 0;
+        private  int _id = 0;
 
         public XElement CreateReport(TestItem testItem, TestEnvironmentInfo testEnvironmentInfo)
         {
@@ -146,6 +146,39 @@
             return divPanelGroup;
         }
 
+        public XElement CreatePanelAccordionElement(XElement heading, XElement body)
+        {
+            var index = ++_id;
+
+            var divPanelGroup = new XElement("div", new XAttribute("class", "panel-group"));
+
+            heading.Add(
+                new XAttribute("data-toggle", "collapse"),
+                new XAttribute("href", $"#accordion-body-{index}")
+            );
+            divPanelGroup.Element("h4")?.Add(heading);
+
+            var accordionBody = new XElement("div",
+                new XAttribute("id", $"accordion-body-{index}"),
+                new XAttribute("class", "panel-collapse collapse")
+            );
+
+            var attribute = body.Attribute("class");
+
+            if (attribute == null)
+            {
+                body.Add(new XAttribute("class", "panel body"));
+            }
+            else {
+                attribute.Value += " panel-body";
+            }
+
+            accordionBody.Add(body);
+            divPanelGroup.Add(accordionBody);
+
+            return divPanelGroup;
+        }
+
         public XElement GetReport(TestItem item)
         {
             var head = new XElement("div",
@@ -162,7 +195,7 @@
                 var headingChilds = new XElement("div", "Childs");
                 var childs = new XElement("div", new XAttribute("id", "container-childs"));
 
-                var childsAccordion = CreatePanelAccordionElement(headingChilds, childs, "panel-success");
+                var childsAccordion = CreatePanelAccordionElement(headingChilds, childs);
                 container.Add(childsAccordion);
 
                 item.Childs.ForEach((x) => childs.Add(GetReport(x)));
@@ -176,7 +209,7 @@
                     new XAttribute("class", "list-group")
                 );
 
-                var stepsAccordion = CreatePanelAccordionElement(headingSteps, steps, "panel-warning");
+                var stepsAccordion = CreatePanelAccordionElement(headingSteps, steps);
                 container.Add(stepsAccordion);
 
                 foreach (var step in item.Steps)
