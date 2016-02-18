@@ -9,6 +9,7 @@
     
     public class LogMessage
     {
+
         public string Level { get; set; }
         public string Message { get; set; }
         public Exception Ex { get; set; }
