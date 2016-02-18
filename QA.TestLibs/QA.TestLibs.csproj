@@ -47,6 +47,7 @@
     <Compile Include="Commands\CommandManagerAttribute.cs" />
     <Compile Include="Commands\CommandManagerBase.cs" />
     <Compile Include="Commands\CommandParameterAttribute.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="Exceptions\TypeCastException.cs" />
     <Compile Include="Exceptions\MissedConfigElementException.cs" />
     <Compile Include="Exceptions\TestLibsException.cs" />
