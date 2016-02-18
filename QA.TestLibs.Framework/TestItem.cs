@@ -298,6 +298,8 @@
                 Status = ItemStatus.Failed;
         }
 
+
+
         public virtual void SetParent(TestSuite parent)
         {
             if (parent != null)
@@ -343,6 +345,16 @@
                         throw new TestLibsException($"Unknown TestStepOrder: {step.StepOrder}");
                 }
             }
+        }
+
+        public TestMetadata.TestItem GetReportItem()
+        {
+            var reportItem = new TestMetadata.TestItem();
+            reportItem.Name = Name;
+            reportItem.Description = Description;
+            reportItem.Status = Status.ToString();
+
+            return reportItem;
         }
 
         public enum ItemStatus

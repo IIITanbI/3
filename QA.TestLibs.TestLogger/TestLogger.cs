@@ -6,11 +6,11 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    
+
     public class TestLogger : ILogger
     {
         private Lazy<NLog.Logger> _log;
-        private Dictionary<TestLogger, TestLogLevel> _parentLoggers = new Dictionary<TestLogger, TestLogLevel>();
+        private Dictionary<TestLogger, LogLevel> _parentLoggers = new Dictionary<TestLogger, LogLevel>();
         public List<LogMessage> Messages { get; set; } = new List<LogMessage>();
 
         public string Name { get; private set; }
@@ -31,10 +31,10 @@
             //});
         }
 
-        public void AddParent(TestLogger log, TestLogLevel level = TestLogLevel.ERROR)
+        public void AddParent(TestLogger log, LogLevel level = LogLevel.ERROR)
         {
             _parentLoggers.Add(log, level);
-            
+
         }
 
         public string GetFullName()
@@ -47,55 +47,55 @@
         public void TRACE(string message, Exception exception = null)
         {
             _log?.Value.Trace(exception, message);
-            LOG(TestLogLevel.TRACE, message, exception);
+            LOG(LogLevel.TRACE, message, exception);
         }
 
         public void DEBUG(string message, Exception exception = null)
         {
             _log?.Value.Debug(exception, message);
-            LOG(TestLogLevel.DEBUG, message, exception);
+            LOG(LogLevel.DEBUG, message, exception);
         }
 
         public void WARN(string message, Exception exception = null)
         {
             _log?.Value.Warn(exception, message);
-            LOG(TestLogLevel.WARN, message, exception);
+            LOG(LogLevel.WARN, message, exception);
         }
 
         public void INFO(string message, Exception exception = null)
         {
             _log?.Value.Info(exception, message);
-            LOG(TestLogLevel.INFO, message, exception);
+            LOG(LogLevel.INFO, message, exception);
         }
 
         public void ERROR(string message, Exception exception = null)
         {
             _log?.Value.Error(exception, message);
-            LOG(TestLogLevel.ERROR, message, exception);
+            LOG(LogLevel.ERROR, message, exception);
         }
 
-        protected void LOG(TestLogLevel level, string message, Exception exception = null)
+        protected void LOG(LogLevel level, string message, Exception exception = null)
         {
-            Messages.Add(new LogMessage { Level = level.ToString(), Message = message, Ex = exception });
+            Messages.Add(new LogMessage { Level = level, Message = message, Ex = exception });
             foreach (var log in _parentLoggers)
             {
                 if (log.Value >= level)
                 {
                     switch (level)
                     {
-                        case TestLogLevel.TRACE:
+                        case LogLevel.TRACE:
                             log.Key.TRACE(message, exception);
                             break;
-                        case TestLogLevel.DEBUG:
+                        case LogLevel.DEBUG:
                             log.Key.DEBUG(message, exception);
                             break;
-                        case TestLogLevel.WARN:
+                        case LogLevel.WARN:
                             log.Key.WARN(message, exception);
                             break;
-                        case TestLogLevel.INFO:
+                        case LogLevel.INFO:
                             log.Key.INFO(message, exception);
                             break;
-                        case TestLogLevel.ERROR:
+                        case LogLevel.ERROR:
                             log.Key.ERROR(message, exception);
                             break;
                         default:
@@ -111,30 +111,25 @@
             {
                 switch (message.Level)
                 {
-                    case "TRACE":
+                    case LogLevel.TRACE:
                         log.TRACE(message.Message, message.Ex);
                         break;
-                    case "DEBUG":
+                    case LogLevel.DEBUG:
                         log.DEBUG(message.Message, message.Ex);
                         break;
-                    case "WARN":
+                    case LogLevel.WARN:
                         log.WARN(message.Message, message.Ex);
                         break;
-                    case "INFO":
+                    case LogLevel.INFO:
                         log.INFO(message.Message, message.Ex);
                         break;
-                    case "ERROR":
+                    case LogLevel.ERROR:
                         log.ERROR(message.Message, message.Ex);
                         break;
                     default:
                         break;
                 }
             }
-        }
-
-        public enum TestLogLevel
-        {
-            TRACE, DEBUG, WARN, INFO, ERROR
         }
     }
 }
