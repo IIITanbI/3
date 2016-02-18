@@ -10,7 +10,7 @@
     public class LogMessage
     {
         [XmlProperty("Log level")]
-        public string Level { get; set; }
+        public LogLevel Level { get; set; }
 
         [XmlProperty("Log message")]
         public string Message { get; set; }

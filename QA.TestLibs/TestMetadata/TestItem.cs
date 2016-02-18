@@ -23,7 +23,7 @@
         public List<LogMessage> LogMessages { get; set; }
 
         [XmlProperty("Test item status")]
-        public string Status { get; set; }
+        public TestItemStatus Status { get; set; }
 
         [XmlProperty("Test item duration")]
         public TimeSpan Duration { get; set; }

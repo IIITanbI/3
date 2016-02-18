@@ -13,7 +13,7 @@
         public List<LogMessage> Messages { get; set; }
 
         [XmlProperty("Step status")]
-        public string Status { get; set; }
+        public TestItemStatus Status { get; set; }
 
         [XmlProperty("Step name")]
         public string Name { get; set; }
