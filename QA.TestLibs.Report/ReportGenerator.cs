@@ -10,43 +10,41 @@
 
     public class ReportGenerator : IReportGenerator
     {
-        public XDocument CreateReport(TestItem testItem, TestEnvironmentInfo testEnvironmentInfo)
+        private static int _id = 0;
+
+        public XElement CreateReport(TestItem testItem, TestEnvironmentInfo testEnvironmentInfo)
         {
-            XDocument report = new XDocument();
-            report.AddFirst(new XDocumentType("html", null, null, null));
+            var html = new XElement("html",
+                new XAttribute("lang", "en"),
+                GetHead(),
+                GetBody(testItem, testEnvironmentInfo)
+            );
 
-            var html = new XElement("html");
-            html.Add(new XAttribute("lang", "en"));
-            html.Add(GetHead());
-            html.Add(GetBody(testItem, testEnvironmentInfo));
-
-            report.Add(html);
-
-            return report;
+            return html;
         }
 
         public XElement GetHead()
         {
             var head = new XElement("head");
 
-            var charset = new XElement("meta");
-            charset.Add(new XAttribute("charset", "utf-8"));
+            var charset = new XElement("meta", new XAttribute("charset", "utf-8"));
 
-            var httpEquiv = new XElement("meta");
-            httpEquiv.Add(new XAttribute("http-equiv", "X-UA-Compatible"));
-            httpEquiv.Add(new XAttribute("content", "IE=edge"));
+            var httpEquiv = new XElement("meta",
+                new XAttribute("http-equiv", "X-UA-Compatible"),
+                new XAttribute("content", "IE=edge")
+            );
 
-            var name = new XElement("meta");
-            name.Add(new XAttribute("name", "viewport"));
-            name.Add(new XAttribute("content", "width=device-width, initial-scale=1"));
+            var name = new XElement("meta",
+                new XAttribute("name", "viewport"),
+                new XAttribute("content", "width=device-width, initial-scale=1")
+            );
 
             var title = new XElement("title", "Test result");
 
-            var css = new XElement("link");
-            css.Add(new XAttribute("rel", "stylesheet"));
-            css.Add(new XAttribute("href", "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"));
-            css.Add(new XAttribute("integrity", "sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"));
-            css.Add(new XAttribute("crossorigin", "anonymous"));
+            var css = new XElement("link",
+                new XAttribute("rel", "stylesheet"),
+                new XAttribute("href", "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css")
+            );
 
             head.Add(charset, httpEquiv, name, title, css);
             return head;
@@ -56,17 +54,14 @@
         {
             var body = new XElement("body");
 
-            var js = new XElement("script", "");
-            js.Add(new XAttribute("src", "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"));
-            js.Add(new XAttribute("integrity", "sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"));
-            js.Add(new XAttribute("crossorigin", "anonymous"));
+            var js = new XElement("script", "", new XAttribute("src", "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"));
 
-            var jQuery = new XElement("script", "");
-            jQuery.Add(new XAttribute("src", "https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"));
+            var jQuery = new XElement("script", "", new XAttribute("src", "https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"));
 
-            var container = new XElement("div", new XAttribute("class", "container"));
-            container.Add(GetEnvironment(testEnvironmentInfo));
-            container.Add(GetReport(testItem));
+            var container = new XElement("div", new XAttribute("class", "container"),
+                GetEnvironment(testEnvironmentInfo),
+                GetReport(testItem)
+            );
 
             body.Add(container, jQuery, js);
 
@@ -75,36 +70,34 @@
 
         public XElement GetEnvironment(TestEnvironmentInfo testEnvironmentInfo)
         {
-            var environment = new XElement("div");
-            environment.Add(new XAttribute("class", "panel panel-default"));
+            var environment = new XElement("div", new XAttribute("class", "panel panel-default"));
 
-            var heading = new XElement("div", new XElement("mark", "Environment"));
-            heading.Add(new XAttribute("class", "panel-heading"));
+            var heading = new XElement("div", new XElement("mark", "Environment"), new XAttribute("class", "panel-heading"));
 
-            var table = new XElement("table");
-            table.Add(new XAttribute("class", "table"));
+            var table = new XElement("table", new XAttribute("class", "table"));
 
-            var thead = new XElement("thead");
-            var trh = new XElement("tr");
-            trh.Add(new XElement("th", "CLR version"));
-            trh.Add(new XElement("th", "OS name"));
-            trh.Add(new XElement("th", "OS version"));
-            trh.Add(new XElement("th", "Platform"));
-            trh.Add(new XElement("th", "Machine name"));
-            trh.Add(new XElement("th", "User"));
-            trh.Add(new XElement("th", "User domain"));
-            thead.Add(trh);
+            var thead = new XElement("thead",
+                new XElement("tr",
+                    new XElement("th", "CLR version"),
+                    new XElement("th", "OS name"),
+                    new XElement("th", "OS version"),
+                    new XElement("th", "Platform"),
+                    new XElement("th", "Machine name"),
+                    new XElement("th", "User"),
+                    new XElement("th", "User domain")
+                )
+            );
 
-            var tbody = new XElement("tbody");
-            var trb = new XElement("tr");
-            trb.Add(new XElement("td", testEnvironmentInfo.CLRVersion));
-            trb.Add(new XElement("td", testEnvironmentInfo.OSName));
-            trb.Add(new XElement("td", testEnvironmentInfo.OSVersion));
-            trb.Add(new XElement("td", testEnvironmentInfo.Platform));
-            trb.Add(new XElement("td", testEnvironmentInfo.MachineName));
-            trb.Add(new XElement("td", testEnvironmentInfo.User));
-            trb.Add(new XElement("td", testEnvironmentInfo.UserDomain));
-            tbody.Add(trb);
+            var tbody = new XElement("tbody",
+                new XElement("tr",
+                    new XElement("td", testEnvironmentInfo.CLRVersion),
+                    new XElement("td", testEnvironmentInfo.OSName),
+                    new XElement("td", testEnvironmentInfo.Platform),
+                    new XElement("td", testEnvironmentInfo.MachineName),
+                    new XElement("td", testEnvironmentInfo.User),
+                    new XElement("td", testEnvironmentInfo.UserDomain)
+                )
+            );
 
             table.Add(thead, tbody);
 
@@ -112,69 +105,93 @@
             return environment;
         }
 
-        public XElement GetReport(TestItem testItem)
+        public XElement CreatePanelAccordionElement(XElement heading, XElement body, string panelClassType)
         {
-            var report = new XElement("div",
-                new XAttribute("class", "panel-group"),
-                new XAttribute("role", "tablist")
+            var index = ++_id;
+
+            var divPanelGroup = new XElement("div", new XAttribute("class", "panel-group"));
+            var divPanelType = new XElement("div", new XAttribute("class", $"panel {panelClassType}"));
+            divPanelGroup.Add(divPanelType);
+
+            var divPanelHeading = new XElement("div",
+                new XElement("h4", new XAttribute("class", "panel-title")),
+                new XAttribute("class", "panel-heading")
+            );
+            divPanelType.Add(divPanelHeading);
+
+            heading.Add(
+                new XAttribute("data-toggle", "collapse"),
+                new XAttribute("href", $"#accordion-body-{index}")
+            );
+            divPanelHeading.Element("h4")?.Add(heading);
+
+            var accordionBody = new XElement("div",
+                new XAttribute("id", $"accordion-body-{index}"),
+                new XAttribute("class", "panel-collapse collapse")
             );
 
-            var panel = new XElement("div", new XAttribute("class", "panel panel-default"));
+            var attribute = body.Attribute("class");
 
-            var panelHead = new XElement("div",
-                new XAttribute("class", "panel-heading"),
-                new XAttribute("role", "tab"),
-                new XAttribute("id", "collapseListGroupHeading1")
-            );
-
-            var panelHeadLink = new XElement("h4",
-                new XAttribute("class", "panel-title"),
-                new XElement("div",
-                    new XAttribute("class", "collapsed"),
-                    new XAttribute("role", "button"),
-                    new XAttribute("data-toggle", "collapse"),
-                    new XAttribute("href", "#collapseListGroup1"),
-                    new XAttribute("aria-expanded", "false"),
-                    new XAttribute("aria-controls", "collapseListGroup1"),
-                    new XElement("div", $"Name: {testItem.Name}"),
-                    new XElement("div", $"Description: {testItem.Description}")
-            ));
-
-            panelHead.Add(panelHeadLink);
-            panel.Add(panelHead);
-
-            if (testItem.Childs.Count != 0)
+            if (attribute == null)
             {
-                var panelGroup = new XElement("div",
-                    new XAttribute("id", "collapseListGroup1"),
-                    new XAttribute("class", "panel-collapse collapse"),
-                    new XAttribute("role", "tabpanel"),
-                    new XAttribute("aria-labelledby", "collapseListGroupHeading1"),
-                    new XAttribute("aria-expanded", "false")
-                );
-
-                var ul = new XElement("ul",
-                    new XAttribute("class", "list-group")
-                );
-                ul.Attribute("class").Value += " myclass";
-
-                foreach (var item in testItem.Childs)
-                {
-                    ul.Add(new XElement("li",
-                        new XAttribute("class", "list-group-item"),
-                        new XElement("div", $"Name: {item.Name}"),
-                        new XElement("div", $"Description: {item.Description}")
-                    ));
-                }
-
-                panelGroup.Add(ul);
-
-                panel.Add(panelGroup);
+                body.Add(new XAttribute("class", "panel body"));
+            }
+            else {
+                attribute.Value += " panel-body";
             }
 
-            report.Add(panel);
+            accordionBody.Add(body);
+            divPanelType.Add(accordionBody);
 
-            return report;
+            return divPanelGroup;
+        }
+
+        public XElement GetReport(TestItem item)
+        {
+            var head = new XElement("div",
+                new XElement("span", item.Description),
+                new XElement("div",
+                $"Name: {item.Name}; Status: {item.Status}; Duration : {item.Duration}")
+            );
+
+            var container = new XElement("div", new XAttribute("id", "container-nodes"));
+            var accordion = CreatePanelAccordionElement(head, container, "panel-default");
+
+            if (item.Childs.Count > 0)
+            {
+                var headingChilds = new XElement("div", "Childs");
+                var childs = new XElement("div", new XAttribute("id", "container-childs"));
+
+                var childsAccordion = CreatePanelAccordionElement(headingChilds, childs, "panel-success");
+                container.Add(childsAccordion);
+
+                item.Childs.ForEach((x) => childs.Add(GetReport(x)));
+            }
+
+            if (item.Steps.Count > 0)
+            {
+                var headingSteps = new XElement("div", "Steps");
+                var steps = new XElement("div",
+                    new XAttribute("id", "container-steps"),
+                    new XAttribute("class", "list-group")
+                );
+
+                var stepsAccordion = CreatePanelAccordionElement(headingSteps, steps, "panel-warning");
+                container.Add(stepsAccordion);
+
+                foreach (var step in item.Steps)
+                {
+                    var element = new XElement("div",
+                        new XElement("span", step.Description),
+                        new XElement("div",
+                        $"Name: {item.Name}; Status: {step.Status}; Duration : {step.Duration}"),
+                            new XAttribute("class", "list-group-item")
+                    );
+
+                    steps.Add(element);
+                }
+            }
+            return accordion;
         }
     }
 }

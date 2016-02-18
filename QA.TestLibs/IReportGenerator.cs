@@ -10,6 +10,6 @@
 
     public interface IReportGenerator
     {
-        XDocument CreateReport(TestItem testItem, TestEnvironmentInfo testEnvironmentInfo);
+        XElement CreateReport(TestItem testItem, TestEnvironmentInfo testEnvironmentInfo);
     }
 }
