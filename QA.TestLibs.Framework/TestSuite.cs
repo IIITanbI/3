@@ -48,8 +48,6 @@
 
                 ((TestSuite)builtSuite).TestItems.Clear();
                 ((TestSuite)builtSuite).TestItems = builtChildren;
-
-                builtChildren.ForEach(c => c.SetParent((TestSuite)builtSuite));
             }
 
             return builtSuites;
@@ -65,15 +63,47 @@
             }
         }
 
-        public override void Init()
+        public override TestItem GetState()
         {
-            base.Init();
-            TestItems.ForEach(t => t.Init());
+            var testSuite = (TestSuite)base.GetState();
+            foreach (var child in TestItems)
+            {
+                testSuite.TestItems.Add(child.GetState());
+            }
+            return testSuite;
         }
 
-        public override void Execute()
+        public override void ExecuteStageCase()
         {
-            base.Execute();
+            base.ExecuteStageCase();
+
+            if (!IsParallelExecutionAllowed)
+            {
+                foreach (var testItem in TestItems)
+                {
+                    testItem.Execute();
+                }
+            }
+            else
+            {
+                if (ParallelismLevel != -1 && ParallelismLevel > 1)
+                    Parallel.ForEach(TestItems, new ParallelOptions { MaxDegreeOfParallelism = ParallelismLevel }, ti => ti.Execute());
+                else
+                    Parallel.ForEach(TestItems, ti => ti.Execute());
+            }
+
+            if (TestItems.Any(ti => ti.Status == ItemStatus.Failed))
+                Status = ItemStatus.Failed;
+        }
+
+        public override void MarkAsFailedOrSkipped(ItemStatus status = ItemStatus.Failed)
+        {
+            base.MarkAsFailedOrSkipped(status);
+
+            foreach (var testItem in TestItems)
+            {
+                testItem.MarkAsFailedOrSkipped(ItemStatus.Skipped);
+            }
         }
     }
 }

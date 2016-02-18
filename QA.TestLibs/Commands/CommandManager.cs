@@ -41,6 +41,8 @@
 
         public object CreateObject(object managerConfig)
         {
+            if (ConfigType == null)
+                return Activator.CreateInstance(CommandManagerType, null);
             return Activator.CreateInstance(CommandManagerType, new[] { managerConfig });
         }
     }
