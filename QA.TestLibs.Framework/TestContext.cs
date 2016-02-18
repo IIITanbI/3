@@ -52,12 +52,12 @@
 
             if (ParentContext != null)
             {
-                foreach (var itemTypeKey in ParentContext.ContextValues.Keys)
+                foreach (var TestItemTypeKey in ParentContext.ContextValues.Keys)
                 {
-                    ContextValues.Add(itemTypeKey, new Dictionary<string, object>());
-                    foreach (var itemNameKey in ParentContext.ContextValues[itemTypeKey].Keys)
+                    ContextValues.Add(TestItemTypeKey, new Dictionary<string, object>());
+                    foreach (var itemNameKey in ParentContext.ContextValues[TestItemTypeKey].Keys)
                     {
-                        ContextValues[itemTypeKey].Add(itemNameKey, ParentContext.ContextValues[itemTypeKey][itemNameKey]);
+                        ContextValues[TestItemTypeKey].Add(itemNameKey, ParentContext.ContextValues[TestItemTypeKey][itemNameKey]);
                     }
                 }
 

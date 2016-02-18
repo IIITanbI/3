@@ -6,6 +6,7 @@
     using System.Text;
     using System.Threading.Tasks;
     using System.Xml.Linq;
+    using TestMetadata;
     using XmlDesiarilization;
 
     [XmlType("Test suite config")]
@@ -30,7 +31,7 @@
 
         public TestSuite()
         {
-            TestItemType = ItemType.Suite;
+            ItemType = TestItemType.Suite;
         }
 
         public override List<TestItem> Build()
@@ -92,18 +93,30 @@
                     Parallel.ForEach(TestItems, ti => ti.Execute());
             }
 
-            if (TestItems.Any(ti => ti.Status == ItemStatus.Failed))
-                Status = ItemStatus.Failed;
+            if (TestItems.Any(ti => ti.Status == TestItemStatus.Failed))
+                Status = TestItemStatus.Failed;
         }
 
-        public override void MarkAsFailedOrSkipped(ItemStatus status = ItemStatus.Failed)
+        public override void MarkAsFailedOrSkipped(TestItemStatus status = TestItemStatus.Failed)
         {
             base.MarkAsFailedOrSkipped(status);
 
             foreach (var testItem in TestItems)
             {
-                testItem.MarkAsFailedOrSkipped(ItemStatus.Skipped);
+                testItem.MarkAsFailedOrSkipped(TestItemStatus.Skipped);
             }
+        }
+
+        public override TestMetadata.TestItem GetReportItem()
+        {
+            var reportItem = base.GetReportItem();
+
+            foreach (var testItem in TestItems)
+            {
+                reportItem.Childs.Add(testItem.GetReportItem());
+            }
+
+            return reportItem;
         }
     }
 }
