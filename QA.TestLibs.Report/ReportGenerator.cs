@@ -61,7 +61,7 @@
             );
 
             var jsLog = new XElement("script",
-               "$(function(){ $('.btnlog').click(function(e){ $(this).parent().parent().children().children('.log').toggle(); }); });"
+               "$(function(){ $('.btnlog').click(function(e){ $(this).parent().parent().find('.log').toggle(); }); });"
             );
 
             var container = new XElement("div", new XAttribute("class", "container"),
@@ -154,7 +154,26 @@
                 case TestItemStatus.Skipped:
                     return "panel-warning";
                 default:
-                    return "panel-deafult";
+                    return "panel-default";
+            }
+        }
+
+        public string GetLogColor(LogLevel logLevel)
+        {
+            switch (logLevel)
+            {
+                case LogLevel.TRACE:
+                    return "primary";
+                case LogLevel.DEBUG:
+                    return "success";
+                case LogLevel.WARN:
+                    return "warning";
+                case LogLevel.INFO:
+                    return "info";
+                case LogLevel.ERROR:
+                    return "danger";
+                default:
+                    return "";
             }
         }
 
@@ -167,32 +186,41 @@
             }
             else
             {
-                btn = new XElement("p");
+                btn = new XElement("p", "");
             }
             return btn;
         }
 
         public XElement GetLogExpander(TestItem testItem)
         {
-            XElement btn;
-            if (testItem.Childs.Count != 0)
-            {
-                btn = new XElement("button", new XAttribute("class", "btn btnlog btn-info"), testItem.Type + " logs");
-            }
-            else
-            {
-                btn = new XElement("p");
-            }
+            XElement btn = new XElement("button", new XAttribute("class", "btn btnlog btn-info"), testItem.Type + " logs");
             return btn;
         }
 
         public XElement GetLogs(TestItem testItem)
         {
-            var elem = new XElement("p",
-                $"Logs: {testItem.LogMessages}",
+            var elem = new XElement("div", "Logs:",
                 new XAttribute("class", "log"),
                 new XAttribute("style", "display: none;")
             );
+            if (testItem.LogMessages.Count != 0)
+            {
+                foreach (var msg in testItem.LogMessages)
+                {
+                    var tmp = new XElement("div",
+                        new XAttribute("class", $"bg-{GetLogColor(msg.Level)}"),
+                        new XElement("div", $"Level: {msg.Level}"),
+                        new XElement("div", $"DataStemp: {msg.DataStemp}"),
+                        new XElement("div", $"Message: {msg.Message}"),
+                        new XElement("div", $"Exception: {msg.Exception}")
+                    );
+                    elem.Add(tmp);
+                }
+            }
+            else
+            {
+                elem.Add(new XElement("p", "No logs here"));
+            }
             return elem;
         }
 
