@@ -10,8 +10,6 @@
 
     public class ReportGenerator : IReportGenerator
     {
-        private  int _id = 0;
-
         public XElement CreateReport(TestItem testItem, TestEnvironmentInfo testEnvironmentInfo)
         {
             var html = new XElement("html",
@@ -58,19 +56,23 @@
 
             var jQuery = new XElement("script", "", new XAttribute("src", "https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"));
 
+            var jsCustom = new XElement("script",
+                "$(function(){ $('.parent').find('.accordion').click(function(e){ $(this).parent().children('.child').toggle(); }); });"
+            );
+
             var container = new XElement("div", new XAttribute("class", "container"),
                 GetEnvironment(testEnvironmentInfo),
                 GetReport(testItem)
             );
 
-            body.Add(container, jQuery, js);
+            body.Add(container, jQuery, js, jsCustom);
 
             return body;
         }
 
         public XElement GetEnvironment(TestEnvironmentInfo testEnvironmentInfo)
         {
-            var environment = new XElement("div", new XAttribute("class", "panel panel-default"));
+            var environment = new XElement("div", new XAttribute("class", "panel panel-default"), new XAttribute("style", "margin-top: 3%"));
 
             var heading = new XElement("div", new XElement("mark", "Environment"), new XAttribute("class", "panel-heading"));
 
@@ -105,126 +107,68 @@
             return environment;
         }
 
-        public XElement CreatePanelAccordionElement(XElement heading, XElement body, string panelClassType)
+        public XElement GetOverall(TestItem testItem)
         {
-            var index = ++_id;
+            if (testItem.Type == TestItemType.Test) return null;
 
-            var divPanelGroup = new XElement("div", new XAttribute("class", "panel-group"));
-            var divPanelType = new XElement("div", new XAttribute("class", $"panel {panelClassType}"));
-            divPanelGroup.Add(divPanelType);
+            var table = new XElement("table", new XAttribute("class", "table"));
 
-            var divPanelHeading = new XElement("div",
-                new XElement("h4", new XAttribute("class", "panel-title")),
-                new XAttribute("class", "panel-heading")
-            );
-            divPanelType.Add(divPanelHeading);
-
-            heading.Add(
-                new XAttribute("data-toggle", "collapse"),
-                new XAttribute("href", $"#accordion-body-{index}")
-            );
-            divPanelHeading.Element("h4")?.Add(heading);
-
-            var accordionBody = new XElement("div",
-                new XAttribute("id", $"accordion-body-{index}"),
-                new XAttribute("class", "panel-collapse collapse")
+            var thead = new XElement("thead",
+                new XElement("tr",
+                    new XElement("th", "Total"),
+                    new XElement("th", "Passed"),
+                    new XElement("th", "Failed"),
+                    new XElement("th", "Skipped")
+                )
             );
 
-            var attribute = body.Attribute("class");
+            var tbody = new XElement("tbody",
+                new XElement("tr",
+                    new XElement("td", testItem.GetTotal()),
+                    new XElement("td", testItem.GetWithStatus(TestItemStatus.Passed)),
+                    new XElement("td", testItem.GetWithStatus(TestItemStatus.Failed)),
+                    new XElement("td", testItem.GetWithStatus(TestItemStatus.Skipped))
+                )
+            );
 
-            if (attribute == null)
-            {
-                body.Add(new XAttribute("class", "panel body"));
-            }
-            else {
-                attribute.Value += " panel-body";
-            }
-
-            accordionBody.Add(body);
-            divPanelType.Add(accordionBody);
-
-            return divPanelGroup;
+            table.Add(thead, tbody);
+            return table;
         }
 
-        public XElement CreatePanelAccordionElement(XElement heading, XElement body)
+        public XElement GetReport(TestItem testItem)
         {
-            var index = ++_id;
-
-            var divPanelGroup = new XElement("div", new XAttribute("class", "panel-group"));
-
-            heading.Add(
-                new XAttribute("data-toggle", "collapse"),
-                new XAttribute("href", $"#accordion-body-{index}")
-            );
-            divPanelGroup.Element("h4")?.Add(heading);
-
-            var accordionBody = new XElement("div",
-                new XAttribute("id", $"accordion-body-{index}"),
-                new XAttribute("class", "panel-collapse collapse")
-            );
-
-            var attribute = body.Attribute("class");
-
-            if (attribute == null)
-            {
-                body.Add(new XAttribute("class", "panel body"));
-            }
-            else {
-                attribute.Value += " panel-body";
-            }
-
-            accordionBody.Add(body);
-            divPanelGroup.Add(accordionBody);
-
-            return divPanelGroup;
-        }
-
-        public XElement GetReport(TestItem item)
-        {
-            var head = new XElement("div",
-                new XElement("span", item.Description),
+            XElement cont = (new XElement("div",
+                new XAttribute("class", "parent"),
                 new XElement("div",
-                $"Name: {item.Name}; Status: {item.Status}; Duration : {item.Duration}")
-            );
-
-            var container = new XElement("div", new XAttribute("id", "container-nodes"));
-            var accordion = CreatePanelAccordionElement(head, container, "panel-default");
-
-            if (item.Childs.Count > 0)
-            {
-                var headingChilds = new XElement("div", "Childs");
-                var childs = new XElement("div", new XAttribute("id", "container-childs"));
-
-                var childsAccordion = CreatePanelAccordionElement(headingChilds, childs);
-                container.Add(childsAccordion);
-
-                item.Childs.ForEach((x) => childs.Add(GetReport(x)));
-            }
-
-            if (item.Steps.Count > 0)
-            {
-                var headingSteps = new XElement("div", "Steps");
-                var steps = new XElement("div",
-                    new XAttribute("id", "container-steps"),
-                    new XAttribute("class", "list-group")
+                    new XAttribute("class", "panel panel-default accordion"),
+                    new XElement("div",
+                        new XAttribute("class", "panel-heading"),
+                        new XElement("p", $"{testItem.Type}: {testItem.Name}"),
+                        new XElement("p", $"Status: {testItem.Status}",
+                            new XAttribute("class", $"status{testItem.Status}")
+                        )
+                    ),
+                    new XElement("div",
+                        new XAttribute("class", "panel-body"),
+                        new XElement("p", $"Description: {testItem.Description}"),
+                        GetOverall(testItem),
+                        new XElement("p", $"Logs: {testItem.LogMessages}")
+                    )
+                )
+            ));
+            if (testItem.Childs.Count != 0) {
+                XElement acc = new XElement("div",
+                    new XAttribute("class", "child"),
+                    new XAttribute("style", "display: none; margin-left: 3%")
                 );
-
-                var stepsAccordion = CreatePanelAccordionElement(headingSteps, steps);
-                container.Add(stepsAccordion);
-
-                foreach (var step in item.Steps)
+                cont.Add(acc);
+                foreach (var item in testItem.Childs)
                 {
-                    var element = new XElement("div",
-                        new XElement("span", step.Description),
-                        new XElement("div",
-                        $"Name: {item.Name}; Status: {step.Status}; Duration : {step.Duration}"),
-                            new XAttribute("class", "list-group-item")
-                    );
-
-                    steps.Add(element);
+                    acc.Add(GetReport(item));
                 }
             }
-            return accordion;
+            return cont;
         }
+
     }
 }
