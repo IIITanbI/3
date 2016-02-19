@@ -6,14 +6,14 @@
     using System.Text;
     using System.Threading.Tasks;
     using XmlDesiarilization;
-
+    
     [XmlType("TestProject config")]
     [XmlLocation("test")]
     public class TestCase : TestItem
     {
         public TestCase()
         {
-            TestItemType = ItemType.Test;
+            ItemType = TestItemType.Test;
         }
     }
 }

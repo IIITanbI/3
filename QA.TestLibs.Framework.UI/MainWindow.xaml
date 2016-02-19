@@ -1,0 +1,60 @@
+﻿<Window x:Class="QA.TestLibs.Framework.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:QA.TestLibs.Framework.UI"
+        mc:Ignorable="d"
+        Title="QA.TestLibs Framework UI" Height="350" Width="525">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="4*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Menu Name="FMenu" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <MenuItem Header="Project">
+                <MenuItem Name="FMenuProjectNew" Header="New"></MenuItem>
+                <MenuItem Name="FMenuProjectOpen" Header="Open" Click="FMenuProjectOpen_Click"></MenuItem>
+                <MenuItem Name="FMenuProjectSave" Header="Save"></MenuItem>
+                <MenuItem Name="FMenuProjectSaveAs" Header="Save as"></MenuItem>
+            </MenuItem>
+        </Menu>
+
+        <TreeView Name="FTree" Grid.Row="1" Grid.Column="0" Height="Auto" Width="Auto"></TreeView>
+
+        <TabControl Name="FTabs" Grid.Row="1" Grid.Column="1">
+            
+            <TabItem Name="FIntoTab">
+                <TabItem.Header>Info</TabItem.Header>
+                <StackPanel Name="FInfoPanel" Margin="5"></StackPanel>
+            </TabItem>
+
+            <TabItem Name="FManagingTab">
+                <TabItem.Header>Managing</TabItem.Header>
+                <StackPanel Name="FManagingPanel" Margin="5"></StackPanel>
+            </TabItem>
+
+            <TabItem Name="FLogsTab">
+                <TabItem.Header>Logs</TabItem.Header>
+                <StackPanel Name="FLogsPanel" Margin="5"></StackPanel>
+            </TabItem>
+
+            <TabItem Name="FReportTab">
+                <TabItem.Header>Report</TabItem.Header>
+                <StackPanel Name="FReportPanel" Margin="5"></StackPanel>
+            </TabItem>
+
+            <TabItem Name="FXmlViewTab">
+                <TabItem.Header>XmlView</TabItem.Header>
+                <StackPanel Name="FXmlViewPanel" Margin="5"></StackPanel>
+            </TabItem>
+
+        </TabControl>
+        
+    </Grid>
+</Window>

@@ -6,10 +6,11 @@
     using System.Text;
     using System.Threading.Tasks;
 
+
     public class TestLogger : ILogger
     {
         private Lazy<NLog.Logger> _log;
-        private TestLogger _parentLogger;
+        private Dictionary<TestLogger, LogLevel> _parentLoggers = new Dictionary<TestLogger, LogLevel>();
         public List<LogMessage> Messages { get; set; } = new List<LogMessage>();
 
         public string Name { get; private set; }
@@ -30,53 +31,105 @@
             //});
         }
 
-        public void SetParent(TestLogger log)
+        public void AddParent(TestLogger log, LogLevel level = LogLevel.ERROR)
         {
-            _parentLogger = log;
+            _parentLoggers.Add(log, level);
+
         }
 
         public string GetFullName()
         {
-            if (_parentLogger == null)
+            if (_parentLoggers.Count != 0)
                 return $"{Name}";
-            return $"{_parentLogger.GetFullName()}${Name}";
+            return $"{_parentLoggers.First().Key.GetFullName()}${Name}";
         }
 
         public void TRACE(string message, Exception exception = null)
         {
-            Messages.Add(new LogMessage { Level = "TRACE", Message = message, ex = exception });
-            _log.Value.Trace(exception, message);
+            _log?.Value.Trace(exception, message);
+            LOG(LogLevel.TRACE, message, exception);
         }
 
         public void DEBUG(string message, Exception exception = null)
         {
-            Messages.Add(new LogMessage { Level = "DEBUG", Message = message, ex = exception });
-            _log.Value.Debug(exception, message);
+            _log?.Value.Debug(exception, message);
+            LOG(LogLevel.DEBUG, message, exception);
         }
 
         public void WARN(string message, Exception exception = null)
         {
-            Messages.Add(new LogMessage { Level = "WARN", Message = message, ex = exception });
-            _log.Value.Warn(exception, message);
+            _log?.Value.Warn(exception, message);
+            LOG(LogLevel.WARN, message, exception);
         }
 
         public void INFO(string message, Exception exception = null)
         {
-            Messages.Add(new LogMessage { Level = "INFO", Message = message, ex = exception });
-            _log.Value.Info(exception, message);
-            _parentLogger?.INFO(message, exception);
+            _log?.Value.Info(exception, message);
+            LOG(LogLevel.INFO, message, exception);
         }
 
         public void ERROR(string message, Exception exception = null)
         {
-            Messages.Add(new LogMessage { Level = "ERROR", Message = message, ex = exception });
-            _log.Value.Error(exception, message);
-            _parentLogger?.ERROR(message, exception);
+            _log?.Value.Error(exception, message);
+            LOG(LogLevel.ERROR, message, exception);
         }
 
-        public void LOG(string level, string message, Exception exception = null)
+        protected void LOG(LogLevel level, string message, Exception exception = null)
         {
-            Messages.Add(new LogMessage { Level = level, Message = message, ex = exception });
+            Messages.Add(new LogMessage { Time = DateTime.UtcNow, Level = level, Message = message, Ex = exception });
+            foreach (var log in _parentLoggers)
+            {
+                if (log.Value >= level)
+                {
+                    switch (level)
+                    {
+                        case LogLevel.TRACE:
+                            log.Key.TRACE(message, exception);
+                            break;
+                        case LogLevel.DEBUG:
+                            log.Key.DEBUG(message, exception);
+                            break;
+                        case LogLevel.WARN:
+                            log.Key.WARN(message, exception);
+                            break;
+                        case LogLevel.INFO:
+                            log.Key.INFO(message, exception);
+                            break;
+                        case LogLevel.ERROR:
+                            log.Key.ERROR(message, exception);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+
+        public void SpamToLog(TestLogger log)
+        {
+            foreach (var message in Messages)
+            {
+                switch (message.Level)
+                {
+                    case LogLevel.TRACE:
+                        log.TRACE(message.Message, message.Ex);
+                        break;
+                    case LogLevel.DEBUG:
+                        log.DEBUG(message.Message, message.Ex);
+                        break;
+                    case LogLevel.WARN:
+                        log.WARN(message.Message, message.Ex);
+                        break;
+                    case LogLevel.INFO:
+                        log.INFO(message.Message, message.Ex);
+                        break;
+                    case LogLevel.ERROR:
+                        log.ERROR(message.Message, message.Ex);
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
     }
 }

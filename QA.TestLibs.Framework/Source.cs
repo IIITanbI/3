@@ -7,7 +7,7 @@
     using System.Threading.Tasks;
     using System.Xml.Linq;
     using XmlDesiarilization;
-
+    
     [XmlType("Source configuration")]
     public class Source : XmlBaseType
     {
@@ -28,7 +28,7 @@
         [XmlProperty("XElement used as template for generation")]
         [XmlLocation(XmlLocationType.Element | XmlLocationType.Value, "xmlTemplate", "generationTemplate")]
         public XElement XmlSource { get; set; }
-        
+
         public enum SourceType
         {
             Xml, External, Generic, ExternalGeneric

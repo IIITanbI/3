@@ -7,7 +7,7 @@
     using System.Threading.Tasks;
     using System.Xml.Linq;
     using XmlDesiarilization;
-
+    
     [XmlType("ManagerConfig")]
     [XmlLocation("manager", "commandManager", "managerItem")]
     public class CommandManagerItem : XmlBaseType
@@ -16,8 +16,8 @@
         [XmlLocation(XmlLocationType.Attribute, "type")]
         public string ManagerType { get; set; }
 
-        [XmlProperty("Command manager name")]
-        public string Name { get; set; }
+        [XmlProperty("Command manager name", IsRequired = false)]
+        public string Name { get; set; } = null;
 
         [XmlProperty("Manager config")]
         [XmlLocation(XmlLocationType.Element | XmlLocationType.Value)]

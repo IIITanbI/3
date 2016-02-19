@@ -29,7 +29,7 @@
         public TestContext ParentContext { get; set; }
         public static Regex BindRegex = new Regex(@"\$\{([\w\s.]+)\}", RegexOptions.Compiled);
 
-        public Dictionary<string, Dictionary<string, object>> ContextValues { get; private set; } = new Dictionary<string, Dictionary<string, object>>();
+        public Dictionary<string, Dictionary<string, object>> ContextValues { get; set; } = new Dictionary<string, Dictionary<string, object>>();
         public Dictionary<string, Dictionary<string, object>> Managers = new Dictionary<string, Dictionary<string, object>>();
 
         public void Build()
@@ -47,20 +47,26 @@
 
         public void Initialize()
         {
+            ContextValues.ToList().ForEach(cv => cv.Value.Clear());
+            ContextValues.Clear();
+
             if (ParentContext != null)
             {
-                foreach (var itemTypeKey in ParentContext.ContextValues.Keys)
+                foreach (var TestItemTypeKey in ParentContext.ContextValues.Keys)
                 {
-                    ContextValues.Add(itemTypeKey, new Dictionary<string, object>());
-                    foreach (var itemNameKey in ParentContext.ContextValues[itemTypeKey].Keys)
+                    ContextValues.Add(TestItemTypeKey, new Dictionary<string, object>());
+                    foreach (var itemNameKey in ParentContext.ContextValues[TestItemTypeKey].Keys)
                     {
-                        ContextValues[itemTypeKey].Add(itemNameKey, ParentContext.ContextValues[itemTypeKey][itemNameKey]);
+                        ContextValues[TestItemTypeKey].Add(itemNameKey, ParentContext.ContextValues[TestItemTypeKey][itemNameKey]);
                     }
                 }
 
-                foreach (var managerKey in ParentContext.Managers.Keys)
+                if (Managers.Count == 0)
                 {
-                    Managers.Add(managerKey, ParentContext.Managers[managerKey]);
+                    foreach (var managerKey in ParentContext.Managers.Keys)
+                    {
+                        Managers.Add(managerKey, ParentContext.Managers[managerKey]);
+                    }
                 }
             }
 
@@ -87,24 +93,31 @@
                 ContextValues[typeName].Add(contextObject.UniqueName, obj);
             }
 
-            foreach (var managerItem in CommandManagersItems)
+            if (Managers.Count == 0)
             {
-                var manager = ReflectionManager.GetCommandManagerByTypeName(managerItem.ManagerType);
-                var managerConfig = XmlParser.Parse(manager.ConfigType, managerItem.Config.Elements().First(), true, null, this);
-                _initMethod.Value.Invoke(managerConfig, null);
+                foreach (var managerItem in CommandManagersItems)
+                {
+                    var manager = ReflectionManager.GetCommandManagerByTypeName(managerItem.ManagerType);
 
-                var managerObj = manager.CreateObject(managerConfig);
+                    object managerConfig = null;
+                    if (manager.ConfigType != null)
+                    {
+                        managerConfig = XmlParser.Parse(manager.ConfigType, managerItem.Config.Elements().First(), true, null, this);
+                        _initMethod.Value.Invoke(managerConfig, null);
+                    }
 
-                if (!Managers.ContainsKey(managerItem.ManagerType))
-                    Managers.Add(managerItem.ManagerType, new Dictionary<string, object>());
+                    var managerObj = manager.CreateObject(managerConfig);
 
-                if (Managers[managerItem.ManagerType].ContainsKey(managerItem.Name))
-                    Managers[managerItem.ManagerType][managerItem.Name] = managerObj;
-                else
-                    Managers[managerItem.ManagerType].Add(managerItem.Name, managerObj);
+                    if (!Managers.ContainsKey(managerItem.ManagerType))
+                        Managers.Add(managerItem.ManagerType, new Dictionary<string, object>());
+
+                    if (Managers[managerItem.ManagerType].ContainsKey(managerItem.Name ?? managerItem.ManagerType))
+                        Managers[managerItem.ManagerType][managerItem.Name ?? managerItem.ManagerType] = managerObj;
+                    else
+                        Managers[managerItem.ManagerType].Add(managerItem.Name ?? managerItem.ManagerType, managerObj);
+                }
             }
         }
-
 
         public void Add(string path, object value)
         {

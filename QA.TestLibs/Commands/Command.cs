@@ -14,12 +14,16 @@
         public CommandManager Manager { get; private set; }
         public MethodInfo Method { get; private set; }
 
+        public ParameterInfo[] ParameterInfos { get; private set; }
+
         public Command(CommandManager manager, MethodInfo method, CommandAttribute attribute)
         {
             Manager = manager;
             PossibleNames = attribute.Names;
             Description = attribute.Description;
             Method = method;
+
+            ParameterInfos = Method.GetParameters();
         }
     }
 }
