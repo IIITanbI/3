@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
+# Visual Studio Express 14 for Windows Desktop
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QA.TestLibs", "QA.TestLibs\QA.TestLibs.csproj", "{59268CC8-5D39-4331-909D-CFC1BBC67F0C}"
@@ -20,6 +20,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QA.TestLibs.Framework.UI", "QA.TestLibs.Framework.UI\QA.TestLibs.Framework.UI.csproj", "{72320565-BF91-4256-A700-ACE4D114FD2C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QA.TestLibs.Wpf.Controls", "QA.TestLibs.Wpf.Controls\QA.TestLibs.Wpf.Controls.csproj", "{AEF0F25D-87AB-4C53-B710-E866DD296565}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole", "TestConsole\TestConsole.csproj", "{9DBBD8C0-E099-461E-9EC1-6EECB4AC791D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{AEF0F25D-87AB-4C53-B710-E866DD296565}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEF0F25D-87AB-4C53-B710-E866DD296565}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEF0F25D-87AB-4C53-B710-E866DD296565}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DBBD8C0-E099-461E-9EC1-6EECB4AC791D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DBBD8C0-E099-461E-9EC1-6EECB4AC791D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DBBD8C0-E099-461E-9EC1-6EECB4AC791D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DBBD8C0-E099-461E-9EC1-6EECB4AC791D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
