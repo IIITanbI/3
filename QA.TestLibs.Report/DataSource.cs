@@ -50,7 +50,7 @@
                                         Description = "Temp mock step 1 for test 1",
                                         Duration = new TimeSpan(00, 00, 30),
                                         Messages = new List<LogMessage>() { },
-                                        Status = TestItemStatus.Passed
+                                        Status = TestItemStatus.Unknown
                                     },
                                     new Step()
                                     {
@@ -68,7 +68,7 @@
                                 Name = "Mock test 2",
                                 Description = "Temp mock test 2 for suite 1",
                                 LogMessages = new List<LogMessage>() { },
-                                Status = TestItemStatus.Passed,
+                                Status = TestItemStatus.Skipped,
                                 Duration = new TimeSpan(00, 00, 30),
                                 Steps = new List<Step>()
                                 {
