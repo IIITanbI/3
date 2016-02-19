@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QA.TestLibs", "QA.TestLibs\QA.TestLibs.csproj", "{59268CC8-5D39-4331-909D-CFC1BBC67F0C}"
 EndProject
@@ -18,8 +18,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QA.TestLibs.TestLogger", "QA.TestLibs.TestLogger\QA.TestLibs.TestLogger.csproj", "{54430C9C-F239-4035-8200-CD9E339777DD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QA.TestLibs.Report", "QA.TestLibs.Report\QA.TestLibs.Report.csproj", "{DADE5AC6-12F2-4B06-B480-74CE39087701}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole", "TestConsole\TestConsole.csproj", "{9DBBD8C0-E099-461E-9EC1-6EECB4AC791D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,10 +57,6 @@ Global
 		{DADE5AC6-12F2-4B06-B480-74CE39087701}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DADE5AC6-12F2-4B06-B480-74CE39087701}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DADE5AC6-12F2-4B06-B480-74CE39087701}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9DBBD8C0-E099-461E-9EC1-6EECB4AC791D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9DBBD8C0-E099-461E-9EC1-6EECB4AC791D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9DBBD8C0-E099-461E-9EC1-6EECB4AC791D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9DBBD8C0-E099-461E-9EC1-6EECB4AC791D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

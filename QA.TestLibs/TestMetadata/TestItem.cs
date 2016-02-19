@@ -34,8 +34,8 @@
         [XmlProperty("List of test item childes", IsRequired = false)]
         public List<TestItem> Childs { get; set; } = new List<TestItem>();
 
-        [XmlProperty("Test item tries", IsRequired = false)]
-        public List<TestTry> Tries { get; set; } = new List<TestTry>();
+        //[XmlProperty("Test item tries", IsRequired = false)]
+        //public List<TestTry> Tries { get; set; } = new List<TestTry>();
     }
 
     public enum Status
