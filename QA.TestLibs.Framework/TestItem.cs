@@ -36,6 +36,14 @@
         [XmlConstraint("ItemSourceType", SourceType.Xml)]
         public int RetryCount { get; set; } = 1;
 
+        [XmlProperty("List of tags for TestItem", IsRequired = false)]
+        [XmlChildLocation("tag")]
+        public List<string> Tags { get; set; } = new List<string>();
+
+        [XmlProperty("Is TestItem enabled?", IsRequired = false)]
+        [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "enabled")]
+        public bool IsEnabled { get; set; } = true;
+
         public TestItem ParentItem { get; protected set; }
         public TestLogger Log { get; set; }
         public TestItemStatus Status { get; set; } = TestItemStatus.NotExecuted;

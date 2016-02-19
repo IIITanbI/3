@@ -27,6 +27,10 @@
         [XmlProperty("Is step skipped on fail", IsRequired = false)]
         [XmlLocation(XmlLocationType.Attribute | XmlLocationType.Element, "skipOnFail")]
         public bool IsSkippedOnFail { get; set; } = false;
+        
+        [XmlProperty("Is TestStep enabled?", IsRequired = false)]
+        [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "enabled")]
+        public bool IsEnabled { get; set; } = true;
 
         [XmlProperty("Number of tries for the step execution", IsRequired = false)]
         [XmlLocation(XmlLocationType.Attribute | XmlLocationType.Element, "retries")]

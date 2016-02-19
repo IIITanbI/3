@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace QA.TestLibs.Wpf.XmlTypeControl.Properties {
+namespace QA.TestLibs.Wpf.Controls.Properties {
     
     
     /// <summary>
@@ -38,7 +38,7 @@ namespace QA.TestLibs.Wpf.XmlTypeControl.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if ((resourceMan == null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("QA.TestLibs.Wpf.XmlTypeControl.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("QA.TestLibs.Wpf.Controls.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
