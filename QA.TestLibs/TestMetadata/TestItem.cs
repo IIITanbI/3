@@ -37,5 +37,50 @@
 
         [XmlProperty("Test item failed tries", IsRequired = false)]
         public List<TestItem> FailedTries { get; set; } = new List<TestItem>();
+
+        public int GetTotal()
+        {
+            int tmp = 0;
+            switch (Type)
+            {
+                case TestItemType.Project:
+                case TestItemType.Suite:
+                    foreach (var child in Childs)
+                    {
+                        tmp += child.GetTotal();
+                    }
+                    break;
+                case TestItemType.Test:
+                    tmp = 1;
+                    break;
+                default:
+                    break;
+            }
+            return tmp;
+        }
+
+        public int GetWithStatus(TestItemStatus status)
+        {
+            int tmp = 0;
+            switch (Type)
+            {
+                case TestItemType.Project:
+                case TestItemType.Suite:
+                    foreach (var child in Childs)
+                    {
+                        tmp += child.GetWithStatus(status);
+                    }
+                    break;
+                case TestItemType.Test:
+                    if (Status == status)
+                    {
+                        tmp = 1;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            return tmp;
+        }
     }
 }
