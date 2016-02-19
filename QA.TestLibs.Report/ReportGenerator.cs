@@ -56,20 +56,14 @@
 
             var jQuery = new XElement("script", "", new XAttribute("src", "https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"));
 
-            var jsCustom = new XElement("script",
-                "$(function(){ $('.btnexp').click(function(e){ $(this).parent().parent().parent().children('.child').toggle(); }); });"
-            );
-
-            var jsLog = new XElement("script",
-               "$(function(){ $('.btnlog').click(function(e){ $(this).parent().parent().find('.log').toggle(); }); });"
-            );
+            var jsCustom = new XElement("script", "", new XAttribute("src", "custom.js"));
 
             var container = new XElement("div", new XAttribute("class", "container"),
                 GetEnvironment(testEnvironmentInfo),
                 GetReport(testItem)
             );
 
-            body.Add(container, jQuery, js, jsCustom, jsLog);
+            body.Add(container, jQuery, js, jsCustom);
 
             return body;
         }
@@ -119,10 +113,11 @@
 
             var thead = new XElement("thead",
                 new XElement("tr",
-                    new XElement("th", "Total"),
-                    new XElement("th", "Passed"),
-                    new XElement("th", "Failed"),
-                    new XElement("th", "Skipped")
+                    new XElement("th", new XElement("button", "Total", new XAttribute("class", "btn")), new XAttribute("class", "total")),
+                    new XElement("th", new XElement("button", "Passed", new XAttribute("class", "btn")), new XAttribute("class", "passed")),
+                    new XElement("th", new XElement("button", "Failed", new XAttribute("class", "btn")), new XAttribute("class", "failed")),
+                    new XElement("th", new XElement("button", "Skipped", new XAttribute("class", "btn")), new XAttribute("class", "skipped"))
+                    //,new XElement("th", new XElement("button", "Clean", new XAttribute("class", "btn")), new XAttribute("class", "total"))
                 )
             );
 
@@ -197,6 +192,20 @@
             return btn;
         }
 
+        public XElement GetException(LogMessage logMessage)
+        {
+            XElement log;
+            if (logMessage.Exception != null)
+            {
+                log = new XElement("div", $"Exception: {logMessage.Exception}");
+            }
+            else
+            {
+                log = new XElement("p", "");
+            }
+            return log;
+        }
+
         public XElement GetLogs(TestItem testItem)
         {
             var elem = new XElement("div", "Logs:",
@@ -208,18 +217,17 @@
                 foreach (var msg in testItem.LogMessages)
                 {
                     var tmp = new XElement("div",
-                        new XAttribute("class", $"bg-{GetLogColor(msg.Level)}"),
-                        new XElement("div", $"Level: {msg.Level}"),
-                        new XElement("div", $"DataStemp: {msg.DataStemp}"),
-                        new XElement("div", $"Message: {msg.Message}"),
-                        new XElement("div", $"Exception: {msg.Exception}")
+                        new XElement("span", $"{msg.Level}",
+                            new XAttribute("class", $"bg-{GetLogColor(msg.Level)}")),
+                            $" | {msg.DataStemp} | {msg.Message}",
+                            GetException(msg)
                     );
                     elem.Add(tmp);
                 }
             }
             else
             {
-                elem.Add(new XElement("p", "No logs here"));
+                elem.Add(new XElement("p", $"No logs for {testItem.Name} item"));
             }
             return elem;
         }
