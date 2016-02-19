@@ -45,14 +45,15 @@
     <Compile Include="ReportGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\QA.TestLibs.Framework\QA.TestLibs.Framework.csproj">
-      <Project>{5f6e4ee4-3166-4f25-ab38-68da974f6d4f}</Project>
-      <Name>QA.TestLibs.Framework</Name>
-    </ProjectReference>
     <ProjectReference Include="..\QA.TestLibs\QA.TestLibs.csproj">
       <Project>{59268cc8-5d39-4331-909d-cfc1bbc67f0c}</Project>
       <Name>QA.TestLibs</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="custom.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

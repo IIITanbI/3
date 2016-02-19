@@ -9,11 +9,11 @@
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     public class WpfTypeControlAttribute : Attribute
     {
-        public Type XmlType { get; private set; }
+        public string XmlTypeName { get; private set; }
 
-        public WpfTypeControlAttribute(Type xmlType)
+        public WpfTypeControlAttribute(string xmlTypeName)
         {
-            XmlType = xmlType;
+            XmlTypeName = xmlTypeName;
         }
     }
 }
