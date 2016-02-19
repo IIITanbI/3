@@ -28,9 +28,17 @@
                         Type = TestItemType.Suite,
                         Name = "Mock suite 1",
                         Description = "Temp mock suite 1 for project",
-                        LogMessages = new List<LogMessage>() {
-                            new LogMessage() {DataStemp = DateTime.Now, Level=LogLevel.INFO, Message="message", Exception=new ArgumentException() }
-                        },
+                        LogMessages = new List<LogMessage>()
+                                        {
+                                            new LogMessage()
+                                            {
+                                                DataStemp = DateTime.Now,
+                                                Level = LogLevel.INFO,
+                                                Exception = null,
+                                                Message = "All cool",
+                                                UniqueName = "log1"
+                                            }
+                                        },
                         Status = TestItemStatus.Passed,
                         Duration = new TimeSpan(00, 00, 30),
 
@@ -59,7 +67,17 @@
                                         Name = "Mock step 2",
                                         Description = "Temp mock step 2 for test 1",
                                         Duration = new TimeSpan(00, 00, 30),
-                                        Messages = new List<LogMessage>() { },
+                                        Messages = new List<LogMessage>()
+                                        {
+                                            new LogMessage()
+                                            {
+                                                DataStemp = DateTime.Now,
+                                                Level = LogLevel.INFO,
+                                                Exception = null,
+                                                Message = "All cool",
+                                                UniqueName = "log1"
+                                            }
+                                        },
                                         Status = TestItemStatus.Passed
                                     }
                                 }
