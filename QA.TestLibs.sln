@@ -19,8 +19,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QA.TestLibs.Report", "QA.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QA.TestLibs.Framework.UI", "QA.TestLibs.Framework.UI\QA.TestLibs.Framework.UI.csproj", "{72320565-BF91-4256-A700-ACE4D114FD2C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QA.TestLibs.Wpf.Controls", "QA.TestLibs.Wpf.Controls\QA.TestLibs.Wpf.Controls.csproj", "{AEF0F25D-87AB-4C53-B710-E866DD296565}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,10 +57,6 @@ Global
 		{72320565-BF91-4256-A700-ACE4D114FD2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72320565-BF91-4256-A700-ACE4D114FD2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72320565-BF91-4256-A700-ACE4D114FD2C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AEF0F25D-87AB-4C53-B710-E866DD296565}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AEF0F25D-87AB-4C53-B710-E866DD296565}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AEF0F25D-87AB-4C53-B710-E866DD296565}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AEF0F25D-87AB-4C53-B710-E866DD296565}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

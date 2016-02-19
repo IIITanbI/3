@@ -30,14 +30,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\Command.cs" />
@@ -57,6 +61,7 @@
     <Compile Include="IContext.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="IReportGenerator.cs" />
+    <Compile Include="IWpfTypeControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestMetadata\AttachedData.cs" />
     <Compile Include="TestMetadata\TestEnvironmentInfo.cs" />
@@ -65,6 +70,9 @@
     <Compile Include="TestMetadata\TestItem.cs" />
     <Compile Include="Utils\Snapshoot.cs" />
     <Compile Include="Utils\Snapshooter.cs" />
+    <Compile Include="WpfControls\BaseXmlTypeControl.xaml.cs">
+      <DependentUpon>BaseXmlTypeControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WpfControls\WpfTypeControlAttribute.cs" />
     <Compile Include="XmlDesiarilization\CustomParsers\ArrayTypeParser.cs" />
     <Compile Include="XmlDesiarilization\CustomParsers\DefaultQaTypeParser.cs" />
@@ -90,7 +98,12 @@
     <Compile Include="XmlDesiarilization\XmlType.cs" />
     <Compile Include="XmlDesiarilization\XmlTypeAttribute.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Page Include="WpfControls\BaseXmlTypeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

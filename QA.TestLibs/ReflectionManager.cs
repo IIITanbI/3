@@ -10,6 +10,7 @@
     using System.Threading.Tasks;
     using XmlDesiarilization;
     using Commands;
+    using WpfControls;
 
     public static class ReflectionManager
     {
@@ -17,6 +18,8 @@
         private static Dictionary<XmlType, List<XmlType>> _xmlType_assignableXmlTypes = new Dictionary<XmlType, List<XmlType>>();
         private static List<string> _loadedAssemblies = new List<string>();
         public static List<CommandManager> _managers = new List<CommandManager>();
+        public static Dictionary<XmlType, Type> _xmlType_wpfTypeContol = new Dictionary<XmlType, Type>();
+        public static Dictionary<Type, string> _wpfTypeContol_type = new Dictionary<Type, string>();
 
         public static List<XmlType> GetAssignableTypes(Type type)
         {
@@ -58,6 +61,32 @@
             {
                 LoadAssembly(assembly);
             }
+
+            if (_wpfTypeContol_type.Values.Count > 0)
+            {
+                var dict = new Dictionary<Type, Type>();
+                foreach (var tmp in _wpfTypeContol_type)
+                {
+                    dict.Add(tmp.Key, GetXmlTypeByName(tmp.Value).XType);
+                }
+
+
+                foreach (var xmlType in _type_xmlType.Values)
+                {
+                    var curPair = dict.First(p => p.Value == typeof(XmlBaseType));
+
+                    foreach (var wpfControlTypePair in dict)
+                    {
+                        if (wpfControlTypePair.Value.IsAssignableFrom(xmlType.XType))
+                        {
+                            if (curPair.Value.IsAssignableFrom(wpfControlTypePair.Value))
+                                curPair = wpfControlTypePair;
+                        }
+                    }
+
+                    _xmlType_wpfTypeContol.Add(xmlType, curPair.Key);
+                }
+            }
         }
         public static void LoadAssembly(Assembly assembly)
         {
@@ -73,6 +102,11 @@
             }
 
             _loadedAssemblies.Add(assemblyName);
+        }
+
+        public static Type GetControlForType(XmlType xmlType)
+        {
+            return _xmlType_wpfTypeContol[xmlType];
         }
 
         public static XmlType GetXmlTypeByName(string typeName)
@@ -120,6 +154,17 @@
             {
                 var commandManager = new CommandManager(type);
                 _managers.Add(commandManager);
+            }
+            if (typeof(IWpfTypeControl).IsAssignableFrom(type))
+            {
+                if (!_wpfTypeContol_type.ContainsKey(type))
+                {
+                    var typeAtt = type.GetCustomAttribute<WpfTypeControlAttribute>();
+                    if (typeAtt != null)
+                    {
+                        _wpfTypeContol_type.Add(type, typeAtt.XmlTypeName);
+                    }
+                }
             }
         }
 
