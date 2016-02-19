@@ -6,6 +6,7 @@
     using System.Text;
     using System.Threading.Tasks;
     using System.Xml.Linq;
+    using TestMetadata;
     using XmlDesiarilization;
 
     [XmlType("Test suite config")]
@@ -30,7 +31,7 @@
 
         public TestSuite()
         {
-            TestItemType = ItemType.Suite;
+            ItemType = TestItemType.Suite;
         }
 
         public override List<TestItem> Build()
@@ -48,8 +49,6 @@
 
                 ((TestSuite)builtSuite).TestItems.Clear();
                 ((TestSuite)builtSuite).TestItems = builtChildren;
-
-                builtChildren.ForEach(c => c.SetParent((TestSuite)builtSuite));
             }
 
             return builtSuites;
@@ -65,15 +64,59 @@
             }
         }
 
-        public override void Init()
+        public override TestItem GetState()
         {
-            base.Init();
-            TestItems.ForEach(t => t.Init());
+            var testSuite = (TestSuite)base.GetState();
+            foreach (var child in TestItems)
+            {
+                testSuite.TestItems.Add(child.GetState());
+            }
+            return testSuite;
         }
 
-        public override void Execute()
+        public override void ExecuteStageCase()
         {
-            base.Execute();
+            base.ExecuteStageCase();
+
+            if (!IsParallelExecutionAllowed)
+            {
+                foreach (var testItem in TestItems)
+                {
+                    testItem.Execute();
+                }
+            }
+            else
+            {
+                if (ParallelismLevel != -1 && ParallelismLevel > 1)
+                    Parallel.ForEach(TestItems, new ParallelOptions { MaxDegreeOfParallelism = ParallelismLevel }, ti => ti.Execute());
+                else
+                    Parallel.ForEach(TestItems, ti => ti.Execute());
+            }
+
+            if (TestItems.Any(ti => ti.Status == TestItemStatus.Failed))
+                Status = TestItemStatus.Failed;
+        }
+
+        public override void MarkAsFailedOrSkipped(TestItemStatus status = TestItemStatus.Failed)
+        {
+            base.MarkAsFailedOrSkipped(status);
+
+            foreach (var testItem in TestItems)
+            {
+                testItem.MarkAsFailedOrSkipped(TestItemStatus.Skipped);
+            }
+        }
+
+        public override TestMetadata.TestItem GetReportItem()
+        {
+            var reportItem = base.GetReportItem();
+
+            foreach (var testItem in TestItems)
+            {
+                reportItem.Childs.Add(testItem.GetReportItem());
+            }
+
+            return reportItem;
         }
     }
 }

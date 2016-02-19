@@ -4,6 +4,7 @@
     using QA.TestLibs.XmlDesiarilization;
     using OpenQA.Selenium;
 
+    [Serializable]
     [XmlType("WebDriver configuration")]
     public abstract class WebDriverConfig : XmlBaseType
     {
@@ -39,7 +40,7 @@
         [XmlConstraint("IsGrid", true)]
         public string GridUri { get; set; } = null;
 
-        [XmlProperty("Is highlightable?")]
+        [XmlProperty("Is highlightable?", IsRequired = false)]
         [XmlLocation(XmlLocationType.Element | XmlLocationType.Attribute, "highlightEnabled", "highlight")]
         [XmlConstraint("IsJavaScriptEnabled", true)]
         public bool IsHighlight { get; set; } = false;

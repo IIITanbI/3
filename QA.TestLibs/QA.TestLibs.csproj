@@ -47,6 +47,7 @@
     <Compile Include="Commands\CommandManagerAttribute.cs" />
     <Compile Include="Commands\CommandManagerBase.cs" />
     <Compile Include="Commands\CommandParameterAttribute.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="Exceptions\TypeCastException.cs" />
     <Compile Include="Exceptions\MissedConfigElementException.cs" />
     <Compile Include="Exceptions\TestLibsException.cs" />
@@ -62,6 +63,9 @@
     <Compile Include="TestMetadata\LogMessage.cs" />
     <Compile Include="TestMetadata\Step.cs" />
     <Compile Include="TestMetadata\TestItem.cs" />
+    <Compile Include="Utils\Snapshoot.cs" />
+    <Compile Include="Utils\Snapshooter.cs" />
+    <Compile Include="WpfControls\WpfTypeControlAttribute.cs" />
     <Compile Include="XmlDesiarilization\CustomParsers\ArrayTypeParser.cs" />
     <Compile Include="XmlDesiarilization\CustomParsers\DefaultQaTypeParser.cs" />
     <Compile Include="XmlDesiarilization\CustomParsers\EnumTypeParser.cs" />

@@ -7,6 +7,7 @@
     using System.Threading.Tasks;
     using System.Xml.Linq;
 
+    [Serializable]
     [XmlType("Base type for all QA types")]
     public class XmlBaseType
     {

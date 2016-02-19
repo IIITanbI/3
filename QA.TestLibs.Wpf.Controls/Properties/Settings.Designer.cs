@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace QA.TestLibs.Wpf.XmlTypeControl.Properties
+namespace QA.TestLibs.Wpf.Controls.Properties
 {
     
     

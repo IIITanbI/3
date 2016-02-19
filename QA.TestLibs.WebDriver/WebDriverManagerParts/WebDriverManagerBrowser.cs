@@ -8,6 +8,7 @@
 
     public partial class WebDriverManager
     {
+        [Command("Navigate to url", "Go to url")]
         public void Navigate(string url, ILogger log)
         {
             try

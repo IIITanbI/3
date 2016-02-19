@@ -7,13 +7,14 @@
     using System.Threading.Tasks;
     using XmlDesiarilization;
 
-    public class Step
+    [XmlType("Step config")]
+    public class Step : XmlBaseType
     {
         [XmlProperty("Step log")]
-        public List<LogMessage> Messages { get; set; }
+        public List<LogMessage> Messages { get; set; } = new List<LogMessage>();
 
         [XmlProperty("Step status")]
-        public string Status { get; set; }
+        public TestItemStatus Status { get; set; }
 
         [XmlProperty("Step name")]
         public string Name { get; set; }
