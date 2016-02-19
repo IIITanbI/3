@@ -145,6 +145,7 @@
         public void FillInfoTab(TestItem testItem)
         {
             FInfoPanel.Children.Clear();
+
             var infoControl = new TestItemControl();
             infoControl.GenerateInfoMode(testItem);
 

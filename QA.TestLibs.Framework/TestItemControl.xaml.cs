@@ -75,6 +75,11 @@
                         var contextItemXmlType = ReflectionManager.GetXmlTypeByName(contextItem.TypeName);
                         var contextItemTypeDescriptionLabel = new Label { Content = "Description: " + contextItemXmlType.Description };
                         expanderHeaderStackPanel.Children.Add(contextItemTypeDescriptionLabel);
+
+                        var controlType = ReflectionManager.GetControlForType(ReflectionManager.GetXmlType(contextItem.GetType()));
+                        var controlObj = (IWpfTypeControl)Activator.CreateInstance(controlType);
+                        controlObj.GenerateInfoMode(contextItem);
+                        contextItemExpander.Content = controlObj;
                     }
                 }
 
@@ -100,6 +105,11 @@
                         var managerItemType = ReflectionManager.GetCommandManagerByTypeName(managerItem.ManagerType);
                         var managerItemTypeDescriptionLabel = new Label { Content = "Description: " + managerItemType.Description };
                         expanderHeaderStackPanel.Children.Add(managerItemTypeDescriptionLabel);
+
+                        var controlType = ReflectionManager.GetControlForType(ReflectionManager.GetXmlType(managerItem.GetType()));
+                        var controlObj = (IWpfTypeControl)Activator.CreateInstance(controlType);
+                        controlObj.GenerateInfoMode(managerItem);
+                        managerItemExpander.Content = controlObj;
                     }
                 }
             }
@@ -152,6 +162,11 @@
                     childExpanderHeaderStackPanel.Children.Add(childNameLabel);
                     var childDescriptionLabel = new Label { Content = "Description: " + child.Description };
                     childExpanderHeaderStackPanel.Children.Add(childDescriptionLabel);
+                    
+                    var controlType = ReflectionManager.GetControlForType(ReflectionManager.GetXmlType(child.GetType()));
+                    var controlObj = (IWpfTypeControl)Activator.CreateInstance(controlType);
+                    controlObj.GenerateInfoMode(child);
+                    childExpander.Content = controlObj;
                 }
 
                 testItemsExpander.IsExpanded = true;
