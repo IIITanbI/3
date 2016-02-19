@@ -57,7 +57,11 @@
             var jQuery = new XElement("script", "", new XAttribute("src", "https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"));
 
             var jsCustom = new XElement("script",
-                "$(function(){ $('.parent').find('.accordion').click(function(e){ $(this).parent().children('.child').toggle(); }); });"
+                "$(function(){ $('.btnexp').click(function(e){ $(this).parent().parent().parent().children('.child').toggle(); }); });"
+            );
+
+            var jsLog = new XElement("script",
+               "$(function(){ $('.btnlog').click(function(e){ $(this).parent().parent().find('.log').toggle(); }); });"
             );
 
             var container = new XElement("div", new XAttribute("class", "container"),
@@ -65,16 +69,16 @@
                 GetReport(testItem)
             );
 
-            body.Add(container, jQuery, js, jsCustom);
+            body.Add(container, jQuery, js, jsCustom, jsLog);
 
             return body;
         }
 
         public XElement GetEnvironment(TestEnvironmentInfo testEnvironmentInfo)
         {
-            var environment = new XElement("div", new XAttribute("class", "panel panel-default"), new XAttribute("style", "margin-top: 3%"));
+            var environment = new XElement("div", new XAttribute("class", "panel panel-primary"), new XAttribute("style", "margin-top: 3%"));
 
-            var heading = new XElement("div", new XElement("mark", "Environment"), new XAttribute("class", "panel-heading"));
+            var heading = new XElement("div", "Environment", new XAttribute("class", "panel-heading"));
 
             var table = new XElement("table", new XAttribute("class", "table"));
 
@@ -135,31 +139,118 @@
             return table;
         }
 
+        public string GetContainerColor(TestItemStatus testItemStatus)
+        {
+            switch (testItemStatus)
+            {
+                case TestItemStatus.NotExecuted:
+                    return "panel-info";
+                case TestItemStatus.Unknown:
+                    return "panel-info";
+                case TestItemStatus.Passed:
+                    return "panel-success";
+                case TestItemStatus.Failed:
+                    return "panel-danger";
+                case TestItemStatus.Skipped:
+                    return "panel-warning";
+                default:
+                    return "panel-default";
+            }
+        }
+
+        public string GetLogColor(LogLevel logLevel)
+        {
+            switch (logLevel)
+            {
+                case LogLevel.TRACE:
+                    return "primary";
+                case LogLevel.DEBUG:
+                    return "success";
+                case LogLevel.WARN:
+                    return "warning";
+                case LogLevel.INFO:
+                    return "info";
+                case LogLevel.ERROR:
+                    return "danger";
+                default:
+                    return "";
+            }
+        }
+
+        public XElement GetPanelExpander(TestItem testItem)
+        {
+            XElement btn;
+            if (testItem.Childs.Count != 0)
+            {
+                btn = new XElement("button", new XAttribute("class", "btn btnexp btn-warning"), testItem.Childs[0].Type.ToString() + "s");
+            }
+            else
+            {
+                btn = new XElement("p", "");
+            }
+            return btn;
+        }
+
+        public XElement GetLogExpander(TestItem testItem)
+        {
+            XElement btn = new XElement("button", new XAttribute("class", "btn btnlog btn-info"), testItem.Type + " logs");
+            return btn;
+        }
+
+        public XElement GetLogs(TestItem testItem)
+        {
+            var elem = new XElement("div", "Logs:",
+                new XAttribute("class", "log"),
+                new XAttribute("style", "display: none;")
+            );
+            if (testItem.LogMessages.Count != 0)
+            {
+                foreach (var msg in testItem.LogMessages)
+                {
+                    var tmp = new XElement("div",
+                        new XAttribute("class", $"bg-{GetLogColor(msg.Level)}"),
+                        new XElement("div", $"Level: {msg.Level}"),
+                        new XElement("div", $"DataStemp: {msg.DataStemp}"),
+                        new XElement("div", $"Message: {msg.Message}"),
+                        new XElement("div", $"Exception: {msg.Exception}")
+                    );
+                    elem.Add(tmp);
+                }
+            }
+            else
+            {
+                elem.Add(new XElement("p", "No logs here"));
+            }
+            return elem;
+        }
+
         public XElement GetReport(TestItem testItem)
         {
             XElement cont = (new XElement("div",
                 new XAttribute("class", "parent"),
                 new XElement("div",
-                    new XAttribute("class", "panel panel-default accordion"),
+                    new XAttribute("class", $"panel {GetContainerColor(testItem.Status)} accordion"),
                     new XElement("div",
                         new XAttribute("class", "panel-heading"),
                         new XElement("p", $"{testItem.Type}: {testItem.Name}"),
                         new XElement("p", $"Status: {testItem.Status}",
                             new XAttribute("class", $"status{testItem.Status}")
-                        )
+                        ),
+                        GetPanelExpander(testItem),
+                        GetLogExpander(testItem)
                     ),
                     new XElement("div",
                         new XAttribute("class", "panel-body"),
                         new XElement("p", $"Description: {testItem.Description}"),
                         GetOverall(testItem),
-                        new XElement("p", $"Logs: {testItem.LogMessages}")
+                        GetLogs(testItem)
                     )
                 )
             ));
             if (testItem.Childs.Count != 0) {
                 XElement acc = new XElement("div",
                     new XAttribute("class", "child"),
-                    new XAttribute("style", "display: none; margin-left: 3%")
+                    new XAttribute("style", "display: none; margin-left: 3%;")
                 );
                 cont.Add(acc);
                 foreach (var item in testItem.Childs)

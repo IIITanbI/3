@@ -28,7 +28,17 @@
                         Type = TestItemType.Suite,
                         Name = "Mock suite 1",
                         Description = "Temp mock suite 1 for project",
-                        LogMessages = new List<LogMessage>() { },
+                        LogMessages = new List<LogMessage>()
+                                        {
+                                            new LogMessage()
+                                            {
+                                                DataStemp = DateTime.Now,
+                                                Level = LogLevel.INFO,
+                                                Exception = null,
+                                                Message = "All cool",
+                                                UniqueName = "log1"
+                                            }
+                                        },
                         Status = TestItemStatus.Passed,
                         Duration = new TimeSpan(00, 00, 30),
 
@@ -50,14 +60,24 @@
                                         Description = "Temp mock step 1 for test 1",
                                         Duration = new TimeSpan(00, 00, 30),
                                         Messages = new List<LogMessage>() { },
-                                        Status = TestItemStatus.Passed
+                                        Status = TestItemStatus.Unknown
                                     },
                                     new Step()
                                     {
                                         Name = "Mock step 2",
                                         Description = "Temp mock step 2 for test 1",
                                         Duration = new TimeSpan(00, 00, 30),
-                                        Messages = new List<LogMessage>() { },
+                                        Messages = new List<LogMessage>()
+                                        {
+                                            new LogMessage()
+                                            {
+                                                DataStemp = DateTime.Now,
+                                                Level = LogLevel.INFO,
+                                                Exception = null,
+                                                Message = "All cool",
+                                                UniqueName = "log1"
+                                            }
+                                        },
                                         Status = TestItemStatus.Passed
                                     }
                                 }
@@ -68,7 +88,7 @@
                                 Name = "Mock test 2",
                                 Description = "Temp mock test 2 for suite 1",
                                 LogMessages = new List<LogMessage>() { },
-                                Status = TestItemStatus.Passed,
+                                Status = TestItemStatus.Skipped,
                                 Duration = new TimeSpan(00, 00, 30),
                                 Steps = new List<Step>()
                                 {
