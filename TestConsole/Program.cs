@@ -33,13 +33,12 @@ namespace TestConsole
             //main.Add(body);
 
            // var main = new ReportGenerator().CreateReport(DataSource.GetSample(), new QA.TestLibs.TestMetadata.TestEnvironmentInfo());
-            var main = new ReportGenerator().CreateReport(DataSource.GetSample(), new QA.TestLibs.TestMetadata.TestEnvironmentInfo());
+            //var main = new ReportGenerator().CreateReport(DataSource.GetSample(), new QA.TestLibs.TestMetadata.TestEnvironmentInfo());
            // main.Save("html.html");
 
 
             ReflectionManager.LoadAssemblies(Directory.GetCurrentDirectory());
 
-            var report = new ReportGenerator();
             var ds = DataSource.GetSample();
 
             var te = new TestEnvironmentInfo()
@@ -52,7 +51,7 @@ namespace TestConsole
                 User = Environment.UserName.ToString(),
                 UserDomain = Environment.UserDomainName.ToString()
             };
-            report.CreateReport(ds, te).Save("out.html", SaveOptions.None);
+            new ReportGenerator().CreateReport(ds, te).Save("out.html", SaveOptions.None);
 
             // var accordion = ReportGenerator.CreateAccordion(root, "head-first", head, body, "body-first");
 
