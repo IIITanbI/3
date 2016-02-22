@@ -54,6 +54,10 @@
 
             var js = new XElement("script", "", new XAttribute("src", "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"));
 
+            //var jQuery = new XElement("script", "", new XAttribute("src", "D:/Visual Studio 2015/Projects/QA/TestConsole/jquery-1.12.0.min.js"));
+
+            //var jsCustom = new XElement("script", "", new XAttribute("src", "D:/Visual Studio 2015/Projects/QA/TestConsole/custom.js"));
+
             var jQuery = new XElement("script", "", new XAttribute("src", "https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"));
 
             var jsCustom = new XElement("script", "", new XAttribute("src", "custom.js"));
@@ -113,11 +117,10 @@
 
             var thead = new XElement("thead",
                 new XElement("tr",
-                    new XElement("th", new XElement("button", "Total", new XAttribute("class", "btn")), new XAttribute("class", "total")),
-                    new XElement("th", new XElement("button", "Passed", new XAttribute("class", "btn")), new XAttribute("class", "passed")),
-                    new XElement("th", new XElement("button", "Failed", new XAttribute("class", "btn")), new XAttribute("class", "failed")),
-                    new XElement("th", new XElement("button", "Skipped", new XAttribute("class", "btn")), new XAttribute("class", "skipped"))
-                    //,new XElement("th", new XElement("button", "Clean", new XAttribute("class", "btn")), new XAttribute("class", "total"))
+                    new XElement("th", new XElement("button", "Total", new XAttribute("class", "btn btn-warning filter-total activated"))),
+                    new XElement("th", new XElement("button", "Passed", new XAttribute("class", "btn btn-info filter-passed"))),
+                    new XElement("th", new XElement("button", "Failed", new XAttribute("class", "btn btn-info filter-failed"))),
+                    new XElement("th", new XElement("button", "Skipped", new XAttribute("class", "btn btn-info filter-skipped")))
                 )
             );
 
@@ -255,7 +258,8 @@
                     )
                 )
             ));
-            if (testItem.Childs.Count != 0) {
+            if (testItem.Childs.Count != 0)
+            {
                 XElement acc = new XElement("div",
                     new XAttribute("class", "child"),
                     new XAttribute("style", "display: none; margin-left: 3%;")
