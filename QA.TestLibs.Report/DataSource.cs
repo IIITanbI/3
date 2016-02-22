@@ -17,7 +17,13 @@
                 Type = TestItemType.Project,
                 Name = "Mock project",
                 Description = "Temp mock project for reports",
-                LogMessages = new List<LogMessage>() { },
+                LogMessages = new List<LogMessage>() {
+                       new LogMessage() {DataStemp = DateTime.Now, Level = LogLevel.DEBUG, Message = "message", Exception = new AccessViolationException()},
+                       new LogMessage() {DataStemp = DateTime.Now, Level = LogLevel.ERROR, Message = "message", Exception = new AccessViolationException()},
+                       new LogMessage() {DataStemp = DateTime.Now, Level = LogLevel.INFO, Message = "message", Exception = new AccessViolationException()},
+                       new LogMessage() {DataStemp = DateTime.Now, Level = LogLevel.TRACE, Message = "message", Exception = new AccessViolationException()},
+                       new LogMessage() {DataStemp = DateTime.Now, Level = LogLevel.WARN, Message = "message", Exception = new AccessViolationException()}
+                },
                 Status = TestItemStatus.Failed,
                 Duration = new TimeSpan(00, 00, 60),
 
@@ -57,7 +63,13 @@
                                 Type = TestItemType.Test,
                                 Name = "Mock test 1",
                                 Description = "Temp mock test 1 for suite 1",
-                                LogMessages = new List<LogMessage>() { },
+                                LogMessages = new List<LogMessage>() {
+                                   new LogMessage() {DataStemp = DateTime.Now, Level = LogLevel.DEBUG, Message = "message", Exception = new AccessViolationException()},
+                                   new LogMessage() {DataStemp = DateTime.Now, Level = LogLevel.ERROR, Message = "message", Exception = new AccessViolationException()},
+                                   new LogMessage() {DataStemp = DateTime.Now, Level = LogLevel.INFO, Message = "message", Exception = new AccessViolationException()},
+                                   new LogMessage() {DataStemp = DateTime.Now, Level = LogLevel.TRACE, Message = "message", Exception = new AccessViolationException()},
+                                   new LogMessage() {DataStemp = DateTime.Now, Level = LogLevel.WARN, Message = "message", Exception = new AccessViolationException()}
+                                },
                                 Status = TestItemStatus.Passed,
                                 Duration = new TimeSpan(00, 00, 30),
                                 Steps = new List<Step>()
