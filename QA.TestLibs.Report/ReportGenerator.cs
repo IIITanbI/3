@@ -68,7 +68,7 @@
                 GetReport(testItem)
             );
 
-            body.Add(container, jQuery, js, jsCustom, jsCustom1);
+            body.Add(container, jQuery, js, jsCustom1, jsCustom);
 
             return body;
         }
@@ -176,7 +176,7 @@
                 case LogLevel.ERROR:
                     return "danger";
                 default:
-                    return "";
+                    return "info";
             }
         }
 
@@ -216,14 +216,17 @@
 
         public XElement GetLogs(TestItem testItem)
         {
+            XElement logTableContainer = new XElement("div", new XAttribute("style", "display:table"),
+                new XElement("div", "Logs:", new XAttribute("style", "display:table-cell")),
+                GetLogTableHeader()
+             );
+
             var main = new XElement("div",
                 new XAttribute("class", "logPanel"),
                 new XAttribute("style", "display: none;")
             );
 
-            var elem = new XElement("div", "Logs:",
-                new XAttribute("class", "log")
-            );
+            var elem = new XElement("div", new XAttribute("class", "log"));
 
 
 
@@ -243,23 +246,24 @@
             {
                 elem.Add(new XElement("p", $"No logs for {testItem.Name} item"));
             }
-            main.Add(GetLogTable());
+
+            main.Add(logTableContainer);
             main.Add(elem);
             return main;
         }
 
-        public XElement GetLogTable()
+        public XElement GetLogTableHeader()
         {
             var table = new XElement("table", new XAttribute("class", "table"));
             //TRACE, DEBUG, WARN, INFO, ERROR
             var thead = new XElement("thead",
                 new XElement("tr",
-                    new XElement("th", new XElement("button", "Total", new XAttribute("class", "btn btn-warning log-filter-total activated"))),
-                    new XElement("th", new XElement("button", "Trace", new XAttribute("class", "btn btn-info log-filter-trace"))),
-                    new XElement("th", new XElement("button", "Debug", new XAttribute("class", "btn btn-info log-filter-debug"))),
-                    new XElement("th", new XElement("button", "Warn", new XAttribute("class", "btn btn-info log-filter-warn"))),
-                    new XElement("th", new XElement("button", "Info", new XAttribute("class", "btn btn-info log-filter-info"))),
-                    new XElement("th", new XElement("button", "Error", new XAttribute("class", "btn btn-info log-filter-error")))
+                    new XElement("th", new XElement("button", "All", new XAttribute("class", $"btn btn-warning log-filter-total activated"))),
+                    new XElement("th", new XElement("button", "Trace", new XAttribute("class", $"btn btn-{GetLogColor(LogLevel.TRACE)} log-filter-trace"))),
+                    new XElement("th", new XElement("button", "Debug", new XAttribute("class", $"btn btn-{GetLogColor(LogLevel.DEBUG)} log-filter-debug"))),
+                    new XElement("th", new XElement("button", "Warn", new XAttribute("class", $"btn btn-{GetLogColor(LogLevel.WARN)} log-filter-warn"))),
+                    new XElement("th", new XElement("button", "Info", new XAttribute("class", $"btn btn-{GetLogColor(LogLevel.INFO)} log-filter-info"))),
+                    new XElement("th", new XElement("button", "Error", new XAttribute("class", $"btn btn-{GetLogColor(LogLevel.ERROR)} log-filter-error")))
                 )
             );
             table.Add(thead);
@@ -268,7 +272,7 @@
 
         public XElement GetReport(TestItem testItem)
         {
-            XElement cont = (new XElement("div",
+            XElement cont = new XElement("div",
                 new XAttribute("class", "parent"),
                 new XElement("div",
                     new XAttribute("class", $"panel {GetContainerColor(testItem.Status)} accordion"),
@@ -288,7 +292,7 @@
                         GetLogs(testItem)
                     )
                 )
-            ));
+            );
             if (testItem.Childs.Count != 0)
             {
                 XElement acc = new XElement("div",
