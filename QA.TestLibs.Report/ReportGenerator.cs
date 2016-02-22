@@ -113,11 +113,10 @@
 
             var thead = new XElement("thead",
                 new XElement("tr",
-                    new XElement("th", new XElement("button", "Total", new XAttribute("class", "btn")), new XAttribute("class", "total")),
-                    new XElement("th", new XElement("button", "Passed", new XAttribute("class", "btn")), new XAttribute("class", "passed")),
-                    new XElement("th", new XElement("button", "Failed", new XAttribute("class", "btn")), new XAttribute("class", "failed")),
-                    new XElement("th", new XElement("button", "Skipped", new XAttribute("class", "btn")), new XAttribute("class", "skipped"))
-                    //,new XElement("th", new XElement("button", "Clean", new XAttribute("class", "btn")), new XAttribute("class", "total"))
+                    new XElement("th", new XElement("button", "Total", new XAttribute("class", "btn btn-warning total activated"))),
+                    new XElement("th", new XElement("button", "Passed", new XAttribute("class", "btn btn-info passed"))),
+                    new XElement("th", new XElement("button", "Failed", new XAttribute("class", "btn btn-info failed"))),
+                    new XElement("th", new XElement("button", "Skipped", new XAttribute("class", "btn btn-info skipped")))
                 )
             );
 
