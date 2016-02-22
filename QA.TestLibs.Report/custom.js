@@ -1,17 +1,30 @@
 ﻿$(function () {
 	
 	
-	
-    $filters = ["total"];
-
-
     function doFilter(button) {
 		
         var $childs = $(button).closest(".parent").children('.child').children();
         var $needClass = "status";
 		
+		var $filters = []
+		var $filterButtons = $(button).closest(".table").find("button[class*='filter']");
 		
-		if ($filters.length > 0 && $filters[$filters.length - 1] === "total"){
+
+		$filterButtons.each(function(index, item){
+			if ($(item).hasClass("activated")){
+				$filters.push(getFilterFromButton(item));
+			}
+			//console.log(index);
+			//console.log(item);
+		});
+		 
+		if ($filters.length === 0){
+			var totalButton = $(button).closest(".table").find(".filter-total");
+			activateButton(totalButton);
+			$filters.push(getFilterFromButton(totalButton));
+		}
+		
+		if ($(button).hasClass("filter-total") || ($filters.length === 1 && $filters[0] === "total")){
 			$childs.removeAttr("hidden");
 			
 			var $filterButtons = $(button).closest(".table").find("button[class*='filter']");
@@ -19,7 +32,8 @@
 				console.log(this);
 				deactivateButton(this);
 			});
-			activateButton(button);
+			var totalButton = $(button).closest(".table").find(".filter-total");
+			activateButton(totalButton);
 			return;
 		}
 		else {
@@ -77,7 +91,7 @@
 		$button.removeClass("btn-info");
         $button.addClass("btn-warning");
         $button.addClass("activated");
-        $filters.push(getFilterFromButton(button));
+        //$filters.push(getFilterFromButton(button));
 	}
 	
 	function deactivateButton(button){
@@ -86,11 +100,11 @@
 		$button.removeClass("btn-warning");
 		$button.addClass("btn-info");
 		
-		var num = $.inArray(getFilterFromButton(button), $filters);
-		if (num === -1)
-			num = $filters.length;
+		// var num = $.inArray(getFilterFromButton(button), $filters);
+		// if (num === -1)
+			// num = $filters.length;
 
-		$filters.splice(num, 1);
+		// $filters.splice(num, 1);
 	}
 	
  
