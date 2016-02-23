@@ -2,7 +2,7 @@
 
     function doFilter(button) {
         var $childs = $(button).closest(".parent").children('.child').children();
-        var $needClass = "status";
+        var $needClass = "statusss";
 
         var $filters = []
         var $filterButtons = $(button).closest(".table").find("button[class*='filter']");
