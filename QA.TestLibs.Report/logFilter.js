@@ -2,9 +2,8 @@
 
     function doFilter(button) {
         var $childs = $(button).closest(".logPanel").children('.log').children();
-        var $needClass = "status";
 
-        var $filters = []
+        var $filters = [];
         var $filterButtons = $(button).closest(".table").find("button[class*='log-filter']");
 
         $filterButtons.each(function (index, item) {
