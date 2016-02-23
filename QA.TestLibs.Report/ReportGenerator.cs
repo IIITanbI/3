@@ -329,6 +329,7 @@
                         new XElement("p", $"Status: {testItem.Status}",
                             new XAttribute("class", $"status{testItem.Status}")
                         ),
+                        new XElement("p", $"Duration: {testItem.Duration} "),
                         GetPanelExpander(testItem),
                         GetLogExpander(testItem)
                     ),
@@ -373,6 +374,7 @@
                                     new XElement("p", $"Status: {step.Status}",
                                         new XAttribute("class", $"status{step.Status}")
                                     ),
+                                    new XElement("p", $"Duration: {step.Duration} "),
                                     GetLogExpander(step)
                                 ),
                                 new XElement("div",
