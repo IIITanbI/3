@@ -1,10 +1,11 @@
 ﻿$(function () {
 
     function doFilter(button) {
-        var $childs = $(button).closest(".logPanel").children('.log').children();
+        var $childs = $(button).closest(".parent").children('.child').children();
+        var $needClass = "status";
 
         var $filters = [];
-        var $filterButtons = $(button).closest(".table").find("button[class*='log-filter']");
+        var $filterButtons = $(button).closest(".table").find("button[class*='step-filter']");
 
         $filterButtons.each(function (index, item) {
             if ($(item).hasClass("activated")) {
@@ -14,7 +15,7 @@
             //console.log(item);
         });
 
-        var $totalButton = $(button).closest(".table").find(".log-filter-total");
+        var $totalButton = $(button).closest(".table").find(".step-filter-total");
 
         if ($(button).is($totalButton) || $filters.length === 0) {
             $childs.removeAttr("hidden");
@@ -23,14 +24,15 @@
                 console.log(this);
                 deactivateButton(this);
             });
-
             activateButton($totalButton);
             return;
         }
         deactivateButton($totalButton);
 
         for (var i = 0; i < $childs.length; i++) {
-            var $status = $($childs[i]).children("span").text().toLowerCase();
+            var $panelHeading = $($childs[i]).find('.panel-heading')[0];
+            var $className = $($panelHeading).children('p[class*=' + $needClass + ']').attr('class');
+            var $status = $className.substring($className.indexOf($needClass) + $needClass.length).toLowerCase();
 
             if ($.inArray($status, $filters) === -1) {
                 $($childs[i]).attr("hidden", "");
@@ -55,30 +57,34 @@
 
     function getFilterFromButton(button) {
         var filter = null;
-        var classList = $(button).attr('class').split(' ');
+        //var classList = $(button).attr('class').split(' ');
 
-        for (var i = 0; i < classList.length; i++) {
-            if (classList[i].match("log-filter-*")) {
-                filter = classList[i].substr("log-filter-".length);
-                break;
-            }
-        }
+        var matches = $(button).attr('class').match(new RegExp("step-filter-\\w*", 'g'));
+        if (matches.length > 0)
+            filter = matches[0].substr("step-filter-".length);
+
+        //for (var i = 0; i < classList.length; i++) {
+        //    if (classList[i].match("step-filter-*")) {
+        //        filter = classList[i].substr("step-filter-".length);
+        //        break;
+        //    }
+        //}
         console.log("log filter = " + filter);
         return filter;
     }
 
     function getColor(filter) {
         switch (filter) {
-            case 'trace':
+            case 'notexecuted':
                 return "primary";
             case 'debug':
-                return "success";
+                return "passed";
             case 'warn':
-                return "warning";
+                return "failed";
             case 'info':
-                return "info";
+                return "skipped";
             case 'error':
-                return "danger";
+                return "unknown";
             default:
                 return "info";
         }
@@ -99,7 +105,7 @@
     }
 
 
-    $("button[class*='log-filter']").click(function (e) {
+    $("button[class*='step-filter']").click(function (e) {
         filterButtonClick(this);
     });
 });

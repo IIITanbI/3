@@ -62,16 +62,21 @@ namespace QA.TestLibs.Report
 
             var jQuery = new XElement("script", "", new XAttribute("src", "https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"));
 
-            var jsCustom = new XElement("script", "", new XAttribute("src", "custom.js"));
-            var jsCustom1 = new XElement("script", "", new XAttribute("src", "logFilter.js"));
-            var jsCustom2 = new XElement("script", "", new XAttribute("src", "stepFilter.js"));
+            var jsCustom = new XElement("script", "", new XAttribute("src", "filter js/testFilter.js"));
+            var jsCustom1 = new XElement("script", "", new XAttribute("src", "filter js/logFilter.js"));
+            var jsCustom2 = new XElement("script", "", new XAttribute("src", "filter js/stepFilter.js"));
+
+            jsCustom = new XElement("script", "", new XAttribute("src", "filter js1/testFilter.js"));
+            jsCustom1 = new XElement("script", "", new XAttribute("src", "filter js1/logFilter.js"));
+            jsCustom2 = new XElement("script", "", new XAttribute("src", "filter js1/stepFilter.js"));
+            var jsCustom3 = new XElement("script", "", new XAttribute("src", "filter js1/filter.js"));
 
             var container = new XElement("div", new XAttribute("class", "container"),
                 GetEnvironment(testEnvironmentInfo),
                 GetReport(testItem)
             );
 
-            body.Add(container, jQuery, js, jsCustom, jsCustom1, jsCustom2);
+            body.Add(container, jQuery, js, jsCustom, jsCustom1, jsCustom2, jsCustom3);
 
             return body;
         }
