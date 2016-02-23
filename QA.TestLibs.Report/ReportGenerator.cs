@@ -184,6 +184,10 @@
             {
                 btn = new XElement("button", new XAttribute("class", "btn btnexp btn-warning"), testItem.Childs[0].Type.ToString() + "s");
             }
+            else if (testItem.Steps.Count != 0)
+            {
+                btn = new XElement("button", new XAttribute("class", "btn btnexp btn-warning"), "Steps");
+            }
             else
             {
                 btn = new XElement("p", "");
@@ -194,6 +198,12 @@
         public XElement GetLogExpander(TestItem testItem)
         {
             XElement btn = new XElement("button", new XAttribute("class", "btn btnlog btn-info"), testItem.Type + " logs");
+            return btn;
+        }
+
+        public XElement GetLogExpander(Step step)
+        {
+            XElement btn = new XElement("button", new XAttribute("class", "btn btnlog btn-info"), step.Name + " logs");
             return btn;
         }
 
@@ -243,6 +253,45 @@
             else
             {
                 elem.Add(new XElement("p", $"No logs for {testItem.Name} item"));
+            }
+
+            main.Add(logTableContainer);
+            main.Add(elem);
+            return main;
+        }
+
+        public XElement GetLogs(Step step)
+        {
+            XElement logTableContainer = new XElement("div", new XAttribute("style", "display:table"),
+                new XElement("div", "Logs:", new XAttribute("style", "display:table-cell")),
+                GetLogTableHeader()
+            );
+
+            var main = new XElement("div",
+                new XAttribute("class", "logPanel"),
+                new XAttribute("style", "display: none;")
+            );
+
+            var elem = new XElement("div", new XAttribute("class", "log"));
+
+            if (step.Messages.Count != 0)
+            {
+                foreach (var msg in step.Messages)
+                {
+                    var tmp = new XElement("div",
+                        new XElement("span", $"{msg.Level}",
+                            new XAttribute("class", $"bg-{GetLogColor(msg.Level)}")
+                        ),
+                        $" | {msg.DataStemp} | {msg.Message}",
+                        GetException(msg),
+                        new XElement("p")
+                    );
+                    elem.Add(tmp);
+                }
+            }
+            else
+            {
+                elem.Add(new XElement("p", $"No logs for {step.Name} item"));
             }
 
             main.Add(logTableContainer);
@@ -302,6 +351,38 @@
                 foreach (var item in testItem.Childs)
                 {
                     acc.Add(GetReport(item));
+                }
+            }
+            else if (testItem.Steps.Count != 0)
+            {
+                XElement acc = new XElement("div",
+                    new XAttribute("class", "child"),
+                    new XAttribute("style", "display: none; margin-left: 3%;")
+                );
+                cont.Add(acc);
+                foreach (var step in testItem.Steps)
+                {
+                    acc.Add(
+                        new XElement("div",
+                            new XAttribute("class", "parent"),
+                            new XElement("div",
+                                new XAttribute("class", $"panel {GetContainerColor(step.Status)} accordion"),
+                                new XElement("div",
+                                    new XAttribute("class", "panel-heading"),
+                                    new XElement("p", $"{step.Name}"),
+                                    new XElement("p", $"Status: {step.Status}",
+                                        new XAttribute("class", $"status{step.Status}")
+                                    ),
+                                    GetLogExpander(step)
+                                ),
+                                new XElement("div",
+                                    new XAttribute("class", "panel-body"),
+                                    new XElement("p", $"Description: {step.Description}"),
+                                    GetLogs(step)
+                                )
+                            )
+                        )
+                    );
                 }
             }
 
