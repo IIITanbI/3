@@ -234,7 +234,8 @@
                             new XAttribute("class", $"bg-{GetLogColor(msg.Level)}")
                         ),
                         $" | {msg.DataStemp} | {msg.Message}",
-                        GetException(msg)
+                        GetException(msg),
+                        new XElement("p")
                     );
                     elem.Add(tmp);
                 }
