@@ -136,7 +136,6 @@
 
             table.Add(thead, tbody);
 
-
             return table;
         }
 
@@ -217,7 +216,7 @@
             XElement logTableContainer = new XElement("div", new XAttribute("style", "display:table"),
                 new XElement("div", "Logs:", new XAttribute("style", "display:table-cell")),
                 GetLogTableHeader()
-             );
+            );
 
             var main = new XElement("div",
                 new XAttribute("class", "logPanel"),
@@ -230,10 +229,12 @@
             {
                 foreach (var msg in testItem.LogMessages)
                 {
-                    var tmp = new XElement("div", new XAttribute("class", $"bg-{GetLogColor(msg.Level)}"),
-                        new XElement("span", $"{msg.Level}"),
-                            $" | {msg.DataStemp} | {msg.Message}",
-                            GetException(msg)
+                    var tmp = new XElement("div",
+                        new XElement("span", $"{msg.Level}",
+                            new XAttribute("class", $"bg-{GetLogColor(msg.Level)}")
+                        ),
+                        $" | {msg.DataStemp} | {msg.Message}",
+                        GetException(msg)
                     );
                     elem.Add(tmp);
                 }
