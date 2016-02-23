@@ -291,6 +291,7 @@
                     )
                 )
             );
+
             if (testItem.Childs.Count != 0)
             {
                 XElement acc = new XElement("div",
@@ -303,6 +304,7 @@
                     acc.Add(GetReport(item));
                 }
             }
+
             return cont;
         }
     }

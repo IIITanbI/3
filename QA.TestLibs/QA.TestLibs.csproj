@@ -64,6 +64,7 @@
     <Compile Include="IWpfTypeControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestMetadata\AttachedData.cs" />
+    <Compile Include="TestMetadata\Tag.cs" />
     <Compile Include="TestMetadata\TestEnvironmentInfo.cs" />
     <Compile Include="TestMetadata\LogMessage.cs" />
     <Compile Include="TestMetadata\Step.cs" />

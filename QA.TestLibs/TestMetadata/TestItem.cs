@@ -38,6 +38,9 @@
         [XmlProperty("Test item failed tries", IsRequired = false)]
         public List<TestItem> FailedTries { get; set; } = new List<TestItem>();
 
+        [XmlProperty("Test item tags", IsRequired = false)]
+        public List<Tag> Tags { get; set; }
+
         public int GetTotal()
         {
             int tmp = 0;
