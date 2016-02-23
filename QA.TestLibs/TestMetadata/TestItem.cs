@@ -40,46 +40,31 @@
 
         public int GetTotal()
         {
+            if (this.Type == TestItemType.Test)
+                return 1;
+
             int tmp = 0;
-            switch (Type)
+            foreach (var child in Childs)
             {
-                case TestItemType.Project:
-                case TestItemType.Suite:
-                    foreach (var child in Childs)
-                    {
-                        tmp += child.GetTotal();
-                    }
-                    break;
-                case TestItemType.Test:
-                    tmp = 1;
-                    break;
-                default:
-                    break;
+                tmp += child.GetTotal();
             }
+
             return tmp;
         }
 
         public int GetWithStatus(TestItemStatus status)
         {
-            int tmp = 0;
-            switch (Type)
+            if (this.Type == TestItemType.Test)
             {
-                case TestItemType.Project:
-                case TestItemType.Suite:
-                    foreach (var child in Childs)
-                    {
-                        tmp += child.GetWithStatus(status);
-                    }
-                    break;
-                case TestItemType.Test:
-                    if (Status == status)
-                    {
-                        tmp = 1;
-                    }
-                    break;
-                default:
-                    break;
+                return this.Status == status ? 1 : 0;
             }
+
+            int tmp = 0;
+            foreach (var child in Childs)
+            {
+                tmp += child.GetWithStatus(status);
+            }
+
             return tmp;
         }
     }
