@@ -110,8 +110,6 @@
             return environment;
         }
 
-
-
         public XElement GetOverall(TestItem testItem)
         {
             if (testItem.Type == TestItemType.Test) return null;
@@ -228,8 +226,6 @@
 
             var elem = new XElement("div", new XAttribute("class", "log"));
 
-
-
             if (testItem.LogMessages.Count != 0)
             {
                 foreach (var msg in testItem.LogMessages)
@@ -307,6 +303,5 @@
             }
             return cont;
         }
-
     }
 }
