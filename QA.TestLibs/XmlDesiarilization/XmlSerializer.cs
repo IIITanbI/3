@@ -8,6 +8,7 @@
     using System.Threading.Tasks;
     using System.Xml.Linq;
     using System.Reflection;
+    using ExtensionMethods;
 
     public static class XmlSerializer
     {
@@ -23,25 +24,11 @@
             foreach (var xmlProperty in xmlType.XmlProperties)
             {
                 var propVal = xmlProperty.GetValue(obj);
-                if (xmlProperty.PropertyType.IsGenericType)
+                if (xmlProperty.PropertyType.IsGenericType || xmlProperty.PropertyType.IsArray)
                 {
                     var xcel = new XElement(xmlProperty.Info.Name);
-                    if (xmlProperty.PropertyType.GetGenericTypeDefinition() == typeof(Dictionary<,>))
-                    {
-                        foreach (var pVal in ((IDictionary)propVal).Values)
-                        {
-                            var xel = Serialize(pVal);
-                            xcel.Add(xel);
-                        }
-                    }
-                    else
-                    {
-                        foreach (var pVal in (IEnumerable)propVal)
-                        {
-                            var xel = Serialize(pVal);
-                            xcel.Add(xel);
-                        }
-                    }
+                    var children = propVal.GetChilds();
+                    children.ForEach(c => xcel.Add(Serialize(c)));
                     xElement.Add(xcel);
                 }
                 else if (typeof(XmlBaseType).IsAssignableFrom(xmlProperty.PropertyType))

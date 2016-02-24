@@ -35,7 +35,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,9 +52,7 @@
     <Compile Include="TestContextItem.cs" />
     <Compile Include="TestContext.cs" />
     <Compile Include="TestItem.cs" />
-    <Compile Include="TestItemControl.xaml.cs">
-      <DependentUpon>TestItemControl.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="TestItemControlFiller.cs" />
     <Compile Include="TestProject.cs" />
     <Compile Include="TestStep.cs" />
     <Compile Include="TestSuite.cs" />
@@ -69,12 +66,6 @@
       <Project>{59268cc8-5d39-4331-909d-cfc1bbc67f0c}</Project>
       <Name>QA.TestLibs</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="TestItemControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

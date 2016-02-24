@@ -7,13 +7,13 @@
     using System.Threading.Tasks;
 
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-    public class WpfTypeControlAttribute : Attribute
+    public class WpfControlFillerAttribute : Attribute
     {
-        public string XmlTypeName { get; private set; }
+        public Type XmlType { get; private set; }
 
-        public WpfTypeControlAttribute(string xmlTypeName)
+        public WpfControlFillerAttribute(Type xmlType)
         {
-            XmlTypeName = xmlTypeName;
+            XmlType = xmlType;
         }
     }
 }

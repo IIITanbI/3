@@ -49,6 +49,13 @@
             }
         }
 
+        public object CreateCopy(object obj)
+        {
+            var xel = XmlSerializer.Serialize(obj);
+            var createdObj = XmlParser.Parse(XType, xel);
+            return createdObj;
+        }
+
         public override string ToString()
         {
             return $"XmlType for type: {XType.Name}\nDescription: {Description}";

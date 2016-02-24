@@ -42,6 +42,10 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
+    <Reference Include="Xceed.Wpf.Toolkit, Version=2.6.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.6\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\Command.cs" />
@@ -55,13 +59,14 @@
     <Compile Include="Exceptions\TypeCastException.cs" />
     <Compile Include="Exceptions\MissedConfigElementException.cs" />
     <Compile Include="Exceptions\TestLibsException.cs" />
+    <Compile Include="ExtensionMethods\ObjectExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\StringExtenshionMethods.cs" />
     <Compile Include="ExtensionMethods\ListExtenshionMethods.cs" />
     <Compile Include="ExtensionMethods\XmlExtenshionMethods.cs" />
     <Compile Include="IContext.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="IReportGenerator.cs" />
-    <Compile Include="IWpfTypeControl.cs" />
+    <Compile Include="IWpfControlFiller.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestMetadata\AttachedData.cs" />
     <Compile Include="TestMetadata\TestEnvironmentInfo.cs" />
@@ -70,10 +75,23 @@
     <Compile Include="TestMetadata\TestItem.cs" />
     <Compile Include="Utils\Snapshoot.cs" />
     <Compile Include="Utils\Snapshooter.cs" />
-    <Compile Include="WpfControls\BaseXmlTypeControl.xaml.cs">
-      <DependentUpon>BaseXmlTypeControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="WpfControls\WpfTypeControlAttribute.cs" />
+    <Compile Include="WpfControls\BaseEditMeta.cs" />
+    <Compile Include="WpfControls\BaseXmlTypeControlFiller.cs" />
+    <Compile Include="WpfControls\EditCollectionMeta.cs" />
+    <Compile Include="WpfControls\EditItemMeta.cs" />
+    <Compile Include="WpfControls\EditValueMeta.cs" />
+    <Compile Include="WpfControls\CustomFillers\BaseValueFiller.cs" />
+    <Compile Include="WpfControls\CustomFillers\BoolFiller.cs" />
+    <Compile Include="WpfControls\CustomFillers\ByteFiller.cs" />
+    <Compile Include="WpfControls\CustomFillers\DateTimeFiller.cs" />
+    <Compile Include="WpfControls\CustomFillers\DoubleFiller.cs" />
+    <Compile Include="WpfControls\CustomFillers\EnumFiller.cs" />
+    <Compile Include="WpfControls\CustomFillers\IntFiller.cs" />
+    <Compile Include="WpfControls\CustomFillers\StringFiller.cs" />
+    <Compile Include="WpfControls\CustomFillers\TimeSpanFiller.cs" />
+    <Compile Include="WpfControls\CustomFillers\XElementFiller.cs" />
+    <Compile Include="WpfControls\WpfControlFiller.cs" />
+    <Compile Include="WpfControls\WpfControlFillerAttribute.cs" />
     <Compile Include="XmlDesiarilization\CustomParsers\ArrayTypeParser.cs" />
     <Compile Include="XmlDesiarilization\CustomParsers\DefaultQaTypeParser.cs" />
     <Compile Include="XmlDesiarilization\CustomParsers\EnumTypeParser.cs" />
@@ -99,10 +117,7 @@
     <Compile Include="XmlDesiarilization\XmlTypeAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="WpfControls\BaseXmlTypeControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

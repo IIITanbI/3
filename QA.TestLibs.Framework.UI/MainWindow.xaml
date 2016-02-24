@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QA.TestLibs.Framework.UI"
         mc:Ignorable="d"
-        Title="QA.TestLibs Framework UI" Height="350" Width="525">
+        Title="QA.TestLibs Framework UI" Height="350" Width="525" WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -15,6 +15,8 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
+
+
 
         <Menu Name="FMenu" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
             <MenuItem Header="Project">
@@ -27,16 +29,20 @@
 
         <TreeView Name="FTree" Grid.Row="1" Grid.Column="0" Height="Auto" Width="Auto"></TreeView>
 
-        <TabControl Name="FTabs" Grid.Row="1" Grid.Column="1">
-            
+        <TabControl Name="FTabs" Grid.Row="1" Grid.Column="1" SelectionChanged="FTabs_SelectionChanged">
+
             <TabItem Name="FIntoTab">
                 <TabItem.Header>Info</TabItem.Header>
-                <StackPanel Name="FInfoPanel" Margin="5"></StackPanel>
+                <ScrollViewer>
+                    <StackPanel Name="FInfoPanel" Margin="5"></StackPanel>
+                </ScrollViewer>
             </TabItem>
 
             <TabItem Name="FManagingTab">
                 <TabItem.Header>Managing</TabItem.Header>
-                <StackPanel Name="FManagingPanel" Margin="5"></StackPanel>
+                <ScrollViewer>
+                    <StackPanel Name="FManagingPanel" Margin="5"></StackPanel>
+                </ScrollViewer>
             </TabItem>
 
             <TabItem Name="FLogsTab">
@@ -55,6 +61,6 @@
             </TabItem>
 
         </TabControl>
-        
+
     </Grid>
 </Window>
