@@ -24,10 +24,10 @@
     });
 
     $(".btnexp").click(function (e) {
-        $(this).closest(".parent").children('.child').toggle();
+        $(this).closest(".parent").children('.child').toggle(500);
     });
     $('.btnlog').click(function (e) {
-        $(this).closest(".accordion").find('.logPanel').toggle();
+        $(this).closest(".accordion").find('.logPanel').slideToggle();
     });
 
 });

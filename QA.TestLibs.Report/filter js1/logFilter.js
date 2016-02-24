@@ -32,8 +32,12 @@
         }
     }
 
-
+	$(".logexp").click(function(e){
+		$(this).parent().find(".table").toggle(500);
+	});
+	
     $("button[class*='log-filter']").click(function (e) {
+		
         myFilter.filterButtonClick(this);
     });
 });
