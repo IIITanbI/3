@@ -7,10 +7,13 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    [XmlType("Tutorial config")]
-    public class TutorialConfig : XmlBaseType
+    [XmlType("Tutorial")]
+    public class Tutorial : XmlBaseType
     {
-        [XmlProperty("Tutorial temp folder")]
+        [XmlProperty("Tutorial folder")]
         public string Folder { get; set; }
+
+        [XmlProperty("Tutorial item list")]
+        public List<TutorialItem> TutorialItems { get; set; }
     }
 }
