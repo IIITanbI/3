@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
+# Visual Studio Express 14 for Windows Desktop
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QA.TestLibs", "QA.TestLibs\QA.TestLibs.csproj", "{59268CC8-5D39-4331-909D-CFC1BBC67F0C}"
@@ -20,6 +20,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TConsole", "TConsole\TConsole.csproj", "{9DC87798-912F-4C7F-994C-2FD71AB3BC8F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QA.TestLibs.GitManager", "QA.TestLibs.GitManager\QA.TestLibs.GitManager.csproj", "{38411513-B848-48B0-BAC0-9744782F1632}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole", "TestConsole\TestConsole.csproj", "{494096F4-F309-4596-B9F0-1F3395FC6244}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{38411513-B848-48B0-BAC0-9744782F1632}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38411513-B848-48B0-BAC0-9744782F1632}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38411513-B848-48B0-BAC0-9744782F1632}.Release|Any CPU.Build.0 = Release|Any CPU
+		{494096F4-F309-4596-B9F0-1F3395FC6244}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{494096F4-F309-4596-B9F0-1F3395FC6244}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{494096F4-F309-4596-B9F0-1F3395FC6244}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{494096F4-F309-4596-B9F0-1F3395FC6244}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
