@@ -234,14 +234,15 @@ namespace QA.TestLibs.Report
                 new XAttribute("class", "table"),
                 new XAttribute("style", "display:none;"));
             //TRACE, DEBUG, WARN, INFO, ERROR
+            int width = 70;
             var thead = new XElement("thead",
                 new XElement("tr",
-                    new XElement("th", new XElement("button", "All", new XAttribute("class", $"btn btn-warning log-filter-total activated"))),
-                    new XElement("th", new XElement("button", "Trace", new XAttribute("class", $"btn btn-{GetLogColor(LogLevel.TRACE)} log-filter-trace"))),
-                    new XElement("th", new XElement("button", "Debug", new XAttribute("class", $"btn btn-{GetLogColor(LogLevel.DEBUG)} log-filter-debug"))),
-                    new XElement("th", new XElement("button", "Warn", new XAttribute("class", $"btn btn-{GetLogColor(LogLevel.WARN)} log-filter-warn"))),
-                    new XElement("th", new XElement("button", "Info", new XAttribute("class", $"btn btn-{GetLogColor(LogLevel.INFO)} log-filter-info"))),
-                    new XElement("th", new XElement("button", "Error", new XAttribute("class", $"btn btn-{GetLogColor(LogLevel.ERROR)} log-filter-error")))
+                    new XElement("th", new XElement("button", "All",    new XAttribute("class", $"btn btn-warning log-filter-total activated"),             new XAttribute("style", $"width: {width}px;"))),
+                    new XElement("th", new XElement("button", "Trace",  new XAttribute("class", $"btn btn-{GetLogColor(LogLevel.TRACE)} log-filter-trace"), new XAttribute("style", $"width: {width}px;"))),
+                    new XElement("th", new XElement("button", "Debug",  new XAttribute("class", $"btn btn-{GetLogColor(LogLevel.DEBUG)} log-filter-debug"), new XAttribute("style", $"width: {width}px;"))),
+                    new XElement("th", new XElement("button", "Warn",   new XAttribute("class", $"btn btn-{GetLogColor(LogLevel.WARN)} log-filter-warn"),   new XAttribute("style", $"width: {width}px;"))),
+                    new XElement("th", new XElement("button", "Info",   new XAttribute("class", $"btn btn-{GetLogColor(LogLevel.INFO)} log-filter-info"),   new XAttribute("style", $"width: {width}px;"))),
+                    new XElement("th", new XElement("button", "Error",  new XAttribute("class", $"btn btn-{GetLogColor(LogLevel.ERROR)} log-filter-error"), new XAttribute("style", $"width: {width}px;")))
                 )
             );
             table.Add(thead);
