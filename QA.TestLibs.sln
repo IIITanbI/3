@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TConsole", "TConsole\TConso
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QA.TestLibs.GitManager", "QA.TestLibs.GitManager\QA.TestLibs.GitManager.csproj", "{38411513-B848-48B0-BAC0-9744782F1632}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAP.Automation.TutorialManager", "SAP.Automation.TutorialManager\SAP.Automation.TutorialManager.csproj", "{C41B2082-1EFB-4D60-9D79-8B8351F85E8C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{38411513-B848-48B0-BAC0-9744782F1632}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38411513-B848-48B0-BAC0-9744782F1632}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38411513-B848-48B0-BAC0-9744782F1632}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C41B2082-1EFB-4D60-9D79-8B8351F85E8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C41B2082-1EFB-4D60-9D79-8B8351F85E8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C41B2082-1EFB-4D60-9D79-8B8351F85E8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C41B2082-1EFB-4D60-9D79-8B8351F85E8C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
