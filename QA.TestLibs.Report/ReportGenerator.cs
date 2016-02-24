@@ -283,8 +283,7 @@ namespace QA.TestLibs.Report
                 foreach (var msg in messages)
                 {
                     var tmp = new XElement("div",
-                        new XAttribute("class", $"bg-{GetLogColor(msg.Level)}"),
-                        new XElement("span", $"{msg.Level}"),
+                        new XElement("span", $"{msg.Level}", new XAttribute("class", $"bg-{GetLogColor(msg.Level)}")),
                         $" | {msg.DataStemp} | {msg.Message}",
                         GetException(msg),
                         new XElement("p")

@@ -33,7 +33,23 @@
     }
 
 	$(".logexp").click(function(e){
-		$(this).parent().find(".table").toggle(500);
+		var $cur = $(e.currentTarget);
+		var $elem = $(this).parent().find(".table");
+		//console.log($elem.css("display"));
+		$elem.toggle(0, function onCompleteToggle(){
+			var $elem = $(this).parent().find(".table");
+			//console.log($elem.css("display"));
+			//console.log(" ");
+			if ($elem.is(":visible")){
+				$cur.css("background-image", "url(expander-off.png)");
+				console.log("visible");
+			} else {
+				$cur.css("background-image", "url(expander.png)");
+				console.log("none");
+			}
+		});
+		
+		
 	});
 	
     $("button[class*='log-filter']").click(function (e) {
