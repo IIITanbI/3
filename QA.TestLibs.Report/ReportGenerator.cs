@@ -1,6 +1,4 @@
-﻿using QA.TestLibs.XmlDesiarilization;
-
-namespace QA.TestLibs.Report
+﻿namespace QA.TestLibs.Report
 {
     using System;
     using System.Collections.Generic;
@@ -62,21 +60,15 @@ namespace QA.TestLibs.Report
 
             var jQuery = new XElement("script", "", new XAttribute("src", "https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"));
 
-            var jsCustom = new XElement("script", "", new XAttribute("src", "filter js/testFilter.js"));
-            var jsCustom1 = new XElement("script", "", new XAttribute("src", "filter js/logFilter.js"));
-            var jsCustom2 = new XElement("script", "", new XAttribute("src", "filter js/stepFilter.js"));
-
-            jsCustom = new XElement("script", "", new XAttribute("src", "filter js1/testFilter.js"));
-            jsCustom1 = new XElement("script", "", new XAttribute("src", "filter js1/logFilter.js"));
-            jsCustom2 = new XElement("script", "", new XAttribute("src", "filter js1/stepFilter.js"));
-            var jsCustom3 = new XElement("script", "", new XAttribute("src", "filter js1/filter.js"));
+            var jsCustom = new XElement("script", "", new XAttribute("src", "custom.js"));
+            var jsCustom1 = new XElement("script", "", new XAttribute("src", "logFilter.js"));
 
             var container = new XElement("div", new XAttribute("class", "container"),
                 GetEnvironment(testEnvironmentInfo),
                 GetReport(testItem)
             );
 
-            body.Add(container, jQuery, js, jsCustom, jsCustom1, jsCustom2, jsCustom3);
+            body.Add(container, jQuery, js, jsCustom1, jsCustom);
 
             return body;
         }
@@ -120,8 +112,7 @@ namespace QA.TestLibs.Report
 
         public XElement GetOverall(TestItem testItem)
         {
-            if (testItem.Type == TestItemType.Test)
-                return GetStepTableHeader();
+            if (testItem.Type == TestItemType.Test) return null;
 
             var table = new XElement("table", new XAttribute("class", "table"));
 
@@ -204,13 +195,15 @@ namespace QA.TestLibs.Report
             return btn;
         }
 
-        public XElement GetLogExpander(XmlBaseType obj)
+        public XElement GetLogExpander(TestItem testItem)
         {
-            if (!(obj is TestItem || obj is Step))
-                return new XElement("div");
+            XElement btn = new XElement("button", new XAttribute("class", "btn btnlog btn-info"), testItem.Type + " logs");
+            return btn;
+        }
 
-            string name = (obj as TestItem)?.Type.ToString() ?? (obj as Step)?.Name;
-            XElement btn = new XElement("button", new XAttribute("class", "btn btnlog btn-info"), name + " logs");
+        public XElement GetLogExpander(Step step)
+        {
+            XElement btn = new XElement("button", new XAttribute("class", "btn btnlog btn-info"), step.Name + " logs");
             return btn;
         }
 
@@ -228,14 +221,8 @@ namespace QA.TestLibs.Report
             return log;
         }
 
-        public XElement GetLogs(XmlBaseType obj)
+        public XElement GetLogs(TestItem testItem)
         {
-            if (!(obj is TestItem || obj is Step))
-                return new XElement("div");
-
-            string name = (obj as TestItem)?.Name ?? (obj as Step)?.Name;
-            List<LogMessage> messages = (obj as TestItem)?.LogMessages ?? (obj as Step)?.Messages;
-
             XElement logTableContainer = new XElement("div", new XAttribute("style", "display:table"),
                 new XElement("div", "Logs:", new XAttribute("style", "display:table-cell")),
                 GetLogTableHeader()
@@ -248,9 +235,9 @@ namespace QA.TestLibs.Report
 
             var elem = new XElement("div", new XAttribute("class", "log"));
 
-            if (messages.Count != 0)
+            if (testItem.LogMessages.Count != 0)
             {
-                foreach (var msg in messages)
+                foreach (var msg in testItem.LogMessages)
                 {
                     var tmp = new XElement("div",
                         new XElement("span", $"{msg.Level}",
@@ -265,7 +252,7 @@ namespace QA.TestLibs.Report
             }
             else
             {
-                elem.Add(new XElement("p", $"No logs for {name} item"));
+                elem.Add(new XElement("p", $"No logs for {testItem.Name} item"));
             }
 
             main.Add(logTableContainer);
@@ -273,36 +260,45 @@ namespace QA.TestLibs.Report
             return main;
         }
 
-
-        public XElement GetStepTableHeader()
+        public XElement GetLogs(Step step)
         {
-            var table = new XElement("table", new XAttribute("class", "table"));
-            //NotExecuted, Unknown, Passed, Failed, Skipped
-            var thead = new XElement("thead",
-                new XElement("tr",
-                    new XElement("th", new XElement("button", "All", new XAttribute("class", $"btn btn-warning step-filter-total activated"))),
-                    new XElement("th", new XElement("button", "NotExecuted", new XAttribute("class", $"btn btn-{GetLogColor(LogLevel.TRACE)} step-filter-notexecuted"))),
-                    new XElement("th", new XElement("button", "Passed", new XAttribute("class", $"btn btn-{GetLogColor(LogLevel.DEBUG)} step-filter-passed"))),
-                    new XElement("th", new XElement("button", "Failed", new XAttribute("class", $"btn btn-{GetLogColor(LogLevel.WARN)} step-filter-failed"))),
-                    new XElement("th", new XElement("button", "Skipped", new XAttribute("class", $"btn btn-{GetLogColor(LogLevel.INFO)} step-filter-skipped"))),
-                    new XElement("th", new XElement("button", "Unknown", new XAttribute("class", $"btn btn-{GetLogColor(LogLevel.ERROR)} step-filter-unknown")))
-                )
+            XElement logTableContainer = new XElement("div", new XAttribute("style", "display:table"),
+                new XElement("div", "Logs:", new XAttribute("style", "display:table-cell")),
+                GetLogTableHeader()
             );
-            table.Add(thead);
-            return table;
-        }
-        public XElement GetStepButtons()
-        {
-            XElement logTableContainer = new XElement("div", GetStepTableHeader());
 
             var main = new XElement("div",
                 new XAttribute("class", "logPanel"),
                 new XAttribute("style", "display: none;")
             );
 
+            var elem = new XElement("div", new XAttribute("class", "log"));
+
+            if (step.Messages.Count != 0)
+            {
+                foreach (var msg in step.Messages)
+                {
+                    var tmp = new XElement("div",
+                        new XElement("span", $"{msg.Level}",
+                            new XAttribute("class", $"bg-{GetLogColor(msg.Level)}")
+                        ),
+                        $" | {msg.DataStemp} | {msg.Message}",
+                        GetException(msg),
+                        new XElement("p")
+                    );
+                    elem.Add(tmp);
+                }
+            }
+            else
+            {
+                elem.Add(new XElement("p", $"No logs for {step.Name} item"));
+            }
+
             main.Add(logTableContainer);
+            main.Add(elem);
             return main;
         }
+
         public XElement GetLogTableHeader()
         {
             var table = new XElement("table", new XAttribute("class", "table"));

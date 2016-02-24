@@ -99,7 +99,7 @@
 
             if (_curTreeItem == null || _curTreeItem != treeViewItem)
             {
-                if(_curTreeItem != null)
+                if (_curTreeItem != null)
                     _curTreeItem.FontWeight = FontWeights.Normal;
                 _curTreeItem = treeViewItem;
                 _curTreeItem.FontWeight = FontWeights.Bold;
@@ -142,19 +142,35 @@
                     break;
             }
         }
+
+        private TestItem _filledInfoItem = null;
         public void FillInfoTab(TestItem testItem)
         {
+            if (_filledInfoItem == testItem) return;
+            if (_filledInfoItem == null || _filledInfoItem != testItem)
+                _filledInfoItem = testItem;
+
             FInfoPanel.Children.Clear();
+            FInfoPanel.Resources.Clear();
 
-            var infoControl = new TestItemControl();
-            infoControl.GenerateInfoMode(testItem);
-
-            FInfoPanel.Children.Add(infoControl);
+            var infoControl = new TestItemControlFiller();
+            infoControl.FillInfoMode(FInfoPanel, testItem);
         }
+
+        private TestItem _filledManagingItem = null;
         public void FillManagingTab(TestItem testItem)
         {
+            if (_filledManagingItem == testItem) return;
+            if (_filledManagingItem == null || _filledManagingItem != testItem)
+                _filledManagingItem = testItem;
 
+            FManagingPanel.Children.Clear();
+            FManagingPanel.Resources.Clear();
+
+            var managingControl = new TestItemControlFiller();
+            managingControl.FillEditMode(FManagingPanel, testItem);
         }
+
         public void FillLogsTab(TestItem testItem)
         {
 
@@ -168,5 +184,10 @@
 
         }
 
+        private void FTabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (_curTestItem != null)
+                FillTab(_curTestItem);
+        }
     }
 }
