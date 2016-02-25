@@ -8,7 +8,6 @@
     using System.Net;
     using System.Text;
     using System.Threading;
-    using System.Threading.Tasks;
 
     [CommandManager(typeof(ApiManagerConfig), "Api", Description = "Manager for Api")]
     public class ApiManager : CommandManagerBase
@@ -20,7 +19,7 @@
 
         ThreadLocal<LocalContainer> _container;
 
-        public ApiManager(ApiManagerConfig config, Request request, Response response)
+        public ApiManager(ApiManagerConfig config)
             : base(config)
         {
             _container = new ThreadLocal<LocalContainer>(() =>
@@ -39,8 +38,8 @@
                 log?.DEBUG($"Perform {request.Method.ToString()} request");
                 var rep = new Response();
                 var req = (HttpWebRequest)WebRequest.Create(_container.Value.Config.EndPoint + request.PostData);
+                req.Credentials = new NetworkCredential(_container.Value.Config.Username, _container.Value.Config.Password);
                 req.Method = request.Method.ToString();
-                req.ContentLength = 0;
                 req.ContentType = request.ContentType;
                 var resp = (HttpWebResponse)req.GetResponse();
                 rep.Content = resp.StatusCode.ToString();
