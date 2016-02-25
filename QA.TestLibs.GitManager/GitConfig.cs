@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using XmlDesiarilization;
 
-    [Serializable]
     [XmlType("Git configuration")]
     public class GitConfig : XmlBaseType
     {
