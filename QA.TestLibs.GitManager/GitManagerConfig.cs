@@ -5,7 +5,7 @@
     using XmlDesiarilization;
 
     [XmlType("Git configuration")]
-    public class GitConfig : XmlBaseType
+    public class GitManagerConfig : XmlBaseType
     {
         [XmlProperty("Remote repository URI")]
         public string RemoteRepository { get; set; } = null;
