@@ -123,11 +123,14 @@ namespace QA.TestLibs.Report
             if (testItem.Type == TestItemType.Test)
                 return GetStepTableHeader();
 
-            var table = new XElement("table", new XAttribute("class", "table"));
+            var table = new XElement("table", 
+                new XAttribute("class", "table"),
+                new XAttribute("style", "margin-bottom: 0px;")
+            );
 
             var thead = new XElement("thead",
                 new XElement("tr",
-                    new XElement("th", new XElement("button", "Total", new XAttribute("class", "btn btn-warning filter-total activated"))),
+                    new XElement("th", new XElement("button", "Total", new XAttribute("class", "btn btn-warning filter-passed filter-failed filter-skipped activated"))),
                     new XElement("th", new XElement("button", "Passed", new XAttribute("class", "btn btn-info filter-passed"))),
                     new XElement("th", new XElement("button", "Failed", new XAttribute("class", "btn btn-info filter-failed"))),
                     new XElement("th", new XElement("button", "Skipped", new XAttribute("class", "btn btn-info filter-skipped")))
@@ -230,24 +233,22 @@ namespace QA.TestLibs.Report
 
         public XElement GetLogTableHeader()
         {
-            var table = new XElement("table", 
-                new XAttribute("class", "table"),
-                new XAttribute("style", "display:none;"));
             //TRACE, DEBUG, WARN, INFO, ERROR
             int width = 70;
-            var thead = new XElement("thead",
-                new XElement("tr",
-                    new XElement("th", new XElement("button", "All",    new XAttribute("class", $"btn btn-warning log-filter-total activated"),             new XAttribute("style", $"width: {width}px;"))),
-                    new XElement("th", new XElement("button", "Trace",  new XAttribute("class", $"btn btn-{GetLogColor(LogLevel.TRACE)} log-filter-trace"), new XAttribute("style", $"width: {width}px;"))),
-                    new XElement("th", new XElement("button", "Debug",  new XAttribute("class", $"btn btn-{GetLogColor(LogLevel.DEBUG)} log-filter-debug"), new XAttribute("style", $"width: {width}px;"))),
-                    new XElement("th", new XElement("button", "Warn",   new XAttribute("class", $"btn btn-{GetLogColor(LogLevel.WARN)} log-filter-warn"),   new XAttribute("style", $"width: {width}px;"))),
-                    new XElement("th", new XElement("button", "Info",   new XAttribute("class", $"btn btn-{GetLogColor(LogLevel.INFO)} log-filter-info"),   new XAttribute("style", $"width: {width}px;"))),
-                    new XElement("th", new XElement("button", "Error",  new XAttribute("class", $"btn btn-{GetLogColor(LogLevel.ERROR)} log-filter-error"), new XAttribute("style", $"width: {width}px;")))
-                )
+
+            var bdiv = new XElement("div",
+                new XElement("button", "Trace", new XAttribute("class", $"btn btn-{GetLogColor(LogLevel.TRACE)} btn-xs log-filter-trace log-filter-debug log-filter-warn log-filter-info log-filter-error"),  new XAttribute("style", $"width: {width}px;")),
+                new XElement("button", "Debug", new XAttribute("class", $"btn btn-{GetLogColor(LogLevel.DEBUG)} btn-xs log-filter-debug log-filter-warn log-filter-info log-filter-error"),  new XAttribute("style", $"width: {width}px;")),
+                new XElement("button", "Warn",  new XAttribute("class", $"btn btn-{GetLogColor(LogLevel.WARN)}  btn-xs log-filter-warn log-filter-info log-filter-error"),   new XAttribute("style", $"width: {width}px;")),
+                new XElement("button", "Info",  new XAttribute("class", $"btn btn-{GetLogColor(LogLevel.INFO)}  btn-xs log-filter-info log-filter-error"),   new XAttribute("style", $"width: {width}px;")),
+                new XElement("button", "Error", new XAttribute("class", $"btn btn-{GetLogColor(LogLevel.ERROR)} btn-xs log-filter-error"),  new XAttribute("style", $"width: {width}px;")),
+                new XAttribute("class", "log-filter-btns"),
+                new XAttribute("style", "display:none;")
             );
-            table.Add(thead);
-            return table;
+
+            return bdiv;
         }
+
         public XElement GetLogs(XmlBaseType obj)
         {
             if (!(obj is TestItem || obj is Step))
@@ -256,36 +257,50 @@ namespace QA.TestLibs.Report
             string name = (obj as TestItem)?.Name ?? (obj as Step)?.Name;
             List<LogMessage> messages = (obj as TestItem)?.LogMessages ?? (obj as Step)?.Messages;
 
-            XElement logTableContainer = new XElement("div",
-                new XAttribute("style", "height:70px"),
-                new XElement("div", "Logs:",
-                    new XAttribute("style", "float:left; height:100%; line-height:70px")
-                ),
-                new XElement("div", "",
-                    new XAttribute("style", "height:70px; width:70px; background-image:url(expander.png); background-size:contain; background-repeat:no-repeat; float:left"),
-                    new XAttribute("class", "logexp")
-                ),
-                new XElement("div",
-                    new XAttribute("style", "float:left"),
-                    GetLogTableHeader()
-                ),
-                new XElement("br", new XAttribute("style", "clear:left"))
-            );
-
             var main = new XElement("div",
                 new XAttribute("class", "logPanel"),
                 new XAttribute("style", "display: none;")
             );
 
-            var elem = new XElement("div", new XAttribute("class", "log"));
+            XElement logTableContainer = new XElement("div",
+                new XAttribute("class", "logHeader"),
+                new XAttribute("style", "height:30px"),
+                new XElement("div", "Logs:",
+                    new XAttribute("style", "float:left; height:100%; ")
+                ),
+                new XElement("div", "",
+                    new XAttribute("class", "logexp"),
+                    new XAttribute("style", "height:20px; width:20px; background-size:contain; background-repeat:no-repeat; float:left")
+                ),
+                new XElement("div",
+                    new XAttribute("style", "float:left"),
+                    GetLogTableHeader()
+                )
+            );
+
+
+            var elem = new XElement("div", 
+                new XAttribute("class", "log"),
+                new XAttribute("style", "clear:left")
+             );
 
             if (messages.Count != 0)
             {
+                int levelWidth = 60;
+                int dateWidth = 160;
                 foreach (var msg in messages)
                 {
                     var tmp = new XElement("div",
-                        new XElement("span", $"{msg.Level}", new XAttribute("class", $"bg-{GetLogColor(msg.Level)}")),
-                        $" | {msg.DataStemp} | {msg.Message}",
+                        new XElement("span", $"{msg.Level}", 
+                            new XAttribute("class", $"bg-{GetLogColor(msg.Level)}"),
+                            new XAttribute("style", $"display: inline-block; width: {levelWidth}px")
+                        ),
+                        new XElement("span", $" | {msg.DataStemp}",
+                            new XAttribute("style", $"display: inline-block; width: {dateWidth}px")
+                        ),
+                        new XElement("span", $" | {msg.Message}"//,
+                            //new XAttribute("style", $"display: inline-block; width: {dateWidth}px")
+                        ),
                         GetException(msg),
                         new XElement("p")
                     );
@@ -309,7 +324,7 @@ namespace QA.TestLibs.Report
             //NotExecuted, Unknown, Passed, Failed, Skipped
             var thead = new XElement("thead",
                 new XElement("tr",
-                    new XElement("th", new XElement("button", "All", new XAttribute("class", $"btn btn-warning step-filter-total activated"))),
+                    new XElement("th", new XElement("button", "All", new XAttribute("class", $"btn btn-warning step-filter-passed step-filter-failed step-filter-skipped step-filter-unknown activated"))),
                     new XElement("th", new XElement("button", "NotExecuted", new XAttribute("class", $"btn btn-{GetLogColor(LogLevel.TRACE)} step-filter-notexecuted"))),
                     new XElement("th", new XElement("button", "Passed", new XAttribute("class", $"btn btn-{GetLogColor(LogLevel.DEBUG)} step-filter-passed"))),
                     new XElement("th", new XElement("button", "Failed", new XAttribute("class", $"btn btn-{GetLogColor(LogLevel.WARN)} step-filter-failed"))),
@@ -320,18 +335,7 @@ namespace QA.TestLibs.Report
             table.Add(thead);
             return table;
         }
-        public XElement GetStepButtons()
-        {
-            XElement logTableContainer = new XElement("div", GetStepTableHeader());
-
-            var main = new XElement("div",
-                new XAttribute("class", "logPanel"),
-                new XAttribute("style", "display: none;")
-            );
-
-            main.Add(logTableContainer);
-            return main;
-        }
+        
 
       
         public XElement GetReport(TestItem testItem)
