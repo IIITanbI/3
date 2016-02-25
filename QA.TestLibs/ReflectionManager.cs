@@ -17,9 +17,8 @@
         private static Dictionary<Type, XmlType> _type_xmlType = new Dictionary<Type, XmlType>();
         private static Dictionary<XmlType, List<XmlType>> _xmlType_assignableXmlTypes = new Dictionary<XmlType, List<XmlType>>();
         private static List<string> _loadedAssemblies = new List<string>();
-        public static List<CommandManager> _managers = new List<CommandManager>();
-        public static Dictionary<XmlType, Type> _xmlType_wpfTypeContol = new Dictionary<XmlType, Type>();
-        public static Dictionary<Type, string> _wpfTypeContol_type = new Dictionary<Type, string>();
+        private static List<CommandManager> _managers = new List<CommandManager>();
+        private static List<WpfControlFiller> _wpfControlFillers = new List<WpfControlFiller>();
 
         public static List<XmlType> GetAssignableTypes(Type type)
         {
@@ -52,7 +51,13 @@
             if (Directory.Exists(pathToLibFolder))
             {
                 var assemblyFiles = Directory.GetFiles(pathToLibFolder, "*.dll").ToList();
-                assemblyFiles.ForEach(af => assemblies.Add(Assembly.LoadFrom(af)));
+                try
+                {
+                    assemblyFiles.ForEach(af => assemblies.Add(Assembly.LoadFrom(af)));
+                }catch
+                {
+
+                }
             }
 
             var loadedAssemblies = new List<Assembly>();
@@ -62,31 +67,7 @@
                 LoadAssembly(assembly);
             }
 
-            if (_wpfTypeContol_type.Values.Count > 0)
-            {
-                var dict = new Dictionary<Type, Type>();
-                foreach (var tmp in _wpfTypeContol_type)
-                {
-                    dict.Add(tmp.Key, GetXmlTypeByName(tmp.Value).XType);
-                }
-
-
-                foreach (var xmlType in _type_xmlType.Values)
-                {
-                    var curPair = dict.First(p => p.Value == typeof(XmlBaseType));
-
-                    foreach (var wpfControlTypePair in dict)
-                    {
-                        if (wpfControlTypePair.Value.IsAssignableFrom(xmlType.XType))
-                        {
-                            if (curPair.Value.IsAssignableFrom(wpfControlTypePair.Value))
-                                curPair = wpfControlTypePair;
-                        }
-                    }
-
-                    _xmlType_wpfTypeContol.Add(xmlType, curPair.Key);
-                }
-            }
+            _wpfControlFillers.Sort(new WpfControlFiller.WCFComparer());
         }
         public static void LoadAssembly(Assembly assembly)
         {
@@ -104,9 +85,9 @@
             _loadedAssemblies.Add(assemblyName);
         }
 
-        public static Type GetControlForType(XmlType xmlType)
+        public static WpfControlFiller GetControlFillerForType(XmlType xmlType)
         {
-            return _xmlType_wpfTypeContol[xmlType];
+            return _wpfControlFillers.First(wcf => wcf.IsMatch(xmlType.XType));
         }
 
         public static XmlType GetXmlTypeByName(string typeName)
@@ -150,20 +131,21 @@
                     }
                 }
             }
+
             if (typeof(CommandManagerBase).IsAssignableFrom(type))
             {
                 var commandManager = new CommandManager(type);
                 _managers.Add(commandManager);
             }
-            if (typeof(IWpfTypeControl).IsAssignableFrom(type))
+
+            if (typeof(IWpfControlFiller).IsAssignableFrom(type))
             {
-                if (!_wpfTypeContol_type.ContainsKey(type))
+                var fillerAtt = type.GetCustomAttribute<WpfControlFillerAttribute>();
+                if (fillerAtt != null)
                 {
-                    var typeAtt = type.GetCustomAttribute<WpfTypeControlAttribute>();
-                    if (typeAtt != null)
-                    {
-                        _wpfTypeContol_type.Add(type, typeAtt.XmlTypeName);
-                    }
+                    var fillerObj = (IWpfControlFiller)Activator.CreateInstance(type);
+                    var filler = new WpfControlFiller(fillerObj, fillerAtt);
+                    _wpfControlFillers.Add(filler);
                 }
             }
         }

@@ -7,7 +7,7 @@
     using System.Threading.Tasks;
     using System.Xml.Linq;
     using XmlDesiarilization;
-    
+
     [XmlType("Source configuration")]
     public class Source : XmlBaseType
     {

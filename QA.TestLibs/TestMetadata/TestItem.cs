@@ -38,17 +38,22 @@
         [XmlProperty("Test item failed tries", IsRequired = false)]
         public List<TestItem> FailedTries { get; set; } = new List<TestItem>();
 
+        [XmlProperty("Test item tags", IsRequired = false)]
+        public List<Tag> Tags { get; set; }
+
         public int GetTotal()
         {
             if (this.Type == TestItemType.Test)
+            {
                 return 1;
+            }
 
             int tmp = 0;
             foreach (var child in Childs)
             {
                 tmp += child.GetTotal();
             }
-
+            
             return tmp;
         }
 
@@ -56,7 +61,7 @@
         {
             if (this.Type == TestItemType.Test)
             {
-                return this.Status == status ? 1 : 0;
+                return this.Status == status? 1 : 0;
             }
 
             int tmp = 0;

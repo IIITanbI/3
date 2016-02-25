@@ -1,6 +1,7 @@
 ﻿$(function () {
     var myFilter = Object.create(FILTER);
     myFilter.className = "filter-";
+	
     myFilter.getChilds = function (button) {
         return $(button).closest(".parent").children('.child').children();
     };
@@ -8,7 +9,7 @@
         return $(button).closest(".table").find("button[class*='filter']");
     };
     myFilter.getTotalButton = function (button) {
-        return $(button).closest(".table").find(".filter-total");
+        return $(button).closest(".table").find(".filter-passed.filter-failed.filter-skipped");
     };
     myFilter.getChildStatus = function (child) {
         var $needClass = "status";
@@ -24,10 +25,10 @@
     });
 
     $(".btnexp").click(function (e) {
-        $(this).closest(".parent").children('.child').toggle();
+        $(this).closest(".parent").children('.child').toggle(500);
     });
     $('.btnlog').click(function (e) {
-        $(this).closest(".accordion").find('.logPanel').toggle();
+        $(this).closest(".accordion").find('.logPanel').slideToggle();
     });
 
 });

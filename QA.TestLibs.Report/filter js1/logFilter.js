@@ -1,38 +1,59 @@
 ﻿$(function () {
-
     var myFilter = Object.create(FILTER);
     myFilter.className = "log-filter-";
+	myFilter.multiSelect = false;
+   
     myFilter.getChilds = function (button) {
-        return $(button).closest(".logPanel").children('.log').children();
+        return $(button).closest(".logPanel").children('.log').children("div");
     };
-    myFilter.getFilterButtons = function (button) {
-        return $(button).closest(".table").find("button[class*='log-filter']");
+    
+	myFilter.getFilterButtons = function (button) {
+        return $(button).closest(".log-filter-btns").find("button[class*='log-filter']");
     };
-    myFilter.getTotalButton = function (button) {
-        return $(button).closest(".table").find(".log-filter-total");
+    
+	myFilter.getTotalButton = function (button) {
+        return $(button).closest(".log-filter-btns").find(".log-filter-trace.log-filter-debug.log-filter-warn.log-filter-info.log-filter-error");
     };
-    myFilter.getChildStatus = function (child) {
-        var $status = $(child).children("span").text().toLowerCase();
+    
+	myFilter.getChildStatus = function (child) {
+        var $status = $($(child).children("span")[0]).text().toLowerCase();
         return $status;
     };
-    myFilter.getColor = function (filter) {
-        switch (filter) {
-            case 'trace':
+    
+	myFilter.getColor = function (filter) {
+		var str = filter.join(" ");
+        switch (str) {
+            case "trace debug warn info error":
                 return "primary";
-            case 'debug':
+            case "debug warn info error":
                 return "success";
-            case 'warn':
+            case "warn info error":
                 return "warning";
-            case 'info':
+            case "info error":
                 return "info";
-            case 'error':
+            case "error":
                 return "danger";
             default:
                 return "info";
         }
     }
 
-
+	$(".logexp").css("background-image", "url(expander.png)");
+	
+	$(".logexp").click(function(e){
+		var $cur = $(e.currentTarget);
+		var $elem = $(this).closest(".logPanel").find(".log-filter-btns");
+		$elem.toggle(300, function onCompleteToggle(){
+			if ($elem.is(":visible")){
+				$cur.css("background-image", "url(expander-off.png)");
+				console.log("visible");
+			} else {
+				$cur.css("background-image", "url(expander.png)");
+				console.log("none");
+			}
+		});
+	});
+	
     $("button[class*='log-filter']").click(function (e) {
         myFilter.filterButtonClick(this);
     });

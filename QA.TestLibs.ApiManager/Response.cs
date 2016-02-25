@@ -1,4 +1,4 @@
-﻿namespace QA.TestLibs
+﻿namespace QA.TestLibs.ApiManager
 {
     using System;
     using System.Collections.Generic;
@@ -7,9 +7,9 @@
     using System.Threading.Tasks;
     using XmlDesiarilization;
 
-    public interface IWpfTypeControl
+    public class Response : XmlBaseType
     {
-        void GenerateInfoMode(XmlBaseType obj);
-        void GenerateEditMode(XmlBaseType obj);
+        [XmlProperty("Response content")]
+        public string Content { get; set; } = null;
     }
 }
