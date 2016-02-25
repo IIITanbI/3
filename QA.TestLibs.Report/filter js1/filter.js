@@ -1,6 +1,8 @@
 ﻿var FILTER = {
     className: "",
-    currentButton: {}
+    currentButton: {},
+	defaultButton: {},
+	multiSelect: true
 };
 
 FILTER.filterButtonClick = function (button) {
@@ -35,20 +37,13 @@ FILTER.getColor = function (filter) {
 };
 
 FILTER.getFilterFromButton = function (button) {
-    var filter = "";
-    //var classList = $(button).attr('class').split(' ');
-
+    var filter = [];
     var matches = $(button).attr('class').match(new RegExp(this.className + '\\w*', 'g'));
-    if (matches.length > 0)
-        filter = matches[0].substr(this.className.length);
+	 
+	for (var i = 0; i < matches.length; i++){
+		filter.push(matches[i].substr(this.className.length));
+	}
 
-    //for (var i = 0; i < classList.length; i++) {
-    //    if (classList[i].match(this.className + "*")) {
-    //        filter = classList[i].substr(this.className.length);
-    //        //filter.push(classList[i].substr("filter-".length));
-    //        break;
-    //    }
-    //}
     console.log("filter = " + filter);
     return filter;
 };
@@ -64,39 +59,57 @@ FILTER.doFilter = function (button) {
 
     var $filters = [];
     var $filterButtons = this.getFilterButtons(button);
-
+	var $totalButton = this.getTotalButton(button);
+		
     var thisObj = this;
-    $filterButtons.each(function (index, item) {
-        if ($(item).hasClass("activated")) {
-            $filters.push(thisObj.getFilterFromButton(item));
-            //$.merge( $filters,  getFilterFromButton(item) );
-        }
-        //console.log(index);
-        //console.log(item);
-    });
-
-    var $totalButton = this.getTotalButton(button);
-
-    if ($(button).is($totalButton) || $filters.length === 0) {
-        $childs.removeAttr("hidden");
-
-        $filterButtons.each(function (index, item) {
-            console.log(this);
-            thisObj.deactivateButton(this);
-        });
-        this.activateButton($totalButton);
-        return;
-    }
-    this.deactivateButton($totalButton);
-
+	if (!thisObj.multiSelect)  {
+		if (!$(button).hasClass("activated")){
+			this.activateButton($totalButton);
+			$filters = thisObj.getFilterFromButton($totalButton);
+			for (var i = 0; i < $filterButtons.length; i++) {
+				if (!$($filterButtons[i]).is($totalButton))
+					this.deactivateButton($filterButtons[i]);
+			}
+		}
+		else {
+			for (var i = 0; i < $filterButtons.length; i++){
+				if (!$($filterButtons[i]).is($(button)))
+					this.deactivateButton($filterButtons[i]);
+			}
+			$filters = thisObj.getFilterFromButton(button);
+		}
+	}
+	else {
+		$filterButtons.each(function (index, item) {
+			if ($(item).hasClass("activated")) {
+				if ($(item).is($totalButton)) return;
+				$.merge($filters, thisObj.getFilterFromButton(item));
+			}
+		});
+		
+		if ($filters.length === 0 || $(button).is($totalButton)) {
+			this.activateButton($totalButton);
+			$filters = thisObj.getFilterFromButton($totalButton);
+			for (var i = 0; i < $filterButtons.length; i++) {
+				if (!$($filterButtons[i]).is($totalButton))
+					this.deactivateButton($filterButtons[i]);
+			}
+		}
+		else this.deactivateButton($totalButton);
+	}
     for (var i = 0; i < $childs.length; i++) {
-        var $status = this.getChildStatus($childs[i]);
-
-
+        var $child = $($childs[i]);
+		var $status = this.getChildStatus($child);
+		
+		var css = $child.css("display");
         if ($.inArray($status, $filters) === -1) {
-            $($childs[i]).attr("hidden", "");
+			if (css == "block"){
+				$child.slideToggle();
+			}
         } else {
-            $($childs[i]).removeAttr("hidden");
+			if (css == "none"){
+				$child.slideToggle();
+			}
         }
     }
 };
