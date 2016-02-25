@@ -233,7 +233,7 @@ namespace QA.TestLibs.Report
 
         public XElement GetLogTableHeader()
         {
-            //TRACE, DEBUG, WARN, INFO, ERRO
+            //TRACE, DEBUG, WARN, INFO, ERROR
             int width = 70;
 
             var bdiv = new XElement("div",
