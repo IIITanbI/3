@@ -248,6 +248,7 @@ namespace QA.TestLibs.Report
             table.Add(thead);
             return table;
         }
+
         public XElement GetLogs(XmlBaseType obj)
         {
             if (!(obj is TestItem || obj is Step))
@@ -281,11 +282,21 @@ namespace QA.TestLibs.Report
 
             if (messages.Count != 0)
             {
+                int levelWidth = 60;
+                int dateWidth = 160;
                 foreach (var msg in messages)
                 {
                     var tmp = new XElement("div",
-                        new XElement("span", $"{msg.Level}", new XAttribute("class", $"bg-{GetLogColor(msg.Level)}")),
-                        $" | {msg.DataStemp} | {msg.Message}",
+                        new XElement("span", $"{msg.Level}", 
+                            new XAttribute("class", $"bg-{GetLogColor(msg.Level)}"),
+                            new XAttribute("style", $"display: inline-block; width: {levelWidth}px")
+                        ),
+                        new XElement("span", $" | {msg.DataStemp}",
+                            new XAttribute("style", $"display: inline-block; width: {dateWidth}px")
+                        ),
+                        new XElement("span", $" | {msg.Message}"//,
+                            //new XAttribute("style", $"display: inline-block; width: {dateWidth}px")
+                        ),
                         GetException(msg),
                         new XElement("p")
                     );
