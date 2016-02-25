@@ -42,7 +42,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tutorial.cs" />
-    <Compile Include="TutorialConfig.cs" />
+    <Compile Include="TutorialManagerConfig.cs" />
     <Compile Include="TutorialFile.cs" />
     <Compile Include="TutorialItem.cs" />
     <Compile Include="TutorialManager.cs" />

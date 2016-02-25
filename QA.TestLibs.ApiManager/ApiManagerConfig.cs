@@ -8,7 +8,7 @@
     using XmlDesiarilization;
 
     [XmlType("Api configuration")]
-    public class ApiConfig : XmlBaseType
+    public class ApiManagerConfig : XmlBaseType
     {
         [XmlProperty("Api endpoint")]
         public string EndPoint { get; set; } = null;

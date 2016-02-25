@@ -7,17 +7,17 @@
     using System.IO;
     using System.Threading;
 
-    [CommandManager(typeof(GitConfig), "Git", Description = "Manager for Git")]
+    [CommandManager(typeof(GitManagerConfig), "Git", Description = "Manager for Git")]
     public class GitManager : CommandManagerBase
     {
         private class LocalContainer
         {
-            public GitConfig Config;
+            public GitManagerConfig Config;
         }
 
         ThreadLocal<LocalContainer> _container;
 
-        public GitManager(GitConfig config)
+        public GitManager(GitManagerConfig config)
             : base(config)
         {
             _container = new ThreadLocal<LocalContainer>(() =>
