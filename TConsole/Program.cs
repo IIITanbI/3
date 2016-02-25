@@ -10,7 +10,7 @@ using System.IO;
 using QA.TestLibs.TestMetadata;
 using System.Management;
 
-namespace TestConsole
+namespace TConsole
 {
     class Program
     {
@@ -24,7 +24,7 @@ namespace TestConsole
         static void Main(string[] args)
         {
 
-            
+
             //var head = ReportGenerator.CreateReportHead("3.3.6");
             ////var body = ReportGenerator.GenerateHtmlTestCaseTwo(DataSource.GetSample().Childs[0].Childs[0]);
             //var body = ReportGenerator.Go(DataSource.GetSample());
@@ -32,9 +32,9 @@ namespace TestConsole
             //main.Add(head);
             //main.Add(body);
 
-           // var main = new ReportGenerator().CreateReport(DataSource.GetSample(), new QA.TestLibs.TestMetadata.TestEnvironmentInfo());
+            // var main = new ReportGenerator().CreateReport(DataSource.GetSample(), new QA.TestLibs.TestMetadata.TestEnvironmentInfo());
             var main = new ReportGenerator().CreateReport(DataSource.GetSample(), new QA.TestLibs.TestMetadata.TestEnvironmentInfo());
-           // main.Save("html.html");
+            // main.Save("html.html");
 
 
             ReflectionManager.LoadAssemblies(Directory.GetCurrentDirectory());
@@ -52,7 +52,8 @@ namespace TestConsole
                 User = Environment.UserName.ToString(),
                 UserDomain = Environment.UserDomainName.ToString()
             };
-            report.CreateReport(ds, te).Save("out.html", SaveOptions.None);
+            var tt = report.CreateReport(ds, te);
+            tt.Save("out.html");
 
             // var accordion = ReportGenerator.CreateAccordion(root, "head-first", head, body, "body-first");
 
