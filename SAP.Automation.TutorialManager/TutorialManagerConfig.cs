@@ -8,7 +8,7 @@
     using System.Threading.Tasks;
 
     [XmlType("Tutorial config")]
-    public class TutorialConfig : XmlBaseType
+    public class TutorialManagerConfig : XmlBaseType
     {
         [XmlProperty("Tutorial temp folder")]
         public string Folder { get; set; }
