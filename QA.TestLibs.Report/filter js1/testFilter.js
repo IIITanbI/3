@@ -1,7 +1,7 @@
 ﻿$(function () {
     var myFilter = Object.create(FILTER);
     myFilter.className = "filter-";
-	
+    myFilter.activatedClassName = "artemka";
     myFilter.getChilds = function (button) {
         return $(button).closest(".parent").children('.child').children();
     };
@@ -19,6 +19,8 @@
 
         return $status;
     };
+
+    myFilter.prepare($("button[class*=' filter']")[0]);
 
     $("button[class*=' filter']").click(function (e) {
         myFilter.filterButtonClick(this);

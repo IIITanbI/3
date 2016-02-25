@@ -20,7 +20,8 @@
         return $status;
     };
     
-	myFilter.getColor = function (filter) {
+	myFilter.getDeactivatedColor = function (button) {
+        var filter = myFilter.getFilterFromButton(button);
 		var str = filter.join(" ");
         switch (str) {
             case "trace debug warn info error":

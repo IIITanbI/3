@@ -19,23 +19,33 @@
 
         return $status;
     };
-    myFilter.getColor = function (filter) {
+    myFilter.getDeactivatedColor = function (button) {
+        var filter = myFilter.getFilterFromButton(button);
 		var str = filter.join(" ");
+
+        var res = "btn-";
         switch (str) {
             case 'notexecuted':
-                return "primary";
+                res += "primary";
+                break;
             case 'passed':
-                return "success";
+                res += "success";
+                break;
             case 'failed':
-                return "warning";
+                res += "warning";
+                break;
             case 'skipped':
-                return "info";
+                res += "info";
+                break;
             case 'unknown':
-                return "danger";
+                res += "danger";
+                break;
             default:
-                return "info";
+                res += "info";
+                break;
         }
-    }
+        return res;
+    };
 
     $("button[class*='step-filter']").click(function (e) {
         myFilter.filterButtonClick(this);
