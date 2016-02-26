@@ -123,7 +123,7 @@ namespace QA.TestLibs.Report
             if (testItem.Type == TestItemType.Test)
                 return GetStepTableHeader();
 
-            var table = new XElement("table", 
+            var table = new XElement("table",
                 new XAttribute("class", "table"),
                 new XAttribute("style", "margin-bottom: 0px;")
             );
@@ -209,8 +209,7 @@ namespace QA.TestLibs.Report
 
         public XElement GetLogExpander(XmlBaseType obj)
         {
-            if (!(obj is TestItem || obj is Step))
-                return null;
+            if (!(obj is TestItem || obj is Step)) return null;
 
             string name = (obj as TestItem)?.Type.ToString() ?? (obj as Step)?.Name;
             XElement btn = new XElement("button", new XAttribute("class", "btn btnlog btn-info"), name + " logs");
@@ -233,7 +232,6 @@ namespace QA.TestLibs.Report
 
         public XElement GetLogTableHeader()
         {
-            //TRACE, DEBUG, WARN, INFO, ERROR
             int width = 70;
 
             var bdiv = new XElement("div",
@@ -279,7 +277,7 @@ namespace QA.TestLibs.Report
             );
 
 
-            var elem = new XElement("div", 
+            var elem = new XElement("div",
                 new XAttribute("class", "log"),
                 new XAttribute("style", "clear:left")
              );
@@ -291,7 +289,7 @@ namespace QA.TestLibs.Report
                 foreach (var msg in messages)
                 {
                     var tmp = new XElement("div",
-                        new XElement("span", $"{msg.Level}", 
+                        new XElement("span", $"{msg.Level}",
                             new XAttribute("class", $"bg-{GetLogColor(msg.Level)}"),
                             new XAttribute("style", $"display: inline-block; width: {levelWidth}px")
                         ),
@@ -317,7 +315,6 @@ namespace QA.TestLibs.Report
             return main;
         }
 
-
         public XElement GetStepTableHeader()
         {
             var table = new XElement("table", new XAttribute("class", "table"));
@@ -335,9 +332,7 @@ namespace QA.TestLibs.Report
             table.Add(thead);
             return table;
         }
-        
 
-      
         public XElement GetReport(TestItem testItem)
         {
             XElement cont = new XElement("div",

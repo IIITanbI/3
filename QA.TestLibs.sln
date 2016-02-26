@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 14 for Windows Desktop
+# Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QA.TestLibs", "QA.TestLibs\QA.TestLibs.csproj", "{59268CC8-5D39-4331-909D-CFC1BBC67F0C}"
@@ -26,6 +26,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QA.TestLibs.FileManager", "QA.TestLibs.FileManager\QA.TestLibs.FileManager.csproj", "{E9E297ED-1B9E-41CD-B48D-12CF80F3459E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QA.TestLibs.ApiManager", "QA.TestLibs.ApiManager\QA.TestLibs.ApiManager.csproj", "{4F3933C7-ED4C-43F9-A706-9E0D10369959}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAP.Automation.AemPageManager", "SAP.Automation.AemPageManager\SAP.Automation.AemPageManager.csproj", "{E68F3C8D-7557-48A8-93E5-E31E0E8430EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,10 @@ Global
 		{4F3933C7-ED4C-43F9-A706-9E0D10369959}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F3933C7-ED4C-43F9-A706-9E0D10369959}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F3933C7-ED4C-43F9-A706-9E0D10369959}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E68F3C8D-7557-48A8-93E5-E31E0E8430EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E68F3C8D-7557-48A8-93E5-E31E0E8430EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E68F3C8D-7557-48A8-93E5-E31E0E8430EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E68F3C8D-7557-48A8-93E5-E31E0E8430EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
