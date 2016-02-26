@@ -1,4 +1,4 @@
-﻿$(function () {
+$(function () {
     var myFilter = Object.create(FILTER);
     myFilter.className = "log-filter-";
 	myFilter.multiSelect = false;
@@ -20,22 +20,32 @@
         return $status;
     };
     
-	myFilter.getColor = function (filter) {
+	myFilter.getDeactivatedClass = function (button) {
+        var filter = myFilter.getFilterFromButton(button);
 		var str = filter.join(" ");
+        
+        var res = "btn-";
         switch (str) {
             case "trace debug warn info error":
-                return "primary";
+                res += "primary";
+                break;
             case "debug warn info error":
-                return "success";
+                res += "success";
+                break;
             case "warn info error":
-                return "warning";
+                res += "warning";
+                break;
             case "info error":
-                return "info";
+                res += "info";
+                break;
             case "error":
-                return "danger";
+                res += "danger";
+                break;
             default:
-                return "info";
+                res += "info";
+                break;
         }
+        return res;
     }
 
 	$(".logexp").css("background-image", "url(expander.png)");

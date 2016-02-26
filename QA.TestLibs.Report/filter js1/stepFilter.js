@@ -1,15 +1,15 @@
-﻿$(function () {
+$(function () {
     var myFilter = Object.create(FILTER);
     myFilter.className = "step-filter-";
 	
     myFilter.getChilds = function (button) {
-        return $(button).closest(".parent").children('.child').children();
+        return $(button).closest(".parent").children('.step').children();
     };
     myFilter.getFilterButtons = function (button) {
-		return $(button).closest(".table").find("button[class*='step-filter']");
+		return $(button).closest(".step-filter-btns").children("button[class*='step-filter']");
     };
     myFilter.getTotalButton = function (button) {
-		return $(button).closest(".table").find(".step-filter-passed.step-filter-failed.step-filter-skipped.step-filter-unknown");
+		return $(button).closest(".step-filter-btns").find(".step-filter-passed.step-filter-failed.step-filter-skipped.step-filter-unknown");
     };
     myFilter.getChildStatus = function (child) {
         var $needClass = "status";
@@ -19,23 +19,33 @@
 
         return $status;
     };
-    myFilter.getColor = function (filter) {
+    myFilter.getDeactivatedClass = function (button) {
+        var filter = myFilter.getFilterFromButton(button);
 		var str = filter.join(" ");
+
+        var res = "btn-";
         switch (str) {
             case 'notexecuted':
-                return "primary";
+                res += "primary";
+                break;
             case 'passed':
-                return "success";
+                res += "success";
+                break;
             case 'failed':
-                return "warning";
+                res += "warning";
+                break;
             case 'skipped':
-                return "info";
+                res += "info";
+                break;
             case 'unknown':
-                return "danger";
+                res += "danger";
+                break;
             default:
-                return "info";
+                res += "info";
+                break;
         }
-    }
+        return res;
+    };
 
     $("button[class*='step-filter']").click(function (e) {
         myFilter.filterButtonClick(this);
