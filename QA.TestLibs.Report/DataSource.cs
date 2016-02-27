@@ -26,7 +26,35 @@
                 },
                 Status = TestItemStatus.Failed,
                 Duration = new TimeSpan(00, 00, 60),
-
+                Steps = new List<Step>()
+                {
+                    new Step()
+                    {
+                        Name = "Mock step 1",
+                        Description = "Temp mock step 1 for test 1",
+                        Duration = new TimeSpan(00, 00, 30),
+                        Messages = new List<LogMessage>() { },
+                        Status = TestItemStatus.Unknown
+                    },
+                    new Step()
+                    {
+                        Name = "Mock step 2",
+                        Description = "Temp mock step 2 for test 1",
+                        Duration = new TimeSpan(00, 00, 30),
+                        Messages = new List<LogMessage>()
+                        {
+                            new LogMessage()
+                            {
+                                DataStemp = DateTime.Now,
+                                Level = LogLevel.INFO,
+                                Exception = null,
+                                Message = "All cool",
+                                UniqueName = "log1"
+                            }
+                        },
+                        Status = TestItemStatus.Passed
+                    }
+                },
                 Childs = new List<TestItem>()
                 {
                     new TestItem()

@@ -1,15 +1,15 @@
-﻿$(function () {
+$(function () {
     var myFilter = Object.create(FILTER);
     myFilter.className = "step-filter-";
 	
     myFilter.getChilds = function (button) {
-        return $(button).closest(".parent").children('.child').children();
+        return $(button).closest(".parent").children('.step').children();
     };
     myFilter.getFilterButtons = function (button) {
-		return $(button).closest(".table").find("button[class*='step-filter']");
+		return $(button).closest(".step-filter-btns").children("button[class*='step-filter']");
     };
     myFilter.getTotalButton = function (button) {
-		return $(button).closest(".table").find(".step-filter-passed.step-filter-failed.step-filter-skipped.step-filter-unknown");
+		return $(button).closest(".step-filter-btns").find(".step-filter-passed.step-filter-failed.step-filter-skipped.step-filter-unknown");
     };
     myFilter.getChildStatus = function (child) {
         var $needClass = "status";
@@ -19,7 +19,7 @@
 
         return $status;
     };
-    myFilter.getDeactivatedColor = function (button) {
+    myFilter.getDeactivatedClass = function (button) {
         var filter = myFilter.getFilterFromButton(button);
 		var str = filter.join(" ");
 

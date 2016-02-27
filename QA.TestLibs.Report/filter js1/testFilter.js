@@ -1,4 +1,4 @@
-﻿$(function () {
+$(function () {
     var myFilter = Object.create(FILTER);
     myFilter.className = "filter-";
     myFilter.activatedClassName = "artemka";
@@ -29,6 +29,11 @@
     $(".btnexp").click(function (e) {
         $(this).closest(".parent").children('.child').toggle(500);
     });
+    
+    $(".btnstep").click(function (e) {
+        $(this).closest(".parent").children('.step').toggle(500);
+    });
+    
     $('.btnlog').click(function (e) {
         $(this).closest(".accordion").find('.logPanel').slideToggle();
     });

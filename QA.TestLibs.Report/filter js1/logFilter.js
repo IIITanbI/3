@@ -1,60 +1,71 @@
-﻿$(function () {
+$(function () {
     var myFilter = Object.create(FILTER);
     myFilter.className = "log-filter-";
-	myFilter.multiSelect = false;
-   
+    myFilter.multiSelect = false;
+
     myFilter.getChilds = function (button) {
         return $(button).closest(".logPanel").children('.log').children("div");
     };
-    
-	myFilter.getFilterButtons = function (button) {
+
+    myFilter.getFilterButtons = function (button) {
         return $(button).closest(".log-filter-btns").find("button[class*='log-filter']");
     };
-    
-	myFilter.getTotalButton = function (button) {
+
+    myFilter.getTotalButton = function (button) {
         return $(button).closest(".log-filter-btns").find(".log-filter-trace.log-filter-debug.log-filter-warn.log-filter-info.log-filter-error");
     };
-    
-	myFilter.getChildStatus = function (child) {
+
+    myFilter.getChildStatus = function (child) {
         var $status = $($(child).children("span")[0]).text().toLowerCase();
         return $status;
     };
-    
-	myFilter.getDeactivatedColor = function (button) {
+
+    myFilter.getDeactivatedClass = function (button) {
         var filter = myFilter.getFilterFromButton(button);
-		var str = filter.join(" ");
+        var str = filter.join(" ");
+
+        var res = "btn-";
         switch (str) {
             case "trace debug warn info error":
-                return "primary";
+                res += "primary";
+                break;
             case "debug warn info error":
-                return "success";
+                res += "success";
+                break;
             case "warn info error":
-                return "warning";
+                res += "warning";
+                break;
             case "info error":
-                return "info";
+                res += "info";
+                break;
             case "error":
-                return "danger";
+                res += "danger";
+                break;
             default:
-                return "info";
+                res += "info";
+                break;
         }
-    }
+        return res;
+    };
 
-	$(".logexp").css("background-image", "url(expander.png)");
-	
-	$(".logexp").click(function(e){
-		var $cur = $(e.currentTarget);
-		var $elem = $(this).closest(".logPanel").find(".log-filter-btns");
-		$elem.toggle(300, function onCompleteToggle(){
-			if ($elem.is(":visible")){
-				$cur.css("background-image", "url(expander-off.png)");
-				console.log("visible");
-			} else {
-				$cur.css("background-image", "url(expander.png)");
-				console.log("none");
-			}
-		});
-	});
-	
+
+
+    $(".log-filter-button-expander").children("span").attr("class", "glyphicon glyphicon-chevron-right");
+
+    $(".log-filter-button-expander").click(function (e) {
+        var $cur = $(e.currentTarget).children("span");
+        var $elem = $(this).closest(".logHeader").find(".log-filter-btns");
+        $elem.toggle(300, function onCompleteToggle() {
+            if ($elem.is(":visible")) {
+                $cur.attr("class", "glyphicon glyphicon-chevron-left");
+                console.log("visible");
+            } else {
+                $cur.attr("class", "glyphicon glyphicon-chevron-right");
+                console.log("none");
+            }
+        });
+    });
+
     $("button[class*='log-filter']").click(function (e) {
         myFilter.filterButtonClick(this);
     });

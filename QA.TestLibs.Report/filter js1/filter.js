@@ -1,4 +1,4 @@
-﻿var FILTER = {
+var FILTER = {
     className: "",
     currentButton: {},
 	defaultButton: {},
@@ -15,6 +15,7 @@ FILTER.prepare = function(button) {
 };
 
 FILTER.filterButtonClick = function (button) {
+
     this.currentButton =  $(button);
     this.deactivateButton(button) || this.activateButton(button);
 
@@ -46,8 +47,8 @@ FILTER.activateButton = function (button) {
     var $button = $(button);
     if (this.isActive(button)) return false;
 
-    $button.removeClass(this.getDeactivatedColor(button));
-    $button.addClass(this.getActivatedColor(button));
+    $button.removeClass(this.getDeactivatedClass(button));
+    $button.addClass(this.getActivatedClass(button));
     $button.addClass(this.activatedClassName);
     return true;
 };
@@ -57,8 +58,8 @@ FILTER.deactivateButton = function (button) {
     if (!this.isActive(button)) return false;
 
     $button.removeClass(this.activatedClassName);
-    $button.removeClass(this.getActivatedColor(button));
-    $button.addClass(this.getDeactivatedColor(button));
+    $button.removeClass(this.getActivatedClass(button));
+    $button.addClass(this.getDeactivatedClass(button));
     return true;
 };
 
@@ -76,13 +77,18 @@ FILTER.deactivateButtons = function(buttons, excludeButton){
     });
 };
 
-FILTER.getDeactivatedColor = function (filter) {
+FILTER.getDeactivatedClass = function (button) {
     return "btn-info";
 };
+FILTER.getDeactivatedStyleAttribute = function (button) {
+    return {};
+};
 
-FILTER.getActivatedColor = function (filter) {
+FILTER.getActivatedClass = function (button) {
     return "btn-warning";
 };
+
+
 
 FILTER.getFilterFromButton = function (button) {
     var filter = [];
