@@ -7,6 +7,7 @@
     using System.Threading.Tasks;
     using XmlDesiarilization;
 
+    [XmlType("Api request")]
     public class Request : XmlBaseType
     {
         [XmlProperty("Request method")]

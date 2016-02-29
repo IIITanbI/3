@@ -7,6 +7,7 @@
     using System.Threading.Tasks;
     using XmlDesiarilization;
 
+    [XmlType("Api response")]
     public class Response : XmlBaseType
     {
         [XmlProperty("Response content")]
