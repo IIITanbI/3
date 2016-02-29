@@ -36,7 +36,6 @@ namespace TConsole
             var main = new ReportGenerator().CreateReport(DataSource.GetSample(), new QA.TestLibs.TestMetadata.TestEnvironmentInfo());
             // main.Save("html.html");
 
-
             ReflectionManager.LoadAssemblies(Directory.GetCurrentDirectory());
 
             var report = new ReportGenerator();
