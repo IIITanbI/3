@@ -1,6 +1,5 @@
 var FILTER = {
     className: "",
-    currentButton: {},
 	defaultButton: {},
 	multiSelect: true,
     activatedClassName: "activated"
@@ -8,19 +7,17 @@ var FILTER = {
 
 FILTER.prepare = function(button) {
     var $filterButtons = this.getFilterButtons(button);
-    var $totalButton = this.getTotalButton(button);
+    var $totalButton = this.getDefaultButton(button);
 
     this.deactivateButtons($filterButtons, $totalButton);
     this.activateButton($totalButton);
 };
 
 FILTER.filterButtonClick = function (button) {
-
-    this.currentButton =  $(button);
     this.deactivateButton(button) || this.activateButton(button);
 
     var $filterButtons = this.getFilterButtons(button);
-    var $totalButton = this.getTotalButton(button);
+    var $totalButton = this.getDefaultButton(button);
 
     if (!this.multiSelect)  {
         if (!this.isActive(button)){
@@ -44,59 +41,52 @@ FILTER.filterButtonClick = function (button) {
 };
 
 FILTER.activateButton = function (button) {
-    var $button = $(button);
     if (this.isActive(button)) return false;
 
-    $button.removeClass(this.getDeactivatedClass(button));
-    $button.addClass(this.getActivatedClass(button));
+    var $button = $(button);
     $button.addClass(this.activatedClassName);
+    this.onButtonActivated(button);
     return true;
 };
 
 FILTER.deactivateButton = function (button) {
-    var $button = $(button);
     if (!this.isActive(button)) return false;
 
+    var $button = $(button);
     $button.removeClass(this.activatedClassName);
-    $button.removeClass(this.getActivatedClass(button));
-    $button.addClass(this.getDeactivatedClass(button));
+    this.onButtonDeactivated(button);
     return true;
 };
 
 FILTER.deactivateButtons = function(buttons, excludeButton){
     var thisObj = this;
-    if (excludeButton === undefined || excludeButton === null){
-        $.each(buttons, function(i, value){
-            thisObj.deactivateButton(value);
-        });
-        return;
-    }
     $.each(buttons, function(i, value){
-        if (!$(value).is($(excludeButton)))
+        if (!$(value).is(excludeButton))
             thisObj.deactivateButton(value);
     });
 };
 
-FILTER.getDeactivatedClass = function (button) {
-    return "btn-info";
-};
-FILTER.getDeactivatedStyleAttribute = function (button) {
-    return {};
+FILTER.onButtonActivated = function(button){
+    return null;
 };
 
-FILTER.getActivatedClass = function (button) {
-    return "btn-warning";
+FILTER.onButtonDeactivated = function(button){
+    return null;
 };
-
 
 
 FILTER.getFilterFromButton = function (button) {
     var filter = [];
-    var matches = $(button).attr('class').match(new RegExp(this.className + '\\w*', 'g'));
 
-	for (var i = 0; i < matches.length; i++){
-		filter.push(matches[i].substr(this.className.length));
-	}
+    var $filters = $(button).attr('filter');
+    if ($filters != null)
+        $filters = $filters.trim();
+
+    filter = $filters.split(new RegExp("\\s+"));
+
+	//for (var i = 0; i < matches.length; i++){
+	//	filter.push(matches[i].substr(this.className.length));
+	//}
 
     console.log("filter = " + filter);
     return filter;
@@ -104,7 +94,7 @@ FILTER.getFilterFromButton = function (button) {
 
 FILTER.getChilds = function (button) { return $() };
 FILTER.getFilterButtons = function (button) {return $() };
-FILTER.getTotalButton = function (button) {return $() };
+FILTER.getDefaultButton = function (button) {return $() };
 FILTER.getChildStatus = function (child) { return $()};
 
 
@@ -115,7 +105,7 @@ FILTER.isActive = function(button){
 FILTER.doFilter = function (button) {
     var $filters = [];
     var $filterButtons = this.getFilterButtons(button);
-	var $totalButton = this.getTotalButton(button);
+	var $totalButton = this.getDefaultButton(button);
     var thisObj = this;
 
     $filterButtons.each(function (index, item) {

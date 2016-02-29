@@ -1,15 +1,15 @@
 $(function () {
     var myFilter = Object.create(FILTER);
     myFilter.className = "filter-";
-    myFilter.activatedClassName = "artemka";
+
     myFilter.getChilds = function (button) {
-        return $(button).closest(".parent").children('.child').children();
+        return $(button).closest(".test").children('.tests').children();
     };
     myFilter.getFilterButtons = function (button) {
-        return $(button).closest(".table").find("button[class*='filter']");
+        return $(button).closest(".test-fltr-btns").find("button");
     };
-    myFilter.getTotalButton = function (button) {
-        return $(button).closest(".table").find(".filter-passed.filter-failed.filter-skipped");
+    myFilter.getDefaultButton = function (button) {
+        return $(button).closest(".test-fltr-btns").find("button").first();
     };
     myFilter.getChildStatus = function (child) {
         var $needClass = "status";
@@ -20,23 +20,17 @@ $(function () {
         return $status;
     };
 
-    myFilter.prepare($("button[class*=' filter']")[0]);
+    //myFilter.prepare($(".test-fltr-btns button").first());
+    var $btnsPanel = $(".test-fltr-btns");
+    for(var i = 0; i < $btnsPanel.length; i++){
+        myFilter.prepare($($btnsPanel[i]).find("button").first());
+    }
 
-    $("button[class*=' filter']").click(function (e) {
+    $(".test-fltr-btns button").click(function (e) {
         myFilter.filterButtonClick(this);
     });
 
-    $(".btnexp").click(function (e) {
-        $(this).closest(".parent").children('.child').toggle(500);
-    });
-    
-    $(".btnstep").click(function (e) {
-        $(this).closest(".parent").children('.step').toggle(500);
-    });
-    
-    $('.btnlog').click(function (e) {
-        $(this).closest(".accordion").find('.logPanel').slideToggle();
-    });
+
 
 });
 

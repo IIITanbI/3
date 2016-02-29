@@ -18,14 +18,15 @@
                 Name = "Mock project",
                 Description = "Temp mock project for reports",
                 LogMessages = new List<LogMessage>() {
-                       new LogMessage() {DataStemp = DateTime.Now.AddMonths(1), Level = LogLevel.DEBUG, Message = "message", Exception = new AccessViolationException()},
+                       new LogMessage() {DataStemp = DateTime.Now.AddMonths(1), Level = LogLevel.DEBUG},
                        new LogMessage() {DataStemp = DateTime.Now.AddMonths(2), Level = LogLevel.ERROR, Message = "message", Exception = new AccessViolationException()},
-                       new LogMessage() {DataStemp = DateTime.Now.AddMonths(3), Level = LogLevel.INFO, Message = "message", Exception = new AccessViolationException()},
+                       new LogMessage() {DataStemp = DateTime.Now.AddMonths(3), Level = LogLevel.INFO, Message = "message"},
                        new LogMessage() {DataStemp = DateTime.Now.AddMonths(4), Level = LogLevel.TRACE, Message = "message", Exception = new AccessViolationException()},
-                       new LogMessage() {DataStemp = DateTime.Now.AddMonths(5), Level = LogLevel.WARN, Message = "message", Exception = new AccessViolationException()}
+                       new LogMessage() {DataStemp = DateTime.Now.AddMonths(5), Level = LogLevel.WARN, Message = "messagemessagemessagemessage message message message messagemessagemessagemessagemessage  message message message messagemessage", Exception = new AccessViolationException()}
                 },
                 Status = TestItemStatus.Failed,
                 Duration = new TimeSpan(00, 00, 60),
+                
                 Steps = new List<Step>()
                 {
                     new Step()
