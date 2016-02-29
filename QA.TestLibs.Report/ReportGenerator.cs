@@ -288,8 +288,17 @@ namespace QA.TestLibs.Report
             List<LogMessage> messages = (obj as TestItem)?.LogMessages ?? (obj as Step)?.Messages;
 
             var main = new XElement("div", new XAttribute("class", "logPanel"));
+            var elem = new XElement("div", new XAttribute("class", "logs"));
 
-            XElement logHeader = new XElement("div",
+            if (messages.Count == 0)
+            {
+                elem.Add(new XElement("p", $"No logs for {name} item"));
+                main.Add(elem);
+                return main;
+            }
+
+
+             var logHeader = new XElement("div",
                 new XAttribute("class", "logHeader"),
                 new XElement("div", "Logs:", new XAttribute("class", "logHeaderName")),
                 new XElement("div", new XAttribute("class", "log-fltr-btn-exp"),
@@ -298,9 +307,7 @@ namespace QA.TestLibs.Report
                 GetLogButtons()
              );
 
-
-            var elem = new XElement("div", new XAttribute("class", "logs"));
-
+         
             if (messages.Count != 0)
             {
                 foreach (var msg in messages)
@@ -314,10 +321,6 @@ namespace QA.TestLibs.Report
                     );
                     elem.Add(tmp);
                 }
-            }
-            else
-            {
-                elem.Add(new XElement("p", $"No logs for {name} item"));
             }
 
             main.Add(logHeader);
@@ -342,6 +345,8 @@ namespace QA.TestLibs.Report
             if (testItem.Steps.Count != 0)
             {
                 XElement acc = new XElement("div", new XAttribute("class", "steps"));
+
+                acc.Add(GetStepButtons(testItem));
 
                 foreach (var step in testItem.Steps)
                 {
@@ -391,8 +396,7 @@ namespace QA.TestLibs.Report
                         new XAttribute("class", "panel-body"),
                         new XElement("p", $"Description: {testItem.Description}"),
                         GetOverall(testItem),
-                        GetLogs(testItem),
-                        GetStepButtons(testItem)
+                        GetLogs(testItem)
                     )
                 ),
                 GetSteps(testItem),

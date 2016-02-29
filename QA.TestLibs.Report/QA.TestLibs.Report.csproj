@@ -52,7 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\css.css">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="filter js1\filter.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

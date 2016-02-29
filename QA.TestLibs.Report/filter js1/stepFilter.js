@@ -3,7 +3,7 @@ $(function () {
     myFilter.className = "step-filter-";
 	
     myFilter.getChilds = function (button) {
-        return $(button).closest(".test").children('.steps').children();
+        return $(button).closest('.steps').children(".step");
     };
     myFilter.getFilterButtons = function (button) {
 		return $(button).closest(".step-fltr-btns").children();
